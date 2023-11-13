@@ -18,7 +18,13 @@ public class SchsDto { //수강이력 dto
     private int shcs_ocs;
     private int schs_fnpo;
     private int schs_endpo;
-    private int stud_no;
-    private int occ_NO;
-    private int ccim_NO;
+    private Integer stud_no;
+    private Integer occ_NO;
+    private Integer ccim_NO;
+
+    public SchsDto(int stud_no, int occ_NO, int ccim_NO) {
+        this.stud_no = stud_no;
+        this.occ_NO = occ_NO;
+        this.ccim_NO = ccim_NO;
+    }
 }

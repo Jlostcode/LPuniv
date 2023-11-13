@@ -18,6 +18,8 @@ public interface ListenLecDao {
     //강의 영상 불러오기
     LecVideoDto selectLecVideo(@Param("ccim_NO") int ccim_NO, @Param("occ_NO") int occ_NO);
     //강의 영상 페이지 에서 수강 이력 조회
-    SchsDto selectSchs(int stud_no);
+    SchsDto selectSchs(int stud_no, int occ_NO, int ccim_NO);
     void insertSchs(SchsDto schsDto);
+    //강의 총 시간 및 시청기록 업데이트
+    void updatePo(int stud_no, int occ_NO, int ccim_NO);
 }
