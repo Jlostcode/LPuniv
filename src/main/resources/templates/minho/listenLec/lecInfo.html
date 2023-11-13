@@ -8,8 +8,8 @@
 <div class="board_wrap">
     <div class="board_list" th:each="dto: ${dto}">
         <div class="board_list_lecInfo">
-            <h1 class="board_title">[[${dto.OCC_title}]]</h1>
-            <a th:href="@{'/minho/lecList?OCC_NO=' + ${dto.OCC_NO}}">수강하러 가기</a>
+            <h1 class="board_title">[[${dto.occ_title}]]</h1>
+            <a th:href="@{'/listenLec/lecList?occ_NO=' + ${dto.occ_NO}}">수강하러 가기</a>
         </div>
         <table>
             <tr>
@@ -22,11 +22,11 @@
             </tr>
             <tr >
                 <td th:text="${dto.user_nm}"></td>
-                <td th:text="${dto.OCC_title}"></td>
-                <td th:text="${dto.OCC_content}"></td>
-                <td th:text="${dto.OCC_teachInfo}"></td>
-                <td th:text="${dto.OCC_date}"></td>
-                <td th:text="${dto.OCC_kakao}"></td>
+                <td th:text="${dto.occ_title}"></td>
+                <td th:text="${dto.occ_content}"></td>
+                <td th:text="${dto.occ_teachInfo}"></td>
+                <td th:text="${dto.occ_date}"></td>
+                <td th:text="${dto.occ_kakao}"></td>
             </tr>
         </table>
     </div>

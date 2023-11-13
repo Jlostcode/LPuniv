@@ -1,5 +1,6 @@
 package com.project.lpuniv.minho.listenLec.controller;
 
+import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.minho.listenLec.dto.LecInfoDto;
 import com.project.lpuniv.minho.listenLec.dto.LecListDto;
 import com.project.lpuniv.minho.listenLec.dto.LecVideoDto;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@RequestMapping("/minho")
+@RequestMapping("/listenLec")
 public class ListenLecController {
     @Autowired
     LecInfoService lecInfoService;
@@ -35,26 +36,28 @@ public class ListenLecController {
     }
 
     @GetMapping("/lecList")
-    public String getLecList(Model model, @RequestParam("OCC_NO") int OCC_NO) {
-        List<LecListDto> lecListDtos = lectListService.selectLecList(OCC_NO);
-        model.addAttribute("lectList", lecListDtos);
+    public String getLecList(Model model, @RequestParam("occ_NO") int occ_NO) {
+        List<LecListDto> lectList = lectListService.selectLecList(occ_NO);
+        System.out.println(lectList);
+        model.addAttribute("lectList", lectList);
         return "minho/listenLec/lecList";
     }
 
     @GetMapping("/lecVideo")
-    public String getLecVideo(Model model, @RequestParam("CCIM_NO") int CCIM_NO,
-                              @RequestParam("OCC_NO") int OCC_NO, HttpSession session) {
-        int stud_no = 1;
-        try {
-            LecVideoDto lecVideoDto = lecVideoService.selectLecVideo(CCIM_NO, OCC_NO);
-            SchsDto schsDto = lecVideoService.selectSchs(stud_no);
-            if (schsDto == null) {
-                lecVideoService.insertSchs(schsDto);
-            }
-            model.addAttribute("lecVideo", lecVideoDto);
-            return "minho/listenLec/lecVideo";
-        } catch (Exception e) {
-            return "redirect:/minho/lecList";
+    public String getLecVideo(Model model, @RequestParam("ccim_NO") int ccim_NO,
+                              @RequestParam("occ_NO") int occ_NO, HttpSession session) {
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int stud_no = authInfo.getUser_no();
+        System.out.println(stud_no);
+        LecVideoDto lecVideoDto = lecVideoService.selectLecVideo(ccim_NO, occ_NO);
+        System.out.println("```````````````ccim_no="+ccim_NO);
+        System.out.println("```````````````occ_NO="+occ_NO);
+        SchsDto schsDto = lecVideoService.selectSchs(stud_no);
+        if (schsDto == null) {
+            lecVideoService.insertSchs(schsDto);
+            System.out.println("```````````````schsDto="+schsDto);
         }
+        model.addAttribute("lecVideo", lecVideoDto);
+        return "minho/listenLec/lecVideo";
     }
 }
