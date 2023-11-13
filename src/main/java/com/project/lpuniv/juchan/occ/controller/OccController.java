@@ -69,7 +69,7 @@ public class OccController {
         return "/juchan/occ/occ_modify";
     }
     @PostMapping("occ/occ_modify")
-    public String occModifyP(OccDto occDto){
+    public String occModifyPost(OccDto occDto){
         occService.occModify(occDto);
         return "redirect:/occ";
     }
