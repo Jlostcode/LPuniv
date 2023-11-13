@@ -42,6 +42,8 @@ public class FileDownloadController {
             File fileToDownload = file.toFile();
             InputStreamResource resource = new InputStreamResource(new FileInputStream(fileToDownload));
 
+            System.out.println("test");
+
 
             String encodedFileName = URLEncoder.encode(originalFileName, StandardCharsets.UTF_8.name()).replaceAll("\\+", "%20");
 
