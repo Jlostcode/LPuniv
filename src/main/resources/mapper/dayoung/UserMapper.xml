@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.dayoung.user.signUp.dao.UserDao">
+    <insert id="insertUser" parameterType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+
+        INSERT INTO user ( user_tp,user_nm, user_tel,user_loginId,user_passwd,user_email, user_brdt, user_gen, user_signdate)
+        VALUES ( #{user_tp},#{user_nm},#{user_tel},#{user_loginId},#{user_passwd},#{user_email}, #{user_brdt}, #{user_gen},  #{user_signdate}
+        )
+    </insert>
+
+
+</mapper>

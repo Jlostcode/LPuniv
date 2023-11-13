@@ -3,8 +3,8 @@ package com.project.lpuniv.dayoung.user.login.service;
 
 import com.project.lpuniv.dayoung.user.login.dao.LoginDao;
 import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
-import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.dayoung.user.login.exception.WrongIdPasswordException;
+import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
