@@ -41,7 +41,7 @@
                     수신자 : <span th:text="${message.receiverNm}"></span>
                     제목 : <span th:attr="onclick='changePage(\'' + @{/message/msgview(msgId=${message.msgId})} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                    <span th:attr="onclick='recDelMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span>
+                    <span th:attr="onclick='recycleRecMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span>
                     <span th:attr="onclick='recycleRecMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">복구</span><br/>
                 </span>
             </div>
