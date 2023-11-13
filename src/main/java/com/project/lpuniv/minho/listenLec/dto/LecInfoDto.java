@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LecInfoDto {
-    private int OCC_NO;
+    private int occ_NO;
     private String user_nm;
     private String OCC_title;
     private String OCC_content;
