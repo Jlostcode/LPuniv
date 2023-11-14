@@ -5,6 +5,8 @@ import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 @Mapper
 public interface LoginDao {
@@ -25,4 +27,7 @@ public interface LoginDao {
     UserDto loginByPw(@Param("user_loginId") String user_loginId);
 
     UserDto selectByID(@Param("user_loginId") String user_loginId);
+
+    List<String> selectId(String user_loginId);
+
 }

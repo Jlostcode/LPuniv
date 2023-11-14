@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -94,6 +95,10 @@ public class LoginController {
             return null;
         }
     }
-
+    @GetMapping("/getUserIdList")
+    public List<String> getUserIdList(@RequestParam("term") String term) {
+        // Call your service method to get user IDs based on the input
+        return loginDao.selectId(term);
+    }
 
 }

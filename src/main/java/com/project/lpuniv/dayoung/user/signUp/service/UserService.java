@@ -29,7 +29,7 @@ public class UserService {
         try (InputStream inputStream = excelFile.getInputStream();
              Workbook workbook = new XSSFWorkbook(inputStream)) {
 
-            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            for (int i = 0; i < workbook.getNumberOfSheets()-1; i++) {
                 Sheet sheet = workbook.getSheetAt(i);
 
 //                for (Row row : sheet) {
@@ -76,7 +76,7 @@ public class UserService {
 
 
 
-    private String hashPassword(String password){
+    public String hashPassword(String password){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
