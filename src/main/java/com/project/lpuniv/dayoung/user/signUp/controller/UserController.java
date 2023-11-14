@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 //@RequestMapping("/dayoung")
@@ -33,6 +34,8 @@ public class UserController {
 //    }
     @GetMapping("/dayoung/addStudent")
     public String addStudent() {
+
+
         return "dayoung/addStudent";
     }
 
@@ -49,7 +52,7 @@ public class UserController {
 //    }
 
     @PostMapping("/dayoung/addStudent")
-    public String addStudent2(@RequestParam("file") MultipartFile file) {
+    public String addStudent2(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("file이름======================================"+file);
 //        if (file.isEmpty()) {
 //            // 파일이 비어있는 경우 예외 처리
