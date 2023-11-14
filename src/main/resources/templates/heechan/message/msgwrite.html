@@ -6,12 +6,20 @@
 </head>
 <body>
 <div>
-    발신자 : <span><input type="text" name="senderNm" /></span>
-    수신자 : <span><input type="text" name="receiverNm" /></span><br/>
+    <input type="hidden" name="sen-id" th:value="${user.user_no}" />
+    발신자 : <span><input type="text" name="sender-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+    수신자 : <span>
+                <select>
+                    <option th:each="u : ${users}" th:attr="data-v1=${u.user_no}, data-v2=${u.user_nm}" th:text="${u.user_nm}">
+                        <input type="hidden" name="rec-id" th:value="${u.user_no}"/>
+                    </option>
+                </select>
+            </span><br/>
+<!--    <span><input type="text" name="receiver-nm" /></span><br/>-->
     제목 : <span><input type="text" name="title" /></span><br/>
     내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
 </div>
 <button onclick="changePage('/message/recmsg')">이전으로</button><br/>
-<button onclick="changePage('/message/write')">메시지보내기</button><br/>
+<button th:attr="onclick='writeMsg()'">메시지보내기</button><br/>
 </body>
 </html>

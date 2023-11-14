@@ -8,7 +8,7 @@
     <select id="selectUserRecMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
         select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where receiver_id = #{user_no}
+        where receiver_id = #{user_no} and rec_del = 0
         order by msg_id desc limit #{startRow}, #{size}
     </select>
 
@@ -16,7 +16,7 @@
     <select id="selectUserSenMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
         select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where sender_id = #{user_no}
+        where sender_id = #{user_no} and sen_del = 0
         order by msg_id desc limit #{startRow}, #{size}
     </select>
 
@@ -89,19 +89,19 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput}) and rec_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '발신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput} and rec_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '수신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput} and rec_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '제목'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput} and rec_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
             </choose>
@@ -115,19 +115,19 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput}) and sen_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '발신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput} and sen_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '수신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput} and sen_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '제목'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput} and sen_del = 0
                     order by msg_id desc limit #{startRow}, #{size}
                 </when>
             </choose>
@@ -224,5 +224,19 @@
                 </when>
             </choose>
         </where>
+    </select>
+
+<!--    user정보-->
+    <select id="selectByUser" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select * from user where user_no = #{user_no}
+    </select>
+
+<!--    접속한 수강생이 듣는 강의의 다른 수강생들 가져오기-->
+    <select id="getUsers" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        SELECT u.*
+        FROM USER u JOIN class c ON u.user_no = c.stud_no
+        WHERE c.occ_no = (SELECT occ_no
+                          FROM class
+                          WHERE stud_no = #{user_no}) and u.user_no != #{user_no};
     </select>
 </mapper>

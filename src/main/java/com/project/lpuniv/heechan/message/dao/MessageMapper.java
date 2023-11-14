@@ -1,5 +1,6 @@
 package com.project.lpuniv.heechan.message.dao;
 
+import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dto.Message;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,4 +28,7 @@ public interface MessageMapper {
     int searchRecMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 RecMsg 수
     int searchSenMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 SenMsg 수
     int searchRecycleMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 RecycleMsg 수
+    UserDto selectByUser(@Param("user_no") int user_no);// user 정보
+
+    List<UserDto> getUsers(@Param("user_no") int user_no); //접속한 수강생이 듣는 강의의 다른 수강생들 가져오기
 }

@@ -34,7 +34,12 @@
                 </span>
                 발신자 : <span th:text="${message.senderNm}"></span>
                 수신자 : <span th:text="${message.receiverNm}"></span>
-                제목 : <span th:attr="onclick='changePage(\'' + @{/message/msgview(msgId=${message.msgId})} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                <span th:if="${searchInput == null && searchOp  == null && div == null}">
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgId=' + ${message.msgId} + '&pageNo=' + ${pageNo}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                </span>
+                <span th:if="${searchInput != null && searchOp  != null && div != null}">
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgId=' + ${message.msgId} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                </span>
                 <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                 <span th:attr="onclick='recDelMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span><br/>
             </div>
@@ -42,15 +47,28 @@
     </th:block>
 
     <span th:if="${msgPage.hasArticles()}">
-        <th:block th:if="${msgPage.currentPage > 1}">
+        <span th:if="${searchInput == null && searchOp  == null && div == null}">
+            <th:block th:if="${msgPage.currentPage > 1}">
             <span th:attr="onclick='changePage(\'' + @{/message/recmsg(pageNo=${msgPage.currentPage - 1})} + '\')'" style="cursor: pointer">이전</span>
-        </th:block>
-        <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
-            <span th:attr="onclick='changePage(\'' + @{/message/recmsg(pageNo=${pNo})} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
-        </th:block>
-        <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
-            <span th:attr="onclick='changePage(\'' + @{/message/recmsg(pageNo=${msgPage.currentPage + 1})} + '\')'" style="cursor: pointer">다음</span>
-        </th:block>
+            </th:block>
+            <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
+                <span th:attr="onclick='changePage(\'' + @{/message/recmsg(pageNo=${pNo})} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
+            </th:block>
+            <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
+                <span th:attr="onclick='changePage(\'' + @{/message/recmsg(pageNo=${msgPage.currentPage + 1})} + '\')'" style="cursor: pointer">다음</span>
+            </th:block>
+        </span>
+        <span th:if="${searchInput != null && searchOp  != null && div != null}">
+            <th:block th:if="${msgPage.currentPage > 1}">
+                <span th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${msgPage.currentPage - 1} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer">이전</span>
+            </th:block>
+            <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
+                <span th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
+            </th:block>
+            <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
+                <span th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${msgPage.currentPage + 1} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer">다음</span>
+            </th:block>
+        </span>
     </span>
 </body>
 </html>

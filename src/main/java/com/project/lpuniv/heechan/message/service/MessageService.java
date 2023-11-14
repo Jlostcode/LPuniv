@@ -1,5 +1,6 @@
 package com.project.lpuniv.heechan.message.service;
 
+import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dao.MessageMapper;
 import com.project.lpuniv.heechan.message.dto.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,13 @@ public class MessageService {
         } else {
             return messageMapper.searchRecycleMsgCnt(userNo, searchinput, searchOp);
         }
+    }
+
+    public UserDto selectByUser(int user_no){ //user 정보
+        return messageMapper.selectByUser(user_no);
+    }
+
+    public List<UserDto> getUsers(int user_no) { //접속한 수강생이 듣는 강의의 다른 수강생들 가져오기
+        return messageMapper.getUsers(user_no);
     }
 }

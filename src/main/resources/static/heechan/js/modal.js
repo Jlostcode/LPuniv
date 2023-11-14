@@ -5,7 +5,6 @@ $(document).ready(function() { //모달 시작
 });
 
 function changePage(pageUrl) { //모달 화면 전환
-    console.log(pageUrl);
     $('#modalContent').load(pageUrl);
 }
 
@@ -77,6 +76,26 @@ function recycleSenMsg(msgId) { //휴지통에서 보낸 메시지 복구
     }
 }
 
+function recycleDelMsg(msgId, div) { //휴지통에서 영구 삭제
+    if (confirm('메시지를 영구적으로 삭제하시겠습니까?')) {
+        $.ajax({
+            type: 'POST',
+            url: '/message/recycledelmsg',
+            data: {
+                msgId: msgId,
+                div: div
+            },
+            success: function() {
+                alert("영구적으로 삭제되었습니다.");
+                $('#modalContent').load('/message/recycle');
+            },
+            error: function(error) {
+                console.error('삭제 중 오류가 발생했습니다.', error);
+            }
+        });
+    }
+}
+
 function searchMsg(div) { //검색
     let searchInput = document.getElementById("searchInput").value;
     let searchOp = document.getElementById("searchOp").value;
@@ -133,4 +152,8 @@ function searchMsg(div) { //검색
             }
         });
     }
+
+function writeMsg() {
+        let
+}
 }
