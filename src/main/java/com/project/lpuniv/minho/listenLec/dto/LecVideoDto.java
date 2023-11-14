@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class LecVideoDto { //강의 영상 dto
-    /*private int ccim_NO;
-    private int occ_NO;*/
+    private int ccim_NO;
+    private int occ_NO;
     private String ccim_videoID;
 }

@@ -48,28 +48,34 @@ public class ListenLecController {
                               @RequestParam("occ_NO") int occ_NO, HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int stud_no = authInfo.getUser_no();
-        System.out.println(stud_no);
         LecVideoDto lecVideoDto = lecVideoService.selectLecVideo(ccim_NO, occ_NO);
-        System.out.println("```````````````ccim_no="+ccim_NO);
-        System.out.println("```````````````occ_NO="+occ_NO);
         SchsDto schsDto = lecVideoService.selectSchs(stud_no, occ_NO, ccim_NO);
         if (schsDto == null) {
             lecVideoService.insertSchs(new SchsDto(stud_no, occ_NO, ccim_NO));
             System.out.println("```````````````schsDto="+schsDto);
         } else {
             model.addAttribute("lecVideo", lecVideoDto);
+            model.addAttribute("ccim_NO", ccim_NO);
+            model.addAttribute("occ_NO", occ_NO);
             return "minho/listenLec/lecVideo";
         }
         model.addAttribute("lecVideo", lecVideoDto);
+        model.addAttribute("ccim_NO", ccim_NO);
+        model.addAttribute("occ_NO", occ_NO);
         return "minho/listenLec/lecVideo";
     }
 
     //재생 시간 저장
-    @PostMapping("saveFnpo")
-    public void postSaveFnpo(HttpSession session, int occ_NO, int ccim_NO) {
+    @PostMapping("/lecVideo")
+    public void postSaveFnpo(Model model,HttpSession session, @RequestParam("ccim_NO") int ccim_NO,
+                             @RequestParam("occ_NO") int occ_NO) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int stud_no = authInfo.getUser_no();
-        SchsDto schsDto = lecVideoService.selectSchs(stud_no, occ_NO, ccim_NO);
+        LecVideoDto lecVideoDto = lecVideoService.selectLecVideo(ccim_NO, occ_NO);
+        model.addAttribute("lecVideo", lecVideoDto);
+        model.addAttribute("ccim_NO", ccim_NO);
+        model.addAttribute("occ_NO", occ_NO);
+        SchsDto schsDto = lecVideoService.selectSchs(stud_no, ccim_NO, occ_NO);
         if (schsDto != null){
             lecVideoService.updatePo(stud_no, occ_NO, ccim_NO);
         }

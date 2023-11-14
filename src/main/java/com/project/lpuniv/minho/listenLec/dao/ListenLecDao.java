@@ -21,5 +21,5 @@ public interface ListenLecDao {
     SchsDto selectSchs(int stud_no, int occ_NO, int ccim_NO);
     void insertSchs(SchsDto schsDto);
     //강의 총 시간 및 시청기록 업데이트
-    void updatePo(int stud_no, int occ_NO, int ccim_NO);
+    void updatePo(int stud_no, @Param("ccim_NO") int ccim_NO, @Param("occ_NO") int occ_NO);
 }

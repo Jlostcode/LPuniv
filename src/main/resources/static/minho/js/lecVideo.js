@@ -1,5 +1,13 @@
 // DIV에 YouTube Iframe API 플레이어 호출
 let CCIM_videoID = document.querySelector("#board_wrap_videoId").getAttribute("videoId");
+//api key
+const apiKey = 'AIzaSyArivYMriACjf4a5097KcqUOJLmAuFi0cw'
+//채널아이디
+// Channel
+const channels
+    = `https://www.googleapis.com/youtube/v3/channels?key=${apiKey}&id=${CCIM_videoID}&part=snippet,contentDetails,statistics`;
+
+let schs_fnpo = 0;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('youtubeVideo', {   // 호출할 위치의 div 컴포넌트 id
@@ -11,7 +19,7 @@ function onYouTubeIframeAPIReady() {
             rel: 0
         },
         events: {
-            //     'onReady': onPlayerReady,
+            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
             //     'onPlaybackRateChange': onPlayerPlaybackRateChange
         }
@@ -20,14 +28,19 @@ function onYouTubeIframeAPIReady() {
 
 // 플레이어가 준비되었을 때 실행되는 콜백 함수
 function onPlayerReady(event) {
-    // 플레이어가 준비되면 이곳에 코드를 추가합니다.
-    // 예: event.target.playVideo();
+    event.target.loadVideoById(CCIM_videoID, schs_fnpo); // 비디오id, 마지막위치
+    event.target.playVideo();// 이벤트 리스너 등록
 }
 
 // 플레이어 상태가 변경될 때 실행되는 콜백 함수
 let popupInterval;
 let recordInterval;
 let finishInterval;
+
+player.getDuration = function () {
+
+};
+
 function onPlayerStateChange(event) {
     RUN_TM = player.getDuration() - 5;
     schs_endpo = YT.PlayerState.ENDED;
@@ -61,31 +74,56 @@ function onPlayerStateChange(event) {
 }
 
 // requestPost 함수 정의
+schs_endpo = 1;
+
 function requestPost(url, data) {
     // 실제로 요청을 보내는 코드를 여기에 추가
     // 예: fetch(url, { method: 'POST', body: data })
-    fetch("/listenLec/saveFnpo", {
+
+    fetch(url, {
         method: 'POST',
-        body: schs_fnpo, schs_endpo
+        headers: {
+            'Content-Type': 'application/json' // 데이터 형식 지정
+        },
+        body: JSON.stringify(data) // 객체를 JSON 문자열로 변환하여 전송
     })
+        .then(response => response.json()) // 응답을 JSON 형식으로 파싱
+        .then(data => console.log(data)) // 처리된 데이터를 콘솔에 출력
+        .catch(error => console.error('Error:', error)); // 오류 처리
 }
+
 
 //시간 기록
 function updatePosition() {
+    ccim_NO = document.querySelector("#board_wrap_ccim_NO").getAttribute("ccimNo");
+    occ_NO = document.querySelector("#board_wrap_occ_NO").getAttribute("occNo");
+    console.log(ccim_NO);
+    console.log(occ_NO);
     //영상 마지막 기록 시간
     schs_fnpo = player.getCurrentTime();
     //영상 총 시간
     schs_endpo = schs_endpo > schs_fnpo ? schs_endpo : schs_fnpo; // 두개 변수 비교해서 참일시, 거짓일시 리턴 값
 
+    const requestData = {
+        schs_fnpo: schs_fnpo,
+        schs_endpo: schs_endpo,
+        ccim_NO: ccim_NO,
+        occ_NO: occ_NO
+    };
+    console.log(requestData);
+
     //진도체크 테이블에 저장
-    requestPost("/listenLec/saveFnpo", new URLSearchParams([
-        ["schs_fnpo", schs_fnpo],
-        ["schs_endpo", schs_endpo]
-    ]))
+    requestPost(`/listenLec/lecVideo?ccim_NO=${ccim_NO}&occ_NO=${occ_NO}`, requestData);
+    // ([
+    //     ["schs_fnpo", schs_fnpo],
+    //     ["schs_endpo", schs_endpo]
+    // ]))
+    console.log(schs_fnpo);
+    console.log(schs_endpo);
 }
 
-function finishPosition(){
-    if(Math.floor(player.getCurrentTime()) >= RUN_TM){
+function finishPosition() {
+    if (Math.floor(player.getCurrentTime()) >= RUN_TM) {
         player.pauseVideo();
     }
 }
