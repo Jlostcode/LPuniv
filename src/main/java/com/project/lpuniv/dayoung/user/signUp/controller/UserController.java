@@ -3,6 +3,7 @@ package com.project.lpuniv.dayoung.user.signUp.controller;
 import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.dayoung.user.signUp.dao.UserDao;
 import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
+import com.project.lpuniv.dayoung.user.signUp.dto.UserPage;
 import com.project.lpuniv.dayoung.user.signUp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 //@RequestMapping("/dayoung")
@@ -21,6 +23,14 @@ public class UserController {
     private UserService userService;
     @Autowired
     UserDao userDao;
+
+    private int size = 10;
+    public UserPage getUserPage(int pageNum, int pageSize) {
+        int total = userDao.countUser();
+        System.out.println("user의 총 합"+total);
+        List<UserDto> content = userDao.userList((pageNum-1)*size,size);
+        return new UserPage(total,pageNum,size,content);
+    }
 //    @PostMapping("/excel")
 //    public String uploadStudent(@RequestParam("file") MultipartFile file) {
 //        if (file.isEmpty()) {
@@ -94,7 +104,32 @@ public class UserController {
 //        model.addAttribute("list",list);
         return "dayoung/modifyStudent";
     }
-@GetMapping("/dayoung/modify/{user_tel}")
+
+
+    @GetMapping("/dayoung/list")
+    public String userList(Model model, @RequestParam(name="pageNo", required = false)String pageNo,HttpSession session){
+            AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+
+            int pageSize = 4; // 페이지 크기 설정 (한 페이지에 보여줄 회원 수)
+            int pageNum = 1;
+
+
+            if (pageNo != null) {
+                pageNum = Integer.parseInt(pageNo);
+            }
+
+            List<UserDto> search = userDao.userList(pageNum,pageSize);
+            System.out.println("======================================================검색"+search);
+            UserPage userPage = getUserPage(pageNum, pageSize);
+//            log.info("-------" + userPage);
+            model.addAttribute("userPage", userPage);
+            model.addAttribute("pageNo", pageNo);
+
+            return "dayoung/userList";
+        }
+
+
+    @GetMapping("/dayoung/modify/{user_tel}")
     public String modifyStudent(Model model,@RequestParam String user_tel){
 
     UserDto list=  userDao.selectUserByTel(user_tel);

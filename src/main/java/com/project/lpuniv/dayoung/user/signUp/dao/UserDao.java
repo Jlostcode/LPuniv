@@ -10,7 +10,10 @@ public interface UserDao {
     void insertUser(UserDto userDto);
     public UserDto  selectUser(int user_no);
 
-    public List selectId(String user_LoginId);
+    public List selectId(String user_loginId);
+
+    int countUser();
+    List<UserDto> userList(int startRow, int size);
 
    public UserDto selectUserByTel(String user_tel);
 }

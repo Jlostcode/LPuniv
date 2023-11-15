@@ -6,7 +6,10 @@
 <mapper namespace="com.project.lpuniv.dayoung.user.login.dao.LoginDao">
 
 
+<select id="loginIdnPw" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    select user_loginId, user_passwd from user where user_loginId = #{user_loginId}
 
+</select>
 
     <select id="selectById" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
         select * from user where user_loginId = #{user_loginId}

@@ -25,4 +25,15 @@
     </select>
 
 
+    <select id="countUser" parameterType="Integer">
+        select count(*) from user
+
+    </select>
+
+    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+        select * from user
+            order by user_tp asc
+        LIMIT #{startRow},#{size}
+    </select>
+
 </mapper>

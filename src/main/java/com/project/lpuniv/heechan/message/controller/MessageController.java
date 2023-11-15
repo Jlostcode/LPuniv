@@ -20,7 +20,7 @@ public class MessageController {
     @Autowired
     private ListMsg listMsg;
 
-    @GetMapping("/main")
+    @GetMapping("hechan/main")
     public String test(){
         return "heechan/message/test";
     }

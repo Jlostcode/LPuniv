@@ -30,4 +30,6 @@ public interface LoginDao {
 
     List<String> selectId(String user_loginId);
 
+
+
 }

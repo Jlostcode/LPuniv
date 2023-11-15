@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>user list</title>
+</head>
+<body>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>타입</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>아이디</th>
+        <th>이메일 주소</th>
+        <th>생년월일</th>
+        <th>성별</th>
+        <th>등록일</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${userPage.hasNoUserDto()}">
+        <td colspan="7">등록된 인원이 없습니다.</td>
+    </tr>
+    <tr th:each="obj : ${userPage.content}">
+        <td th:text="${obj.user_tp == 1 ? '수강생' : (obj.user_tp == 2 ? '강사' : '관리자')}"></td>
+        <td th:text="${obj.user_nm}"></td>
+        <td th:text="${obj.user_tel}"></td>
+        <td th:text="${obj.user_loginId}"></td>
+        <td th:text="${obj.user_email}"></td>
+        <td th:text="${obj.user_brdt}"></td>
+        <td th:text="${obj.user_gen == 1 ? '남자' : '여자'}"></td>
+        <td th:text="${obj.user_signdate}"></td>
+
+        <div th:if="${userPage.hasUserDto()}">
+            <tr>
+                <td colspan="10">
+            <span th:if="${userPage.currentPage > 1}">
+                <a th:href="@{'/userList?pageNo=' + ${userPage.currentPage - 1}}">[이전]</a>
+            </span>
+                    <span th:each="pNo : ${#numbers.sequence(userPage.startPage, userPage.endPage)}">
+                <span th:if="${pNo == userPage.currentPage}">
+                    <strong th:text="${pNo}"></strong>
+                </span>
+                <span th:unless="${pNo == userPage.currentPage}">
+                    <a th:href="@{'/userList?pageNo=' + ${pNo}}">[[${pNo}]]</a>
+                </span>
+            </span>
+                    <span th:if="${userPage.currentPage < userPage.totalPages}">
+                <a th:href="@{'/userList?pageNo=' + ${userPage.currentPage + 1}}">[다음]</a>
+            </span>
+                </td>
+            </tr>
+        </div>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

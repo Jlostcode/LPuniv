@@ -26,12 +26,12 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/login")
     public String getLogin() {
         return "dayoung/loginForm";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String PostLogin(@RequestParam("user_loginId") String user_loginId, @RequestParam("user_passwd") String user_passwd, HttpSession session) {
         AuthInfo authInfo = authService.authenticate(user_loginId, user_passwd);
         session.setAttribute("authInfo", authInfo);
@@ -70,6 +70,29 @@ public class LoginController {
           }
         }
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String Main(HttpSession session) {
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+
+
+        int type = authInfo.getUser_tp();
+
+        if (authInfo != null) {
+            int user_tp = authInfo.getUser_tp();
+
+            if (user_tp == 1) {
+                return "/dayoung/stuMain";
+            } else if (user_tp == 2) {
+                return "/dayoung/teaMain";
+
+            } else if (user_tp == 3) {
+                return "/dayoung/adminMain";
+
+            }
+        }
+        return "redirect:/main";
     }
 
 
