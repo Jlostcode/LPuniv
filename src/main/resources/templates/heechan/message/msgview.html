@@ -12,11 +12,14 @@
         제목 : <span th:text="${message.title}"></span><br/>
         내용 : <br/><label><textarea th:text="${message.content}" style="resize: none;" name="content"  cols="90" rows="25" readonly="readonly"></textarea></label>
     </div>
+    <span th:if="${message.senderNo == userNo}">
+        <button th:attr="onclick='changePage(\'' + @{'/message/msgupdateform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">수정하기</button>
+    </span>
     <span th:if="${searchInput == null && searchOp  == null && div == null}">
-        <th:block th:if="${message.recDel == 0 && message.receiverId == userNO}">
+        <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button><br/>
         </th:block>
-        <th:block th:if="${message.senDel == 0 && message.senderId == userNO}">
+        <th:block th:if="${message.senDel == 0 && message.senderNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button><br/>
         </th:block>
         <th:block th:if="${message.senDel == 1 || message.recDel == 1}">
@@ -24,10 +27,10 @@
         </th:block>
     </span>
     <span th:if="${searchInput != null && searchOp  != null && div != null}">
-        <th:block th:if="${message.recDel == 0 && message.receiverId == userNO}">
+        <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button><br/>
         </th:block>
-        <th:block th:if="${message.senDel == 0 && message.senderId == userNO}">
+        <th:block th:if="${message.senDel == 0 && message.senderNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button><br/>
         </th:block>
         <th:block th:if="${message.senDel == 1 || message.recDel == 1}">

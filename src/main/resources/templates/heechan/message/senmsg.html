@@ -35,13 +35,13 @@
                 발신자 : <span th:text="${message.senderNm}"></span>
                 수신자 : <span th:text="${message.receiverNm}"></span>
                 <span th:if="${searchInput == null && searchOp  == null && div == null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgId=' + ${message.msgId} + '&pageNo=' + ${pageNo}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                 </span>
                 <span th:if="${searchInput != null && searchOp  != null && div != null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgId=' + ${message.msgId} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                 </span>
                 <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                <span th:attr="onclick='senDelMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span><br/>
+                <span th:attr="onclick='senDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</span><br/>
             </div>
         </th:block>
     </th:block>

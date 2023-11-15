@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -67,9 +68,9 @@ public class MessageController {
     }
 
     @PostMapping("/message/recdel") //받은 메시지 삭제
-    public String recDel(@RequestParam("msgId") int msgId, HttpSession session, Model model){
+    public String recDel(@RequestParam("msgNd") int msgNd, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.recDel(msgId);
+        messageService.recDel(msgNd);
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recmsg";
@@ -109,9 +110,9 @@ public class MessageController {
     }
 
     @PostMapping("/message/sendel") //보낸 메시지 삭제
-    public String senDel(@RequestParam("msgId") int msgId, HttpSession session, Model model){
+    public String senDel(@RequestParam("msgNo") int msgNo, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.senDel(msgId);
+        messageService.senDel(msgNo);
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/senmsg";
@@ -151,18 +152,18 @@ public class MessageController {
     }
 
     @PostMapping("/message/recycledelmsg") //휴지통 영구 삭제
-    public String recycledelmsg(@RequestParam("msgId") int msgId, @RequestParam("div") String div, HttpSession session, Model model){
+    public String recycledelmsg(@RequestParam("msgNo") int msgNo, @RequestParam("div") String div, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        Message msg = messageService.selectMsg(msgId);
+        Message msg = messageService.selectMsg(msgNo);
 
         if(div.equals("sen")){
-            messageService.senDel(msgId);
+            messageService.senDel(msgNo);
         } else if(div.equals("rec")){
-            messageService.recDel(msgId);
+            messageService.recDel(msgNo);
         }
 
         if(msg.getRecDel() == 2 && msg.getSenDel() == 2){ //보낸사람, 받은사람 모두 메시지를 삭제 했을 때 DB에서도 삭제
-            messageService.msgDel(msgId);
+            messageService.msgDel(msgNo);
         }
 
         model.addAttribute("authInfo", authInfo);
@@ -172,18 +173,18 @@ public class MessageController {
     @GetMapping("/message/msgview") //메시지 상세내용
     public String view(@RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
                        @RequestParam(value = "div", required = false) String div, @RequestParam(value = "pageNo", required = false) String pageNoVal,
-                       @RequestParam("msgId") int msgId, HttpSession session, Model model){
+                       @RequestParam("msgNo") int msgNo, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int pageNo = 1;
         if(pageNoVal != null){
             pageNo = Integer.parseInt(pageNoVal);
         }
 
-        Message message = messageService.selectMsg(msgId);
-        int userNO = authInfo.getUser_no();
+        Message message = messageService.selectMsg(msgNo);
+        int userNo = authInfo.getUser_no();
 
-        if(message.getReadFlag() == 0 && message.getReceiverId() == userNO){
-            messageService.readMsg(msgId);
+        if(message.getReadFlag() == 0 && message.getReceiverNo() == userNo){
+            messageService.readMsg(msgNo);
         }
 
         model.addAttribute("searchInput", searchInput);
@@ -191,35 +192,100 @@ public class MessageController {
         model.addAttribute("div", div);
         model.addAttribute("pageNo", pageNo);
         model.addAttribute("message", message);
-        model.addAttribute("userNO", userNO);
+        model.addAttribute("userNo", userNo);
         model.addAttribute("authInfo", authInfo);
         return "heechan/message/msgview";
     }
 
     @GetMapping("/message/writeform") //메시지 작성
-    public String write(HttpSession session, Model model){
+    public String writeForm(HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        UserDto user = messageService.selectByUser(authInfo.getUser_no());
-        List<UserDto> users = messageService.getUsers(authInfo.getUser_no());
+        int userNo = authInfo.getUser_no();
+        UserDto user = messageService.selectByUser(userNo);
+        int userTp = user.getUser_tp();
+        UserDto admin = messageService.getAdmin();
+
+        if(userTp == 1){
+            List<UserDto> users = messageService.getUsers(userNo);
+            UserDto teacher = messageService.selectByUser(messageService.getTeacher(userNo));
+
+            model.addAttribute("users", users);
+            model.addAttribute("teacher", teacher);
+            model.addAttribute("admin", admin);
+        } else if(userTp == 2){
+            List<UserDto> users = messageService.classUsers(userNo);
+
+            model.addAttribute("users", users);
+            model.addAttribute("admin", admin);
+        } else {
+            List<UserDto> users = messageService.userList();
+
+            model.addAttribute("users", users);
+        }
 
         model.addAttribute("user", user);
-        model.addAttribute("users", users);
+        model.addAttribute("userTp", userTp);
+        model.addAttribute("authInfo", authInfo);
         return "heechan/message/msgwrite";
     }
 
-    @PostMapping("/message/recyclerecmsg") //받은 메시지 복구
-    public String recycleRecMsg(@RequestParam("msgId") int msgId, HttpSession session, Model model){
+    @PostMapping("/message/msgwrite") //메시지 작성
+    public String write(@ModelAttribute("message") Message message, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.recycleRecMsg(msgId);
+        messageService.msgInsert(message);
+
+        model.addAttribute("authInfo", authInfo);
+        return "redirect:/message/senmsg";
+    }
+
+    @GetMapping("/message/msgupdateform") //메시지 업데이트
+    public String updateForm(@RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
+                             @RequestParam(value = "div", required = false) String div, @RequestParam("msgNo") int msgNo,
+                             @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session, Model model){
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int pageNo = 1;
+        if(pageNoVal != null){
+            pageNo = Integer.parseInt(pageNoVal);
+        }
+        int userNo = authInfo.getUser_no();
+        Message message = messageService.selectMsg(msgNo);
+
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("searchOp", searchOp);
+        model.addAttribute("div", div);
+        model.addAttribute("message", message);
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("userNo", userNo);
+        model.addAttribute("authInfo", authInfo);
+        return "heechan/message/msgupdate";
+    }
+
+    @PostMapping("/message/msgupdate") //메시지 업데이트
+    public String update(@RequestParam(value = "msgNo") int msgNo, @RequestParam(value = "title") String title, @RequestParam(value = "content") String content,
+                         HttpSession session, Model model) {
+        System.out.println(msgNo);
+        System.out.println(title);
+        System.out.println(content);
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        messageService.msgUpdate(msgNo, title, content);
+
+        model.addAttribute("authInfo", authInfo);
+        return "redirect:/message/senmsg";
+    }
+
+    @PostMapping("/message/recyclerecmsg") //받은 메시지 복구
+    public String recycleRecMsg(@RequestParam("msgNo") int msgNo, HttpSession session, Model model){
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        messageService.recycleRecMsg(msgNo);
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recycle";
     }
 
     @PostMapping("/message/recyclesenmsg") //보낸 메시지 복구
-    public String recycleSenMsg(@RequestParam("msgId") int msgId, HttpSession session, Model model){
+    public String recycleSenMsg(@RequestParam("msgNo") int msgNo, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.recycleSenMsg(msgId);
+        messageService.recycleSenMsg(msgNo);
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recycle";

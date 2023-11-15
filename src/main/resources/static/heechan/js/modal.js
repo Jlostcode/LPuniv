@@ -8,12 +8,12 @@ function changePage(pageUrl) { //모달 화면 전환
     $('#modalContent').load(pageUrl);
 }
 
-function recDelMsg(msgId) { // 받은 메시지 삭제
+function recDelMsg(msgNo) { // 받은 메시지 삭제
     if (confirm('메시지를 삭제하시겠습니까?')) {
         $.ajax({
             type: 'POST',
             url: '/message/recdel',
-            data: { msgId: msgId },
+            data: { msgNo: msgNo },
             success: function() {
                 alert("삭제되었습니다.");
                 $('#modalContent').load('/message/recmsg');
@@ -25,12 +25,12 @@ function recDelMsg(msgId) { // 받은 메시지 삭제
     }
 }
 
-function senDelMsg(msgId) { //보낸 메시지 삭제
+function senDelMsg(msgNo) { //보낸 메시지 삭제
     if (confirm('메시지를 삭제하시겠습니까?')) {
         $.ajax({
             type: 'POST',
             url: '/message/sendel',
-            data: { msgId: msgId },
+            data: { msgNo: msgNo },
             success: function() {
                 alert("삭제되었습니다.");
                 $('#modalContent').load('/message/senmsg');
@@ -42,12 +42,12 @@ function senDelMsg(msgId) { //보낸 메시지 삭제
     }
 }
 
-function recycleRecMsg(msgId) { //휴지통에서 받은 메시지 복구
+function recycleRecMsg(msgNo) { //휴지통에서 받은 메시지 복구
     if (confirm('메시지를 복구하시겠습니까?')) {
         $.ajax({
             type: 'POST',
             url: '/message/recyclerecmsg',
-            data: { msgId: msgId },
+            data: { msgNo: msgNo },
             success: function() {
                 alert("삭제되었습니다.");
                 $('#modalContent').load('/message/recycle');
@@ -59,12 +59,12 @@ function recycleRecMsg(msgId) { //휴지통에서 받은 메시지 복구
     }
 }
 
-function recycleSenMsg(msgId) { //휴지통에서 보낸 메시지 복구
+function recycleSenMsg(msgNo) { //휴지통에서 보낸 메시지 복구
     if (confirm('메시지를 복구하시겠습니까?')) {
         $.ajax({
             type: 'POST',
             url: '/message/recyclesenmsg',
-            data: { msgId: msgId },
+            data: { msgNo: msgNo },
             success: function() {
                 alert("복구되었습니다.");
                 $('#modalContent').load('/message/recycle');
@@ -76,13 +76,13 @@ function recycleSenMsg(msgId) { //휴지통에서 보낸 메시지 복구
     }
 }
 
-function recycleDelMsg(msgId, div) { //휴지통에서 영구 삭제
+function recycleDelMsg(msgNo, div) { //휴지통에서 영구 삭제
     if (confirm('메시지를 영구적으로 삭제하시겠습니까?')) {
         $.ajax({
             type: 'POST',
             url: '/message/recycledelmsg',
             data: {
-                msgId: msgId,
+                msgNo: msgNo,
                 div: div
             },
             success: function() {
@@ -100,7 +100,7 @@ function searchMsg(div) { //검색
     let searchInput = document.getElementById("searchInput").value;
     let searchOp = document.getElementById("searchOp").value;
 
-    if(div === 'rec'){
+    if (div === 'rec') {
         let url = `/message/recmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
         $.ajax({
             type: "GET",
@@ -110,14 +110,14 @@ function searchMsg(div) { //검색
                 searchOp: searchOp,
                 div: div
             },
-            success: function() {
+            success: function () {
                 $('#modalContent').load(url);
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("검색 중 오류가 발생했습니다.", error);
             }
         });
-    } else if(div === 'sen'){
+    } else if (div === 'sen') {
         let url = `/message/senmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
         $.ajax({
             type: "GET",
@@ -127,14 +127,14 @@ function searchMsg(div) { //검색
                 searchOp: searchOp,
                 div: div
             },
-            success: function() {
+            success: function () {
                 $('#modalContent').load(url);
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("검색 중 오류가 발생했습니다.", error);
             }
         });
-    } else if(div === 'recycle'){
+    } else if (div === 'recycle') {
         let url = `/message/recycle?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
         $.ajax({
             type: "GET",
@@ -144,16 +144,94 @@ function searchMsg(div) { //검색
                 searchOp: searchOp,
                 div: div
             },
-            success: function() {
+            success: function () {
                 $('#modalContent').load(url);
             },
-            error: function(error) {
+            error: function (error) {
                 console.log("검색 중 오류가 발생했습니다.", error);
             }
         });
     }
+}
 
-function writeMsg() {
-        let
-}
-}
+$(document).ready(function () { //메시지 작성
+    $('#submit').click(function (e) {
+        e.preventDefault();
+        let senderNo = $('input[name="sen-no"]').val();
+        let senderNm = $('input[name="sen-nm"]').val();
+
+        let selectedOption = $('select[name="rec-select"] option:selected');
+        let values = selectedOption.val().split(':');
+        let receiverNm = values[0];
+        let str = values[1];
+        let receiverNo = parseInt(str);
+
+        let title = $('input[name="title"]').val();
+        let content = $('textarea[name="content"]').val();
+        let error = false;
+
+        if(!title || !content){
+            alert("제목과 내용을 입력해주세요.");
+            error = true;
+        }
+
+        if(!error){
+            $.ajax({
+                type: 'POST',
+                url: '/message/msgwrite',
+                data: {
+                    senderNo: senderNo,
+                    senderNm: senderNm,
+                    receiverNo: receiverNo,
+                    receiverNm: receiverNm,
+                    title: title,
+                    content: content
+                },
+                success: function () {
+                    alert("작성 성공");
+                    $('#modalContent').load('/message/senmsg');
+                },
+                error: function () {
+                    alert("오류")
+                }
+            });
+        }
+    });
+});
+
+$(document).ready(function () { //메시지 작성
+    $('#submit1').click(function (e) {
+        e.preventDefault();
+        let msgNo = $('input[name="msg-no"]').val();
+        console.log(msgNo);
+        let title = $('input[name="title"]').val();
+        console.log(title);
+        let content = $('textarea[name="content"]').val();
+        console.log(content);
+        let error = false;
+
+        if(!title || !content){
+            alert("제목과 내용을 입력해주세요.");
+            error = true;
+        }
+
+        if(!error){
+            $.ajax({
+                type: 'POST',
+                url: '/message/msgupdate',
+                data: {
+                    msgNo: msgNo,
+                    title: title,
+                    content: content
+                },
+                success: function () {
+                    alert("수정 성공");
+                    $('#modalContent').load('/message/senmsg');
+                },
+                error: function () {
+                    alert("오류")
+                }
+            });
+        }
+    });
+});
