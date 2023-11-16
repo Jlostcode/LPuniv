@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,6 +26,28 @@
     <input type="submit" value="로그인" id="login">
 
 </form>
+<!--<script>-->
+<!--    // jQuery UI Autocomplete를 초기화하는 코드-->
+<!--    $(document).ready(function() {-->
+<!--        // 아이디 입력란에 자동완성 적용-->
+<!--        $("#user_loginId").autocomplete({-->
+<!--            source: function(request, response) {-->
+<!--                // 서버에 Ajax 요청을 보냄-->
+<!--                $.ajax({-->
+<!--                    url: '/getUserIdList',  // 서버의 컨트롤러 매핑 경로-->
+<!--                    dataType: 'json',-->
+<!--                    data: {-->
+<!--                        term: request.term-->
+<!--                    },-->
+<!--                    success: function(data) {-->
+<!--                        response(data);  // 서버에서 받은 데이터를 자동완성 목록으로 설정-->
+<!--                    }-->
+<!--                });-->
+<!--            },-->
+<!--            minLength: 1  // 최소 입력 문자 수-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 <script>
     // jQuery UI Autocomplete를 초기화하는 코드
     $(document).ready(function() {
@@ -34,7 +56,7 @@
             source: function(request, response) {
                 // 서버에 Ajax 요청을 보냄
                 $.ajax({
-                    url: '/getUserIdList',  // 서버의 컨트롤러 매핑 경로
+                    url: '/getIdList',  // 서버의 컨트롤러 매핑 경로
                     dataType: 'json',
                     data: {
                         term: request.term
@@ -44,10 +66,11 @@
                     }
                 });
             },
-            minLength: 1  // 최소 입력 문자 수
+            minLength: 2  // 최소 입력 문자 수
         });
     });
 </script>
+
 
 </body>
 </html>

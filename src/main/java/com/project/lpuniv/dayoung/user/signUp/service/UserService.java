@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.Iterator;
+import java.util.UUID;
 
 import static java.time.LocalTime.now;
 
@@ -63,8 +64,12 @@ public class UserService {
 //                    user.setUser_gen(1);
                         user.setUser_signdate(row.getCell(8).getStringCellValue());
 
+//                        UUID uuid = UUID.randomUUID();//랜덤으로 아이디 부여하는 방법
+//                        user.setUser_loginId(String.valueOf(uuid));
+
                         String id = row.getCell(3).getStringCellValue();
-                        String getId = row.getCell(1).getStringCellValue();
+//                        String getId = row.getCell(1).getStringCellValue();//이름을 아이디로
+                        String getId = row.getCell(2).getStringCellValue();
                         user.setUser_loginId(getId);
                         String password = row.getCell(4).getStringCellValue();
                         String changePassword = hashPassword(password);

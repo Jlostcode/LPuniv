@@ -12,13 +12,13 @@ import java.util.List;
 public class UserPage {
     private int total;
     private int currentPage;
-    private List<UserDto> content;
+    private List<ListDto> content;
     private int totalPages;
     private int startPage;
     private int endPage;
 
 
-    public UserPage(int total,int currentPage, int size, List<UserDto> content){
+    public UserPage(int total,int currentPage, int size, List<ListDto> content){
         this.total = total;
         this.currentPage= currentPage;
         this.content = content;
@@ -61,7 +61,7 @@ public class UserPage {
         return totalPages;
     }
 
-    public List<UserDto> getContent() {
+    public List<ListDto> getContent() {
         return content;
     }
 

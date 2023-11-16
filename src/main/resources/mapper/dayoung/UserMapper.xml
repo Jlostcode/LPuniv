@@ -30,10 +30,31 @@
 
     </select>
 
-    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
         select * from user
             order by user_tp asc
         LIMIT #{startRow},#{size}
     </select>
 
+    <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
+        select user_no,user_tp,user_nm,user_tel,user_loginId,user_email,user_brdt,user_gen,user_signdate
+        from user
+        <where>
+            <choose>
+                <when test="selectOption == '이름'">
+                    user_nm Like #{searchFind}
+                </when>
+                <when test="selectOption == '강의명'">
+
+                </when>
+                <when test="selectOption == '강사'">
+                    user_nm Like #{searchFind} and user_tp = 2
+                </when>
+                <when test="selectOption == '학생'">
+                    user_nm Like #{searchFind} and user_tp = 1
+                </when>
+            </choose>
+        </where>
+        LIMIT #{startRow},#{size}
+    </select>
 </mapper>

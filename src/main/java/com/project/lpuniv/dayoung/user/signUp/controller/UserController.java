@@ -2,6 +2,7 @@ package com.project.lpuniv.dayoung.user.signUp.controller;
 
 import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.dayoung.user.signUp.dao.UserDao;
+import com.project.lpuniv.dayoung.user.signUp.dto.ListDto;
 import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
 import com.project.lpuniv.dayoung.user.signUp.dto.UserPage;
 import com.project.lpuniv.dayoung.user.signUp.service.UserService;
@@ -28,7 +29,7 @@ public class UserController {
     public UserPage getUserPage(int pageNum, int pageSize) {
         int total = userDao.countUser();
         System.out.println("user의 총 합"+total);
-        List<UserDto> content = userDao.userList((pageNum-1)*size,size);
+        List<ListDto> content = userDao.userList((pageNum-1)*size,size);
         return new UserPage(total,pageNum,size,content);
     }
 //    @PostMapping("/excel")
@@ -107,25 +108,35 @@ public class UserController {
 
 
     @GetMapping("/dayoung/list")
-    public String userList(Model model, @RequestParam(name="pageNo", required = false)String pageNo,HttpSession session){
+    public String userList(Model model, @RequestParam(name="pageNo", required = false)String pageNo,HttpSession session,
+                           @RequestParam(name="selectOption", required = false)String selectOption,@RequestParam(name="serchFind", required = false)String serchFind){
             AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 
             int pageSize = 4; // 페이지 크기 설정 (한 페이지에 보여줄 회원 수)
             int pageNum = 1;
 
-
             if (pageNo != null) {
                 pageNum = Integer.parseInt(pageNo);
             }
 
-            List<UserDto> search = userDao.userList(pageNum,pageSize);
-            System.out.println("======================================================검색"+search);
-            UserPage userPage = getUserPage(pageNum, pageSize);
-//            log.info("-------" + userPage);
-            model.addAttribute("userPage", userPage);
-            model.addAttribute("pageNo", pageNo);
+            if(selectOption!=null && serchFind != null){
+                String find = '%'+serchFind+'%';
+//                List<ListDto> searchUser = userDao.serchList(find,selectOption,pageNum-1,pageSize);
+                model.addAttribute("find",find);
+                model.addAttribute("selectOption",selectOption);
+                model.addAttribute("pageNum", pageNum);
+                model.addAttribute("pageSize", pageSize);
 
-            return "dayoung/userList";
+
+            }else {
+//            List<ListDto> search = userDao.userList(pageNum,pageSize);
+                UserPage userPage = getUserPage(pageNum, pageSize);
+                model.addAttribute("userPage", userPage);
+                model.addAttribute("pageNo", pageNo);
+
+
+            }
+        return "dayoung/userList";
         }
 
 
@@ -133,6 +144,7 @@ public class UserController {
     public String modifyStudent(Model model,@RequestParam String user_tel){
 
     UserDto list=  userDao.selectUserByTel(user_tel);
+        System.out.println(list);
         model.addAttribute("list",list);
         return "dayoung/modifyStudent";
 }

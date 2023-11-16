@@ -7,14 +7,14 @@
 <body>
 
 <table>
-<!--    <form th:action="@{/login}" method="post">-->
+    <form th:action="@{/dayoung/modify}" method="post" th:object="${list}" id="list" >
 <!--        <p>-->
 <!--            <label for="user_loginId">아이디</label>-->
 <!--            <input type="text" id="user_loginId" name="user_loginId"/>-->
 <!--        </P>-->
 <!--        <p>-->
 <!--            <label for="user_passwd">비밀번호</label>-->
-<!--            <input type="password" id="user_passwd" name="user_passwd"/>-->
+<!--            <input type="password" id="user_passwd" name="user_passwd" th:value="*{user_passwd}" />-->
 
 <!--        </P>-->
 <!--        <p>-->
@@ -27,16 +27,16 @@
 <!--            <input type="text" id="user_nm" name="user_nm"/>-->
 
 <!--        </P>-->
-<!--        <p>-->
-<!--            <label for="user_email">이메일</label>-->
-<!--            <input type="text" id="user_email" name="user_email"/>-->
+        <p>
+            <label for="user_email">이메일</label>
+            <input type="text" id="user_email" name="user_email" />
 
-<!--        </p>-->
-<!--        <p>-->
-<!--            <label for="user_tel">전화 번호</label>-->
-<!--            <input type="text" id="user_tel" name="user_tel"/>-->
+        </p>
+        <p>
+            <label for="user_tel">전화 번호</label>
+            <input type="text" id="user_tel" name="user_tel" th:list="${user_tel}"/>
 
-<!--        </P>-->
+        </P>
 <!--        <p>-->
 <!--            <label for="user_tp">타입</label>-->
 <!--            <select name="user_tp" id="user_tp">-->
@@ -55,8 +55,8 @@
 <!--        <p>-->
 <!--            <input type="hidden" th:name="${user_signdate}" id="user_signdate">-->
 <!--        </p>-->
-<!--        <input type="submit" value="등록" id="submit">-->
-<!--    </form>-->
+        <input type="submit" value="등록" id="submit">
+    </form>
 
 </table>
 </body>

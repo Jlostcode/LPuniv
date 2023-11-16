@@ -1,5 +1,7 @@
 package com.project.lpuniv.dayoung.user.signUp.dao;
 
+import com.project.lpuniv.Dto;
+import com.project.lpuniv.dayoung.user.signUp.dto.ListDto;
 import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +15,9 @@ public interface UserDao {
     public List selectId(String user_loginId);
 
     int countUser();
-    List<UserDto> userList(int startRow, int size);
+    List<ListDto> userList(int startRow, int size);
 
    public UserDto selectUserByTel(String user_tel);
+
+    List<ListDto> serchList (String serchFind, String selectOption,int startRow, int size);
 }

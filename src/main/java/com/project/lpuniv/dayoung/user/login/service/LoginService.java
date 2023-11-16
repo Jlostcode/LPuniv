@@ -10,7 +10,7 @@ import java.util.List;
 public class LoginService {
     @Autowired
     LoginDao loginDao;
-    public List<String> getUserIdList(String term) {
+    public List<String> getIdList(String term) {
         // 마이바티스를 사용하여 사용자 아이디 목록을 검색하는 메서드 호출
         return loginDao.selectId(term);
     }

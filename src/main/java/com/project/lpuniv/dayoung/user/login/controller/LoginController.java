@@ -39,8 +39,9 @@ public class LoginController {
         String id = user_loginId;
 
          UserDto userDto= loginDao.loginById(id);
+
          String userId = userDto.getUser_loginId();
-       ;
+
 
 
         if(userId != null ) {
@@ -118,8 +119,8 @@ public class LoginController {
             return null;
         }
     }
-    @GetMapping("/getUserIdList")
-    public List<String> getUserIdList(@RequestParam("term") String term) {
+    @GetMapping("/getIdList")
+    public List<String> getIdList(@RequestParam("term") String term) {
         // Call your service method to get user IDs based on the input
         return loginDao.selectId(term);
     }
