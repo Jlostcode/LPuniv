@@ -3,6 +3,7 @@ package com.project.lpuniv.heechan.message.service;
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dao.MessageMapper;
 import com.project.lpuniv.heechan.message.dto.Message;
+import com.project.lpuniv.heechan.message.dto.MessageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,10 @@ public class MessageService {
 
     @Autowired
     private MessageMapper messageMapper;
+
+    public int userRecMsgCnt(int userNo) { //한 명의 사용자가 받은 메시지 수
+        return messageMapper.userRecMsgCnt(userNo);
+    }
 
     public List<Message> selectUserRecMsg(int startRow, int size, int userNo) { //한 명의 사용자가 받은 메시지
         return messageMapper.selectUserRecMsg(startRow, size, userNo);
@@ -88,8 +93,8 @@ public class MessageService {
         }
     }
 
-    public void msgInsert(Message message) { //insert
-        messageMapper.msgInsert(message);
+    public void msgInsert(MessageRequest messageRequest, int receiverNo, String receiverNm) { //insert
+        messageMapper.msgInsert(messageRequest, receiverNo, receiverNm);
     }
 
     public void msgUpdate(int msgNo, String title, String content) { //update

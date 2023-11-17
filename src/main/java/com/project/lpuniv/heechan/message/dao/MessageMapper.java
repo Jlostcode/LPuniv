@@ -2,6 +2,7 @@ package com.project.lpuniv.heechan.message.dao;
 
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dto.Message;
+import com.project.lpuniv.heechan.message.dto.MessageRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface MessageMapper {
+    int userRecMsgCnt(@Param("user_no") int userNo); //한 명의 사용자가 받은 메시지 수
     List<Message> selectUserRecMsg(@Param("startRow") int startRow, @Param("size") int size, @Param("user_no") int userNo); //한 명의 사용자가 받은 메시지
     List<Message> selectUserSenMsg(@Param("startRow") int startRow, @Param("size") int size, @Param("user_no") int userNo); //한 명의 사용자가 보낸 메시지
     List<Message> recycleMsg(@Param("startRow") int startRow, @Param("size") int size, @Param("user_no") int userNo); //휴지통
@@ -28,8 +30,7 @@ public interface MessageMapper {
     int searchRecMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 RecMsg 수
     int searchSenMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 SenMsg 수
     int searchRecycleMsgCnt(@Param("user_no") int userNo, @Param("searchInput") String searchInput, @Param("searchOp") String searchOp); //검색 RecycleMsg 수
-    void msgInsert(Message message); //insert
-
+    void msgInsert(MessageRequest messageRequest, @Param("receiver_no") int receiverNo, @Param("receiver_nm") String receiverNm); //insert
     void msgUpdate(@Param("msg_no") int msgNo, String title, String content); //update
     UserDto selectByUser(@Param("user_no") int userNo);//user 정보
     List<UserDto> getUsers(@Param("user_no") int userNo); //접속한 수강생이 듣는 강의의 다른 수강생들 가져오기

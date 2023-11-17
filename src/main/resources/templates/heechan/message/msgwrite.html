@@ -23,7 +23,7 @@
         <input type="hidden" name="sen-no" th:value="${user.user_no}" />
         발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
         수신자 : <span>
-                <select name="rec-select">
+                <select name="rec-select" multiple>
                     <option th:value="${admin.user_nm + ':' + admin.user_no}" th:text="${admin.user_nm+'(관리자)'}"></option>
                     <option th:each="u : ${users}" th:value="${u.user_nm + ':' + u.user_no}" th:text="${u.user_nm+'(학생)'}"></option>
                 </select>
@@ -35,7 +35,7 @@
         <input type="hidden" name="sen-no" th:value="${user.user_no}" />
         발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
         수신자 : <span>
-                <select name="rec-select">
+                <select name="rec-select" multiple>
                     <span th:each="user : ${users}">
                         <span th:if="${user.getUser_tp() == 2}">
                             <option th:value="${user.user_nm + ':' + user.user_no}" th:text="${user.user_nm+'(강사)'}"></option>

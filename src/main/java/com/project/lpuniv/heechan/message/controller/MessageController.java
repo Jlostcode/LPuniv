@@ -2,6 +2,8 @@ package com.project.lpuniv.heechan.message.controller;
 
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dto.Message;
+import com.project.lpuniv.heechan.message.dto.MessageRequest;
+import com.project.lpuniv.heechan.message.dto.Receiver;
 import com.project.lpuniv.heechan.message.msgpage.ListMsg;
 import com.project.lpuniv.heechan.message.msgpage.MsgPage;
 import com.project.lpuniv.heechan.message.service.MessageService;
@@ -9,10 +11,7 @@ import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -29,7 +28,10 @@ public class MessageController {
     @GetMapping("/message") //모달 창
     public String test(HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
+//        int userNo = authInfo.getUser_no();
+//        int msgCnt = messageService.userRecMsgCnt(userNo);
+//
+//        model.addAttribute("msgCnt", msgCnt);
         model.addAttribute("authInfo", authInfo);
         return "heechan/message/msgindex";
     }
@@ -58,7 +60,9 @@ public class MessageController {
             model.addAttribute("msgPage", msgPage);
             model.addAttribute("msgCount", msgCount);
         }
+        int msgCnt = messageService.userRecMsgCnt(userNo);
 
+        model.addAttribute("msgCnt", msgCnt);
         model.addAttribute("searchInput", searchInput);
         model.addAttribute("searchOp", searchOp);
         model.addAttribute("div", div);
@@ -68,10 +72,19 @@ public class MessageController {
     }
 
     @PostMapping("/message/recdel") //받은 메시지 삭제
-    public String recDel(@RequestParam("msgNd") int msgNd, HttpSession session, Model model){
+    public String recDel(@RequestParam("msgNo") int msgNo, @RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
+                         @RequestParam(value = "div", required = false) String div, @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.recDel(msgNd);
+        int pageNo = 1;
+        if(pageNoVal != null){
+            pageNo = Integer.parseInt(pageNoVal);
+        }
+        messageService.recDel(msgNo);
 
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("searchOp", searchOp);
+        model.addAttribute("div", div);
+        model.addAttribute("pageNo", pageNo);
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recmsg";
     }
@@ -110,10 +123,19 @@ public class MessageController {
     }
 
     @PostMapping("/message/sendel") //보낸 메시지 삭제
-    public String senDel(@RequestParam("msgNo") int msgNo, HttpSession session, Model model){
+    public String senDel(@RequestParam("msgNo") int msgNo, @RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
+                         @RequestParam(value = "div", required = false) String div, @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int pageNo = 1;
+        if(pageNoVal != null){
+            pageNo = Integer.parseInt(pageNoVal);
+        }
         messageService.senDel(msgNo);
 
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("searchOp", searchOp);
+        model.addAttribute("div", div);
+        model.addAttribute("pageNo", pageNo);
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/senmsg";
     }
@@ -152,8 +174,13 @@ public class MessageController {
     }
 
     @PostMapping("/message/recycledelmsg") //휴지통 영구 삭제
-    public String recycledelmsg(@RequestParam("msgNo") int msgNo, @RequestParam("div") String div, HttpSession session, Model model){
+    public String recycledelmsg(@RequestParam("msgNo") int msgNo, @RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
+                                @RequestParam(value = "div", required = false) String div, @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int pageNo = 1;
+        if(pageNoVal != null){
+            pageNo = Integer.parseInt(pageNoVal);
+        }
         Message msg = messageService.selectMsg(msgNo);
 
         if(div.equals("sen")){
@@ -166,6 +193,10 @@ public class MessageController {
             messageService.msgDel(msgNo);
         }
 
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("searchOp", searchOp);
+        model.addAttribute("div", div);
+        model.addAttribute("pageNo", pageNo);
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recycle";
     }
@@ -229,10 +260,15 @@ public class MessageController {
         return "heechan/message/msgwrite";
     }
 
+    @ResponseBody
     @PostMapping("/message/msgwrite") //메시지 작성
-    public String write(@ModelAttribute("message") Message message, HttpSession session, Model model){
+    public String write(@RequestBody MessageRequest messageRequest, HttpSession session, Model model) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        messageService.msgInsert(message);
+        for (Receiver receiver : messageRequest.getReceivers()) {
+            int receiverNo = receiver.getReceiverNo();
+            String receiverNm = receiver.getReceiverNm();
+            messageService.msgInsert(messageRequest, receiverNo, receiverNm);
+        }
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/senmsg";
@@ -263,9 +299,6 @@ public class MessageController {
     @PostMapping("/message/msgupdate") //메시지 업데이트
     public String update(@RequestParam(value = "msgNo") int msgNo, @RequestParam(value = "title") String title, @RequestParam(value = "content") String content,
                          HttpSession session, Model model) {
-        System.out.println(msgNo);
-        System.out.println(title);
-        System.out.println(content);
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         messageService.msgUpdate(msgNo, title, content);
 

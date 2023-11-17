@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.heechan.message.dao.MessageMapper">
+<!--    한 명의 사용자가 받은 메시지 수-->
+    <select id="userRecMsgCnt" resultType="Integer">
+        select count(*)
+        from message m
+        where receiver_no = #{user_no} and rec_del = 0 and read_flag = 0
+    </select>
+
 <!--    한 명의 사용자가 받은 메시지-->
     <select id="selectUserRecMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
         select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
@@ -167,16 +174,16 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    receiver_no = #{user_no} and (rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
                 </when>
                 <when test="searchOp == '발신자'">
-                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and sender_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '수신자'">
-                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and receiver_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '제목'">
-                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and title like #{searchInput}
                 </when>
             </choose>
         </where>
@@ -189,16 +196,16 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    sender_no = #{user_no} and (sen_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
                 </when>
                 <when test="searchOp == '발신자'">
-                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and sender_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '수신자'">
-                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and receiver_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '제목'">
-                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and title like #{searchInput}
                 </when>
             </choose>
         </where>
@@ -229,7 +236,7 @@
 <!--    insert-->
     <insert id="msgInsert" parameterType="com.project.lpuniv.heechan.message.dto.Message">
         insert into message (sender_no, receiver_no, sender_nm, receiver_nm, title, content, sent_at, sen_del, rec_del, read_flag)
-        values (#{senderNo}, #{receiverNo}, #{senderNm}, #{receiverNm}, #{title}, #{content}, now(), 0, 0, 0)
+        values (#{messageRequest.senderNo}, #{receiver_no}, #{messageRequest.senderNm}, #{receiver_nm}, #{messageRequest.title}, #{messageRequest.content}, now(), 0, 0, 0)
     </insert>
 
 <!--    update-->

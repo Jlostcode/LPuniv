@@ -24,37 +24,44 @@
         메시지가 없습니다.
     </th:block>
     <th:block th:each="message : ${msgPage.content}">
-            <div>
-                <span th:if="${message.senDel == 1}">
-                    <span>보냄</span>
-                    발신자 : <span th:text="${message.senderNm}"></span>
-                    수신자 : <span th:text="${message.receiverNm}"></span>
-                    <span th:if="${searchInput == null && searchOp  == null && div == null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
-                </span>
-                <span th:if="${searchInput != null && searchOp  != null && div != null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
-                </span>
+        <div>
+            <span th:if="${message.senDel == 1}">
+                <span>보냄</span>
+                발신자 : <span th:text="${message.senderNm}"></span>
+                수신자 : <span th:text="${message.receiverNm}"></span>
+                <span th:if="${searchInput == null && searchOp  == null && div == null}">
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=sen' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'sen' + '\')'" style="cursor: pointer">삭제</span>
                     <span th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
                 </span>
-
-                <span th:if="${message.recDel == 1}">
-                    <span>받음</span>
-                    발신자 : <span th:text="${message.senderNm}"></span>
-                    수신자 : <span th:text="${message.receiverNm}"></span>
-                    <span th:if="${searchInput == null && searchOp  == null && div == null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
-                </span>
                 <span th:if="${searchInput != null && searchOp  != null && div != null}">
-                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
+                    <span th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
                 </span>
+            </span>
+
+            <span th:if="${message.recDel == 1}">
+                <span>받음</span>
+                발신자 : <span th:text="${message.senderNm}"></span>
+                수신자 : <span th:text="${message.receiverNm}"></span>
+                <span th:if="${searchInput == null && searchOp  == null && div == null}">
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'rec' + '\')'" style="cursor: pointer">삭제</span>
                     <span th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
                 </span>
-            </div>
+                <span th:if="${searchInput != null && searchOp  != null && div != null}">
+                    제목 : <span th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
+                    <span th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
+                </span>
+
+            </span>
+        </div>
     </th:block>
 
     <span th:if="${msgPage.hasArticles()}">

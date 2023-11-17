@@ -25,6 +25,30 @@ function recDelMsg(msgNo) { // 받은 메시지 삭제
     }
 }
 
+function recDelSearchMsg(msgNo, pageNo, searchInput, searchOp, div) { // 받은 메시지 삭제(검색 후 view에서 삭제)
+    let url = `/message/senmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
+    if (confirm('메시지를 삭제하시겠습니까?')) {
+        $.ajax({
+            type: 'POST',
+            url: '/message/recdel',
+            data: {
+                msgNo: msgNo,
+                pageNo: pageNo,
+                searchInput: searchInput,
+                searchOp: searchOp,
+                div: div
+            },
+            success: function() {
+                alert("삭제되었습니다.");
+                $('#modalContent').load(url);
+            },
+            error: function(error) {
+                console.error('삭제 중 오류가 발생했습니다.', error);
+            }
+        });
+    }
+}
+
 function senDelMsg(msgNo) { //보낸 메시지 삭제
     if (confirm('메시지를 삭제하시겠습니까?')) {
         $.ajax({
@@ -42,6 +66,30 @@ function senDelMsg(msgNo) { //보낸 메시지 삭제
     }
 }
 
+function senDelSearchMsg(msgNo, pageNo, searchInput, searchOp, div) { //보낸 메시지 삭제(검색 후 view에서 삭제)
+    // let url = `/message/senmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
+    if (confirm('메시지를 삭제하시겠습니까?')) {
+        $.ajax({
+            type: 'POST',
+            url: '/message/sendel',
+            data: {
+                msgNo: msgNo,
+                pageNo: pageNo,
+                searchInput: searchInput,
+                searchOp: searchOp,
+                div: div
+            },
+            success: function() {
+                alert("삭제되었습니다.");
+                $('#modalContent').load(`/message/senmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`);
+            },
+            error: function(error) {
+                console.error('삭제 중 오류가 발생했습니다.', error);
+            }
+        });
+    }
+}
+
 function recycleRecMsg(msgNo) { //휴지통에서 받은 메시지 복구
     if (confirm('메시지를 복구하시겠습니까?')) {
         $.ajax({
@@ -49,7 +97,7 @@ function recycleRecMsg(msgNo) { //휴지통에서 받은 메시지 복구
             url: '/message/recyclerecmsg',
             data: { msgNo: msgNo },
             success: function() {
-                alert("삭제되었습니다.");
+                alert("복구되었습니다.");
                 $('#modalContent').load('/message/recycle');
             },
             error: function(error) {
@@ -88,6 +136,30 @@ function recycleDelMsg(msgNo, div) { //휴지통에서 영구 삭제
             success: function() {
                 alert("영구적으로 삭제되었습니다.");
                 $('#modalContent').load('/message/recycle');
+            },
+            error: function(error) {
+                console.error('삭제 중 오류가 발생했습니다.', error);
+            }
+        });
+    }
+}
+
+function recycleDelSearchMsg(msgNo, pageNo, searchInput, searchOp, div) { //휴지통에서 영구 삭제(검색 후 view에서 삭제)
+    let url = `/message/senmsg?searchInput=${searchInput}&searchOp=${searchOp}&div=${div}`;
+    if (confirm('메시지를 영구적으로 삭제하시겠습니까?')) {
+        $.ajax({
+            type: 'POST',
+            url: '/message/recycledelmsg',
+            data: {
+                msgNo: msgNo,
+                pageNo: pageNo,
+                searchInput: searchInput,
+                searchOp: searchOp,
+                div: div
+            },
+            success: function() {
+                alert("영구적으로 삭제되었습니다.");
+                $('#modalContent').load(url);
             },
             error: function(error) {
                 console.error('삭제 중 오류가 발생했습니다.', error);
@@ -160,11 +232,20 @@ $(document).ready(function () { //메시지 작성
         let senderNo = $('input[name="sen-no"]').val();
         let senderNm = $('input[name="sen-nm"]').val();
 
-        let selectedOption = $('select[name="rec-select"] option:selected');
-        let values = selectedOption.val().split(':');
-        let receiverNm = values[0];
-        let str = values[1];
-        let receiverNo = parseInt(str);
+        let selectedOptions = $('select[name="rec-select"] option:selected');
+        let receivers = [];
+
+        selectedOptions.each(function () {
+            let values = $(this).val().split(':');
+            let receiverNm = values[0];
+            let str = values[1];
+            let receiverNo = parseInt(str);
+
+            receivers.push({
+                receiverNo: receiverNo,
+                receiverNm: receiverNm
+            });
+        });
 
         let title = $('input[name="title"]').val();
         let content = $('textarea[name="content"]').val();
@@ -173,41 +254,43 @@ $(document).ready(function () { //메시지 작성
         if(!title || !content){
             alert("제목과 내용을 입력해주세요.");
             error = true;
+        } else if(receivers.length === 0){
+            alert("수신자를 한 명 이상 선택해주세요");
+            error = true;
         }
 
         if(!error){
             $.ajax({
                 type: 'POST',
                 url: '/message/msgwrite',
-                data: {
+                contentType: 'application/json',
+                dataType: 'text',
+                data: JSON.stringify({
                     senderNo: senderNo,
                     senderNm: senderNm,
-                    receiverNo: receiverNo,
-                    receiverNm: receiverNm,
+                    receivers: receivers,
                     title: title,
                     content: content
-                },
+                }),
                 success: function () {
                     alert("작성 성공");
                     $('#modalContent').load('/message/senmsg');
                 },
-                error: function () {
-                    alert("오류")
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("오류 발생: " + error);
                 }
             });
         }
     });
 });
 
-$(document).ready(function () { //메시지 작성
+$(document).ready(function () { //메시지 수정
     $('#submit1').click(function (e) {
         e.preventDefault();
         let msgNo = $('input[name="msg-no"]').val();
-        console.log(msgNo);
         let title = $('input[name="title"]').val();
-        console.log(title);
         let content = $('textarea[name="content"]').val();
-        console.log(content);
         let error = false;
 
         if(!title || !content){
