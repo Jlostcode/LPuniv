@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>강의 과제 페이지</title>
+</head>
+<body>
+<div class="board_wrap" th:each="amcList: ${amcList}">
+    <h2 class="board_title">[[${amcList.occ_title}]] 과제 목록</h2>
+    <div class="board_list">
+        <table>
+            <tr>
+                <th>차시 번호</th>
+                <th>과제 이름</th>
+                <th>과제 설명</th>
+            </tr>
+            <tr>
+                <td th:text="${amcList.ccim_NO}"></td>
+                <td th:text="${amcList.amc_at}"></td>
+                <td th:text="${amcList.amc_ac}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -54,7 +54,7 @@
             <div class="ccim_videoID">
                 해당 챕터 영상 ID
                 <label>
-                    <input type="text" name="ccim_videoID" min="0" th:value="${ccimdto.ccim_videoID}" required>
+                    <input type="text" id="videoID" name="ccim_videoID" min="0" th:value="${ccimdto.ccim_videoID}" onblur="getVideoDuration()" required>
                 </label>
                 <img class="videoIDex" src="/juchan/image/videoIDex.png" alt="videoID 예시" ondragstart="return false;" oncontextmenu="return false;">
             </div>
@@ -63,7 +63,8 @@
 
             <div class="ccim_rt">
                 해당 챕터 영상 시간(대략 예상 총 시간) <label>
-                <input type="text" name="ccim_rt" value="00:00:00" th:value="${ccimdto.ccim_rt}" required>
+                <input type="hidden" id="setDuration" >
+                <input type="text" id="viewDuration" name="ccim_rt" th:value="${ccimdto.ccim_rt}" required readonly>
             </label>
             </div>
 
@@ -79,6 +80,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="/juchan/js/editor.js"></script>
+<script src="/juchan/js/youtubeData.js"></script>
 </body>
 
 </html>

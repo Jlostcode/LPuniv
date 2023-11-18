@@ -1,18 +1,16 @@
 package com.project.lpuniv.dayoung.user.login.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserDto {
     private int user_no;
     private Integer user_tp;
-    private String user_name;
+    private String user_nm;
     private String user_tel;
     private String user_loginId;
     private String user_passwd;

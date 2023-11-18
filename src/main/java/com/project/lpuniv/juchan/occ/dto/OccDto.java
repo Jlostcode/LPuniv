@@ -14,6 +14,7 @@ public class OccDto {
     int teach_NO;
     String occ_title;
     String occ_content;
+    Date occ_date;
     Date occ_Mdate;
     int occ_ROT;
     String occ_teachInfo;

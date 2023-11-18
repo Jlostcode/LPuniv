@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.juchan.amfi.dao.AmfiDao">
+    <insert id="amfiInsert" parameterType="com.project.lpuniv.juchan.amfi.dto.AmfiDto">
+        INSERT INTO AMFI (AMC_NO, AMFI_OG_NAME, AMFI_NAME, AMFI_PATH, AMFI_SIZE, AMFI_DATE)
+        VALUES (#{amc_no}, #{amfi_og_name}, #{amfi_name}, #{amfi_path}, #{amfi_size}, now())
+    </insert>
+
+    <select id="amfiAllCount" resultType="Integer">
+        SELECT count(*) FROM AMFI where AMC_NO = #{amc_no}
+    </select>
+
+    <select id="amfiAllSelectDesc" resultType="com.project.lpuniv.juchan.amfi.dto.AmfiDto">
+        select * from AMFI where AMC_NO = #{amc_no} ORDER BY AMFI_NO desc
+    </select>
+
+    <select id="amfiOneSelect" resultType="com.project.lpuniv.juchan.amfi.dto.AmfiDto">
+        select * from AMFI where AMFI_NO = #{amfi_no}
+    </select>
+
+    <delete id="amfiDelete" parameterType="int">
+            DELETE FROM AMFI WHERE AMFI_NO = #{amfi_no}
+    </delete>
+</mapper>

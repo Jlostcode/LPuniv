@@ -18,16 +18,16 @@ public class OccService {
         occDao.occInsert(occDto);
     }
 
-    public Integer occAllCount(){
-        return occDao.occAllCount();
+    public Integer occAllCount(int teach_NO){
+        return occDao.occAllCount(teach_NO);
     }
 
     public List<OccDto> occAllSelectDesc(){
        return occDao.occAllSelectDesc();
     }
 
-    public List<OccDto> occAllSelectDescPage(int startRow, int size) {
-        return occDao.occAllSelectDescPage(startRow,size);
+    public List<OccDto> occAllSelectDescPage(int startRow, int size, int teach_NO) {
+        return occDao.occAllSelectDescPage(startRow,size,teach_NO);
     };
 
     public OccDto occOneSelect(int occ_NO){

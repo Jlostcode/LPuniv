@@ -20,7 +20,10 @@ public class LecVideoService {
     public void insertSchs(SchsDto schsDto) {
         listenLecDao.insertSchs(schsDto);
     }
-    public void updatePo(int stud_no, int occ_NO, int ccim_NO) {
-        listenLecDao.updatePo(stud_no, occ_NO, ccim_NO);
+    public SchsDto selectSchsPo(int stud_no, int occ_NO, int ccim_NO) {
+        return listenLecDao.selectSchsPo(stud_no, occ_NO, ccim_NO);
+    }
+    public void updatePo(int stud_no, int occ_NO, int ccim_NO, int schs_fnpo, int schs_endpo) {
+        listenLecDao.updatePo(stud_no, schs_fnpo, schs_endpo, ccim_NO, occ_NO);
     }
 }

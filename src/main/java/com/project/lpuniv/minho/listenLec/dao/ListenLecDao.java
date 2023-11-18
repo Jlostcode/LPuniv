@@ -7,6 +7,7 @@ import com.project.lpuniv.minho.listenLec.dto.SchsDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -20,6 +21,8 @@ public interface ListenLecDao {
     //강의 영상 페이지 에서 수강 이력 조회
     SchsDto selectSchs(int stud_no, int occ_NO, int ccim_NO);
     void insertSchs(SchsDto schsDto);
+    //강의 총 시간 및 시청기록 가져오기
+    SchsDto selectSchsPo (int stud_no, int occ_NO, int ccim_NO);
     //강의 총 시간 및 시청기록 업데이트
-    void updatePo(int stud_no, @Param("ccim_NO") int ccim_NO, @Param("occ_NO") int occ_NO);
+    void updatePo(int stud_no, @Param("schs_fnpo") int schs_fnpo, @Param("schs_endpo") int schs_endpo ,@Param("ccim_NO") int ccim_NO, @Param("occ_NO") int occ_NO);
 }

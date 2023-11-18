@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+</head>
+<body>
+<div class="header"><strong>과제 목록</strong> <br></div>
+<div class="cards" style="justify-content: center; align-content: center; display: flex;">
+    <div th:each="card, cardStat : ${listPage.amcDtos}" th:id="'card' + ${cardStat.index}" class="card" style="width: 18rem;">
+        <div class="card-header" style="background-color: #a2a8ff; height: 5rem;">
+            <p class="card-text"> 해당 강의 "[[${card.amc_at}]]" 챕터 관리</p>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${card.amc_at}">Card title</h5>
+
+            <a th:href="@{'/amc/amc_modify?amc_no=' + ${card.amc_no}}" class="btn btn-primary">과제 수정</a>
+
+            <button class="btn btn-primary toggle-details-btn"
+                    data-coreui-toggle="collapse"
+                    data-coreui-target="#collapseWidthExample"
+                    aria-expanded="false"
+                    aria-controls="collapseWidthExample"
+                    th:data-amc-at="${card.amc_at}"
+                    th:data-amc-ac="${card.amc_ac}"
+                    th:data-amc-no="${card.amc_no}"
+            >&raquo;</button>
+        </div>
+    </div>
+</div>
+<nav aria-label="Page navigation example" >
+    <div class="board-list-page"  th:if="${listPage.hasAmcDtos()}">
+        <ul class="pagination" style="justify-content: center; text-align: center;">
+            <li class="page-item">
+            <li class="page-item" th:if="${listPage.currentPage > 1}">
+                <a class="page-link" aria-label="<<" th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} + '&pageNo=' + ${listPage.currentPage - 1}}">&laquo;</a>
+            </li>
+            <span th:each="pNo : ${#numbers.sequence(listPage.startPage, listPage.endPage)}">
+                <span th:if="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a style="font-weight: bold" class="page-link" aria-current="page" th:text="${pNo}">[[${pNo}]]</a>
+                    </li>
+                </span>
+                <span  th:unless="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a class="page-link" th:aria-label="${pNo}" th:text="${pNo}"
+                           th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} +  '&pageNo=' + ${pNo}}">[[${pNO}]]</a>
+                    </li>
+                </span>
+            </span>
+            <span th:if="${listPage.currentPage < listPage.totalPages}">
+                <a class="page-link" th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} + '&pageNo=' + ${listPage.currentPage + 1}}">&raquo;</a>
+            </span>
+
+        </ul>
+    </div>
+</nav>
+<div class="footer">
+    <a class="effect effect-1" th:href="@{'/amc/amc_insert?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no}}">새로운 과제 등록</a>
+</div>
+
+<div style="min-height: 200px;">
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <strong> 챕터 정보 </strong>
+        <label for="amc_at_info" style="font-weight: bold">과제명 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="amc_at_info"></div>
+        </div>
+        <label for="amc_ac_info" style="font-weight: bold">과제 내용 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="amc_ac_info"></div>
+        </div>
+        <label for="amfi_info" style="font-weight: bold">과제 내용 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="amfi_info">
+                <div id="amfi_og_name_info">
+                </div>
+                <div id="amfi_date">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.min.js" integrity="sha384-Ccu4pXX7m9x5nOmnhLGyxq3pqYWoc67qHmnJwC20bxJvdziB6gZtOAb9BLN5bOOb" crossorigin="anonymous"></script>
+<script src="/juchan/js/amc_main_infodata.js"></script>
+</body>
+</html>
