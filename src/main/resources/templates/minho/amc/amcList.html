@@ -17,7 +17,7 @@
             <tr>
                 <td th:text="${amcList.ccim_NO}"></td>
                 <td th:text="${amcList.amc_at}"></td>
-                <td th:text="${amcList.amc_ac}"></td>
+                <td th:utext="${amcList.amc_ac}">[[${amcList.amc_ac}]]</td>
             </tr>
         </table>
     </div>
