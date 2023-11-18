@@ -19,7 +19,7 @@
     <button onclick="changePage('/message/senmsg')">보낸메시지</button>
     <button onclick="changePage('/message/recycle')">휴지통</button>
     <button onclick="changePage('/message/writeform')">메시지보내기</button><br/>
-    받은메시지 : <span th:text="${msgCount}"></span> 건 | 안 읽은 메시지 : <span th:text="${msgCnt}"></span><br/>
+    받은메시지 : <span th:text="${msgCount}"></span> 건 | 안 읽은 메시지 : <span id="msg-cnt" th:text="${msgCnt}"></span><br/>
     <th:block th:if="${msgPage == null or msgPage.content.isEmpty()}">
         받은 메시지가 없습니다.
     </th:block>

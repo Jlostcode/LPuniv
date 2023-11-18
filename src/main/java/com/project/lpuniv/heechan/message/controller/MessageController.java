@@ -25,21 +25,10 @@ public class MessageController {
     @Autowired
     private ListMsg listMsg;
 
-    @GetMapping("/message") //모달 창
-    public String test(HttpSession session, Model model){
-        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-//        int userNo = authInfo.getUser_no();
-//        int msgCnt = messageService.userRecMsgCnt(userNo);
-//
-//        model.addAttribute("msgCnt", msgCnt);
-        model.addAttribute("authInfo", authInfo);
-        return "heechan/message/msgindex";
-    }
-
     @GetMapping("/message/recmsg") //받은 메시지 함
     public String recMsg(@RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
                          @RequestParam(value = "div", required = false) String div, @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session,
-                         Model model){
+                         Model model, @RequestParam(value = "msgCnt", required = false) Integer msgCntVal){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int pageNo = 1;
         if(pageNoVal != null){
@@ -47,6 +36,7 @@ public class MessageController {
         }
 
         int userNo = authInfo.getUser_no();
+
         if(searchInput != null && searchOp != null && div != null){
             MsgPage msgPage = listMsg.getSearchRecMsgPage(userNo, pageNo, searchInput, searchOp, div);
             int msgCount = messageService.searchMsgCnt(userNo, searchInput, searchOp, div);
@@ -60,9 +50,17 @@ public class MessageController {
             model.addAttribute("msgPage", msgPage);
             model.addAttribute("msgCount", msgCount);
         }
+
         int msgCnt = messageService.userRecMsgCnt(userNo);
 
-        model.addAttribute("msgCnt", msgCnt);
+        if(msgCntVal == null){
+            model.addAttribute("msgCnt", msgCnt);
+        } else if (msgCntVal > msgCnt) {
+            model.addAttribute("msgCnt", msgCntVal);
+        } else {
+            model.addAttribute("msgCnt", msgCnt);
+        }
+
         model.addAttribute("searchInput", searchInput);
         model.addAttribute("searchOp", searchOp);
         model.addAttribute("div", div);

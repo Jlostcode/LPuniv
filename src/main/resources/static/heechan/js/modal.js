@@ -318,3 +318,22 @@ $(document).ready(function () { //메시지 수정
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    setInterval(updateMessageCount, 3000);
+});
+
+function updateMessageCount() {
+    fetch("/message/recmsg")
+        .then(response => response.text())
+        .then(data => {
+            const match = data.match(/<span id="msg-cnt"[^>]*>(.*?)<\/span>/);
+            if (match && match[1]) {
+                const msgCntValue = match[1].trim();
+                document.getElementById("msg-cnt").innerText = msgCntValue;
+            } else {
+                console.error("Error: Unable to find msgCnt in HTML");
+            }
+        })
+        .catch(error => console.error("Error fetching message count:", error));
+}
