@@ -9,7 +9,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPage {
+public class ListPage {
     private int total;
     private int currentPage;
     private List<ListDto> content;
@@ -18,7 +18,7 @@ public class UserPage {
     private int endPage;
 
 
-    public UserPage(int total,int currentPage, int size, List<ListDto> content){
+    public ListPage(int total,int currentPage, int size, List<ListDto> content){
         this.total = total;
         this.currentPage= currentPage;
         this.content = content;

@@ -3,10 +3,12 @@ package com.project.lpuniv.dayoung.user.signUp.controller;
 import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.dayoung.user.signUp.dao.UserDao;
 import com.project.lpuniv.dayoung.user.signUp.dto.ListDto;
-import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
-import com.project.lpuniv.dayoung.user.signUp.dto.UserPage;
+import com.project.lpuniv.dayoung.user.signUp.dto.ListPage;
+import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
+
 import com.project.lpuniv.dayoung.user.signUp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +28,11 @@ public class UserController {
     UserDao userDao;
 
     private int size = 10;
-    public UserPage getUserPage(int pageNum, int pageSize) {
+    public ListPage getUserPage(int pageNum, int pageSize) {
         int total = userDao.countUser();
         System.out.println("user의 총 합"+total);
         List<ListDto> content = userDao.userList((pageNum-1)*size,size);
-        return new UserPage(total,pageNum,size,content);
+        return new ListPage(total,pageNum,size,content);
     }
 //    @PostMapping("/excel")
 //    public String uploadStudent(@RequestParam("file") MultipartFile file) {
@@ -80,15 +82,15 @@ public class UserController {
     }
 
     @PostMapping("/dayoung/addUser")
-    public String addUser2(@ModelAttribute UserDto userDto ) {
-        System.out.println("===="+userDto);
-        String passwd= userDto.getUser_passwd();
+    public String addUser2(@ModelAttribute SignupDto signupDto) {
+        System.out.println("===="+ signupDto);
+        String passwd= signupDto.getUser_passwd();
         String hashPassword = userService.hashPassword(passwd);
-        userDto.setUser_passwd(hashPassword);
+        signupDto.setUser_passwd(hashPassword);
 
-        userDao.insertUser(userDto);
+        userDao.insertUser(signupDto);
 
-        System.out.println("===============================================>"+userDto);
+        System.out.println("===============================================>"+ signupDto);
         return "redirect:/dayoung/adminMain";
 
     }
@@ -107,43 +109,57 @@ public class UserController {
     }
 
 
+//    @GetMapping("/dayoung/list")
+//    public String userList(Model model, @RequestParam(name="pageNo", required = false)String pageNo,HttpSession session,
+//                           @RequestParam(name="selectOption", required = false)String selectOption,@RequestParam(name="serchFind", required = false)String serchFind){
+//            AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+//
+//            int pageSize = 4; // 페이지 크기 설정 (한 페이지에 보여줄 회원 수)
+//            int pageNum = 1;
+//
+//            if (pageNo != null) {
+//                pageNum = Integer.parseInt(pageNo);
+//            }
+//
+//            if(selectOption!=null && serchFind != null){
+//                String find = '%'+serchFind+'%';
+////                List<ListDto> searchUser = userDao.serchList(find,selectOption,pageNum-1,pageSize);
+//                model.addAttribute("find",find);
+//                model.addAttribute("selectOption",selectOption);
+//                model.addAttribute("pageNum", pageNum);
+//                model.addAttribute("pageSize", pageSize);
+//
+//
+//            }else {
+////            List<ListDto> search = userDao.userList(pageNum,pageSize);
+//                ListPage listPage = getUserPage(pageNum, pageSize);
+//                model.addAttribute("userPage", listPage);
+//                model.addAttribute("pageNo", pageNo);
+//
+//
+//            }
+//        return "dayoung/userList";
+//        }
+
+
+    @GetMapping("/dayoung/users")
+    public ResponseEntity<List<ListDto>> getUsers() {
+        List<ListDto> users = userDao.gridList();
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/dayoung/list")
-    public String userList(Model model, @RequestParam(name="pageNo", required = false)String pageNo,HttpSession session,
-                           @RequestParam(name="selectOption", required = false)String selectOption,@RequestParam(name="serchFind", required = false)String serchFind){
-            AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
-            int pageSize = 4; // 페이지 크기 설정 (한 페이지에 보여줄 회원 수)
-            int pageNum = 1;
-
-            if (pageNo != null) {
-                pageNum = Integer.parseInt(pageNo);
-            }
-
-            if(selectOption!=null && serchFind != null){
-                String find = '%'+serchFind+'%';
-//                List<ListDto> searchUser = userDao.serchList(find,selectOption,pageNum-1,pageSize);
-                model.addAttribute("find",find);
-                model.addAttribute("selectOption",selectOption);
-                model.addAttribute("pageNum", pageNum);
-                model.addAttribute("pageSize", pageSize);
+    public String gridList() {
+        return "dayoung/gridList";
+    }
 
 
-            }else {
-//            List<ListDto> search = userDao.userList(pageNum,pageSize);
-                UserPage userPage = getUserPage(pageNum, pageSize);
-                model.addAttribute("userPage", userPage);
-                model.addAttribute("pageNo", pageNo);
-
-
-            }
-        return "dayoung/userList";
-        }
 
 
     @GetMapping("/dayoung/modify/{user_tel}")
     public String modifyStudent(Model model,@RequestParam String user_tel){
 
-    UserDto list=  userDao.selectUserByTel(user_tel);
+    SignupDto list=  userDao.selectUserByTel(user_tel);
         System.out.println(list);
         model.addAttribute("list",list);
         return "dayoung/modifyStudent";
@@ -160,7 +176,7 @@ public class UserController {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         System.out.println("세션값"+authInfo);
         int no= authInfo.getUser_no();
-        UserDto user = userDao.selectUser(no);
+        SignupDto user = userDao.selectUser(no);
         model.addAttribute("user" , user);
         return "dayoung/userInfo";
     }

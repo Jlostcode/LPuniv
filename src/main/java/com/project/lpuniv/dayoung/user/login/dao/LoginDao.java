@@ -1,7 +1,8 @@
 package com.project.lpuniv.dayoung.user.login.dao;
 
 
-import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
+import com.project.lpuniv.dayoung.user.login.dto.UserDto;
+import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,9 +17,9 @@ public interface LoginDao {
 
     boolean checkTel(String user_tel);
 
-    UserDto  loginById(String user_loginId);
+    UserDto loginById(String user_loginId);
 
-     UserDto selectById(@Param("user_loginId") String user_loginId);
+    UserDto selectById(@Param("user_loginId") String user_loginId);
 
     public Integer TypeById(@Param("user_loginId") int user_loginId);
 

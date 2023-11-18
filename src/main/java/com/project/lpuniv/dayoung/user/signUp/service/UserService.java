@@ -1,6 +1,6 @@
 package com.project.lpuniv.dayoung.user.signUp.service;
 
-import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
+import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
 import com.project.lpuniv.dayoung.user.signUp.dao.UserDao;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,7 +17,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.Iterator;
-import java.util.UUID;
 
 import static java.time.LocalTime.now;
 
@@ -49,7 +48,7 @@ public class UserService {
                     Row row = rowIterator.next();
 
 
-                    UserDto user = new UserDto();
+                    SignupDto user = new SignupDto();
 
                     if (row != null && row.getCell(0) != null && row.getCell(1) != null /* Add similar checks for other cells */) {
                         user.setUser_tp((int) row.getCell(0).getNumericCellValue());

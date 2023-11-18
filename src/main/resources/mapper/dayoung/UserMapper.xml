@@ -4,21 +4,21 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.dayoung.user.signUp.dao.UserDao">
-    <insert id="insertUser" parameterType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <insert id="insertUser" parameterType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
 
         INSERT INTO user (user_no, user_tp,user_nm, user_tel,user_loginId,user_passwd,user_email, user_brdt, user_gen, user_signdate)
         VALUES (#{user_no}, #{user_tp},#{user_nm},#{user_tel},#{user_loginId},#{user_passwd},#{user_email}, #{user_brdt}, #{user_gen},  #{user_signdate}
         )
     </insert>
 
-    <select id="selectUser" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="selectUser" resultType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
 
         select * from user where user_no = #{user_no}
 
     </select>
 
 
-    <select id="selectUserByTel" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="selectUserByTel" resultType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
 
         select * from user where user_tel = #{user_tel}
 
@@ -30,10 +30,16 @@
 
     </select>
 
-    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
+<!--    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">-->
+<!--        select * from user-->
+<!--            order by user_tp asc-->
+<!--        LIMIT #{startRow},#{size}-->
+<!--    </select>-->
+
+    <select id="gridList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
         select * from user
-            order by user_tp asc
-        LIMIT #{startRow},#{size}
+        order by user_tp asc
+
     </select>
 
     <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">

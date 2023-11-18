@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.grid/latest/tui-grid.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.grid/latest/tui-grid.js"></script>
+</head>
+<body>
+<div id="grid1"></div>
+</body>
+<script>
+    let gridData = null;
+    // 사용자 데이터 가져오기
+    $(document).ready(function() {
+        var grid1 = new tui.Grid({
+            el: document.getElementById('grid1'),
+            data:gridData,
+            scrollX: false,
+            scrollY: false,
+            columns: [
+                // 칼럼 정의
+                { header: '타입',
+                    name: 'user_tp',
+                    editor: 'text',
+                    rowSpan: true
+                },
+                { header: '이름',
+                    name: 'user_nm' },
+                { header: '전화번호',
+                    name: 'user_tel',
+                    editor: 'text'},
+                { header: '이메일주소',
+                    name: 'user_email',
+                    editor: 'text'},
+                { header: '생년월일',
+                    name: 'user_brdt' },
+                { header: '성별',
+                    name: 'user_gen',
+                    rowSpan: true,
+                    formatter: 'listItemText',
+                    editor: {
+                        type: 'select',
+                        options: {
+                            listItems: [
+                                { text: '남성', value: 1 },
+                                { text: '여성', value: 2 }
+                            ]
+                        }
+                    }},
+                { header: '등록일',
+                    name: 'user_signdate',
+                    rowSpan: true,
+                    editor: {
+                        type: 'datePicker',
+                        options: {
+                            format: 'yyyy-MM-dd HH:mm A',
+                            timepicker: true
+                        }
+                    }
+                },
+                { header: '탈퇴일',
+                    name: 'user_deletedate',
+                    rowSpan: true,
+                    editor: 'text'}
+
+                // 나머지 칼럼들...
+            ],
+            draggable: true
+        });
+        $.ajax({
+            url: '/dayoung/users', // 위에서 정의한 백엔드 엔드포인트
+            method: 'GET',
+            dataType : "JSON",
+            contentType : "application/json; charset=UTF-8",
+            success: function(response) {
+                gridData= response; // 그리드에 데이터 설정
+                grid1.resetData(gridData); // 받은 데이터를 그리드에 설정
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    });
+
+</script>
+</html>
