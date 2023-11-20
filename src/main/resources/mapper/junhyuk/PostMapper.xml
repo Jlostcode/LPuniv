@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.junhyuk.dao.PostDao">
 
@@ -29,6 +29,94 @@
     <select id="findByPostNo" resultType="com.project.lpuniv.junhyuk.dto.Post">
         SELECT * FROM post WHERE post_no = #{post_no}
     </select>
+
+    <update id="updatePost" parameterType="com.project.lpuniv.junhyuk.dto.Post">
+        UPDATE post SET title = #{title}, content = #{content}
+        WHERE post_no = #{post_no} AND user_no = #{user_no}
+    </update>
+
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM post WHERE post_no = #{post_no} AND user_no = #{user_no}
+    </delete>
+
+
+    <!--검색쿼리-->
+    <select id="searchPosts" resultType="com.project.lpuniv.junhyuk.dto.Post">
+        SELECT p.*, u.user_nm as authorName
+        FROM post p
+        JOIN user u ON p.user_no = u.user_no
+        WHERE board_no = #{board_no}
+        <choose>
+            <when test="searchType == 'title'">
+                AND title LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'content'">
+                AND content LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'author'">
+                AND u.user_nm LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'all'">
+                AND (title LIKE CONCAT('%', #{searchTerm}, '%') OR content LIKE CONCAT('%', #{searchTerm}, '%')OR u.user_nm LIKE CONCAT('%', #{searchTerm}, '%'))
+            </when>
+            <otherwise>
+                AND title LIKE CONCAT('%', #{searchTerm}, '%')
+            </otherwise>
+        </choose>
+        ORDER BY post_no DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <!--검색 결과 총 개수 계산-->
+    <select id="countSearchPosts" resultType="int">
+        SELECT COUNT(*)
+        FROM post p
+        JOIN user u ON p.user_no = u.user_no
+        WHERE p.board_no = #{board_no}
+        <choose>
+            <when test="searchType == 'title'">
+                AND p.title LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'content'">
+                AND p.content LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'author'">
+                AND u.user_nm LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'all'">
+                AND (p.title LIKE CONCAT('%', #{searchTerm}, '%') OR p.content LIKE CONCAT('%', #{searchTerm}, '%') OR u.user_nm LIKE CONCAT('%', #{searchTerm}, '%'))
+            </when>
+            <otherwise>
+                AND p.title LIKE CONCAT('%', #{searchTerm}, '%')
+            </otherwise>
+        </choose>
+    </select>
+
+
+
+
+
+
+    <select id="getAllPostsByBoardWithPaging" resultType="com.project.lpuniv.junhyuk.dto.Post">
+        SELECT p.*, u.user_nm as authorName
+        FROM post p
+                 JOIN user u ON p.user_no = u.user_no
+        WHERE p.board_no = #{board_no}
+        ORDER BY p.post_no DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countPosts" resultType="int">
+        SELECT COUNT(*) FROM post
+        WHERE board_no = #{board_no}
+    </select>
+
+    <update id="PostHits">
+        UPDATE  post SET hits = hits + 1 WHERE post_no = #{post_no}
+    </update>
+
+
 
 
 

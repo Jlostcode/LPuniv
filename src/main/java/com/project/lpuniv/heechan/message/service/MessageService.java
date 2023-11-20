@@ -1,7 +1,9 @@
 package com.project.lpuniv.heechan.message.service;
 
+import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dao.MessageMapper;
 import com.project.lpuniv.heechan.message.dto.Message;
+import com.project.lpuniv.heechan.message.dto.MessageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,10 @@ public class MessageService {
 
     @Autowired
     private MessageMapper messageMapper;
+
+    public int userRecMsgCnt(int userNo) { //한 명의 사용자가 받은 메시지 수
+        return messageMapper.userRecMsgCnt(userNo);
+    }
 
     public List<Message> selectUserRecMsg(int startRow, int size, int userNo) { //한 명의 사용자가 받은 메시지
         return messageMapper.selectUserRecMsg(startRow, size, userNo);
@@ -25,28 +31,28 @@ public class MessageService {
         return messageMapper.recycleMsg(startRow, size, userNo);
     }
 
-    public Message selectMsg(int msgId){ //해당하는 메시지 상세 내용
-        return messageMapper.selectMsg(msgId);
+    public Message selectMsg(int msgNo){ //해당하는 메시지 상세 내용
+        return messageMapper.selectMsg(msgNo);
     }
 
-    public void senDel(int msgId) { //발신자가 메시지 삭제(DB에서는 삭제 X)
-        messageMapper.senDel(msgId);
+    public void senDel(int msgNo) { //발신자가 메시지 삭제(DB에서는 삭제 X)
+        messageMapper.senDel(msgNo);
     }
 
-    public void recDel(int msgId) { //수신자가 메시지 삭제(DB에서는 삭제 X)
-        messageMapper.recDel(msgId);
+    public void recDel(int msgNo) { //수신자가 메시지 삭제(DB에서는 삭제 X)
+        messageMapper.recDel(msgNo);
     }
 
-    public void msgDel(int msgId) { //발신자와 수신자 모두 메시지 삭제 했을 때 DB에서도 삭제
-        messageMapper.msgDel(msgId);
+    public void msgDel(int msgNo) { //발신자와 수신자 모두 메시지 삭제 했을 때 DB에서도 삭제
+        messageMapper.msgDel(msgNo);
     }
 
-    public void recycleRecMsg(int msgId) { //받은 메시지 복구
-        messageMapper.recycleRecMsg(msgId);
+    public void recycleRecMsg(int msgNo) { //받은 메시지 복구
+        messageMapper.recycleRecMsg(msgNo);
     }
 
-    public void recycleSenMsg(int msgId) { //보낸 메시지 복구
-        messageMapper.recycleSenMsg(msgId);
+    public void recycleSenMsg(int msgNo) { //보낸 메시지 복구
+        messageMapper.recycleSenMsg(msgNo);
     }
 
     public int msgSenCnt(int userNo) { //사용자가 보낸 메시지 수
@@ -61,8 +67,8 @@ public class MessageService {
         return messageMapper.recycleMsgCnt(userNo);
     }
 
-    public void readMsg(int msgId) { //읽음으로 변경
-        messageMapper.readMsg(msgId);
+    public void readMsg(int msgNo) { //읽음으로 변경
+        messageMapper.readMsg(msgNo);
     }
 
     public List<Message> searchMsg(int startRow, int size, int userNo, String searchInput, String searchOp, String div) { //검색
@@ -85,5 +91,37 @@ public class MessageService {
         } else {
             return messageMapper.searchRecycleMsgCnt(userNo, searchinput, searchOp);
         }
+    }
+
+    public void msgInsert(MessageRequest messageRequest, int receiverNo, String receiverNm) { //insert
+        messageMapper.msgInsert(messageRequest, receiverNo, receiverNm);
+    }
+
+    public void msgUpdate(int msgNo, String title, String content) { //update
+        messageMapper.msgUpdate(msgNo, title, content);
+    }
+
+    public UserDto selectByUser(int userNo){ //user 정보
+        return messageMapper.selectByUser(userNo);
+    }
+
+    public List<UserDto> getUsers(int userNo) { //접속한 수강생이 듣는 강의의 다른 수강생들 가져오기
+        return messageMapper.getUsers(userNo);
+    }
+
+    public int getTeacher(int userNo) { //접속한 수강생이 듣는 강의의 강사
+        return messageMapper.getTeacher(userNo);
+    }
+
+    public List<UserDto> classUsers(int userNo) { //강사가 접속 했을 때 강의를 듣는 학생들
+        return messageMapper.classUsers(userNo);
+    }
+
+    public UserDto getAdmin(){ //관리자 정보 가져오기
+        return messageMapper.getAdmin();
+    }
+
+    public List<UserDto> userList(){
+        return messageMapper.userList(); //사용자 전체 가져오기(관리자가 사용)
     }
 }

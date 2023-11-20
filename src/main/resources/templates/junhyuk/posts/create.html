@@ -47,7 +47,7 @@
 
 <h1>게시글 작성</h1>
 <form th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" th:object="${post}" method="post" enctype="multipart/form-data">
-    <input type="text" th:field="*{user_no}" placeholder="사용자 번호"><br><br>
+
     <input type="text" th:field="*{title}" placeholder="제목"><br><br>
 
     <textarea class="contents" th:field="*{content}" placeholder="내용"></textarea><br><br>
@@ -59,8 +59,17 @@
 
     <div id="fileList" class="file-list-container"></div>
 
-    <button type="submit">게시글 등록</button>
+    <button type="submit">등록</button>
+
 </form>
+
+<div>
+    <form th:action="${listURL}">
+        <input type="submit" value="취소">
+    </form>
+</div>
+
+
 
 <script>
     var dropzone = document.getElementById('dropzone');
