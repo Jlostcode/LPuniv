@@ -22,7 +22,12 @@ public class FileService {
     }
 
     public String getOriginalFileName(String file_name) {
+
         return fileDao.getOriginalFileName(file_name);
+    }
+
+    public void deleteFile(String fileName, int userNo) {
+        fileDao.deleteFile(fileName);
     }
 
 }
