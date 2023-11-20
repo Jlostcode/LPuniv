@@ -4,105 +4,112 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.heechan.message.dao.MessageMapper">
+<!--    한 명의 사용자가 받은 메시지 수-->
+    <select id="userRecMsgCnt" resultType="Integer">
+        select count(*)
+        from message m
+        where receiver_no = #{user_no} and rec_del = 0 and read_flag = 0
+    </select>
+
 <!--    한 명의 사용자가 받은 메시지-->
     <select id="selectUserRecMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where receiver_id = #{user_no}
-        order by msg_id desc limit #{startRow}, #{size}
+        where receiver_no = #{user_no} and rec_del = 0
+        order by msg_no desc limit #{startRow}, #{size}
     </select>
 
 <!--    한 명의 사용자가 보낸 메시지-->
     <select id="selectUserSenMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where sender_id = #{user_no}
-        order by msg_id desc limit #{startRow}, #{size}
+        where sender_no = #{user_no} and sen_del = 0
+        order by msg_no desc limit #{startRow}, #{size}
     </select>
 
 <!--    휴지통-->
     <select id="recycleMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1)
-        order by msg_id desc limit #{startRow}, #{size}
+        where (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1)
+        order by msg_no desc limit #{startRow}, #{size}
     </select>
 
 <!--    해당하는 메시지 상세 내용-->
     <select id="selectMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
-        where msg_id = #{msg_id}
+        where msg_no = #{msg_no}
     </select>
 
 <!--    발신자가 메시지 삭제(DB에서는 삭제 X)-->
     <update id="senDel" parameterType="Integer">
-        update message set sen_del = sen_del + 1 where msg_id = #{msg_id}
+        update message set sen_del = sen_del + 1 where msg_no = #{msg_no}
     </update>
 
 <!--    수신자가 메시지 삭제(DB에서는 삭제 X)-->
     <update id="recDel" parameterType="Integer">
-        update message set rec_del = rec_del + 1 where msg_id = #{msg_id}
+        update message set rec_del = rec_del + 1 where msg_no = #{msg_no}
     </update>
 
 <!--    발신자와 수신자 모두 메시지 삭제 했을 때 DB에서도 삭제-->
     <delete id="msgDel" parameterType="Integer">
-        delete from message where msg_id = #{msg_id}
+        delete from message where msg_no = #{msg_no}
     </delete>
 
 <!--    받은 메시지 복구-->
     <update id="recycleRecMsg" parameterType="Integer">
-        update message set rec_del = rec_del - 1 where msg_id = #{msg_id}
+        update message set rec_del = rec_del - 1 where msg_no = #{msg_no}
     </update>
 
 <!--    보낸 메시지 복구-->
     <update id="recycleSenMsg" parameterType="Integer">
-        update message set sen_del = sen_del - 1 where msg_id = #{msg_id}
+        update message set sen_del = sen_del - 1 where msg_no = #{msg_no}
     </update>
 
 <!--    사용자가 보낸 메시지 수-->
     <select id="msgSenCnt" resultType="Integer">
-        select count(*) from message where sender_id = #{user_no} and sen_del = 0
+        select count(*) from message where sender_no = #{user_no} and sen_del = 0
     </select>
 
 <!--    사용자가 받은 메시지 수-->
     <select id="msgRecCnt" resultType="Integer">
-        select count(*) from message where receiver_id = #{user_no} and rec_del = 0
+        select count(*) from message where receiver_no = #{user_no} and rec_del = 0
     </select>
 
 <!--    휴지통 메시지 수-->
     <select id="recycleMsgCnt" resultType="Integer">
         select count(*)
         from message
-        where (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1)
+        where (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1)
     </select>
 
 <!--    읽음으로 변경-->
     <update id="readMsg" parameterType="Integer">
-        update message set read_flag = 1 where msg_id = #{msg_id}
+        update message set read_flag = 1 where msg_no = #{msg_no}
     </update>
 
 <!--    RecMsg검색-->
     <select id="searchRecMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
-                    order by msg_id desc limit #{startRow}, #{size}
+                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput}) and rec_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '발신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput} and rec_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '수신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput} and rec_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '제목'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    receiver_no = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput} and rec_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
             </choose>
         </where>
@@ -110,25 +117,25 @@
 
 <!--    SenMsg검색-->
     <select id="searchSenMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNO, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
-                    order by msg_id desc limit #{startRow}, #{size}
+                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput}) and sen_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '발신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput} and sen_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '수신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput} and sen_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '제목'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    sender_no = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput} and sen_del = 0
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
             </choose>
         </where>
@@ -136,25 +143,25 @@
 
 <!--    RecycleMsg검색-->
     <select id="searchRecycleMsg" resultType="com.project.lpuniv.heechan.message.dto.Message">
-        select m.msg_id as msgId, m.sender_id as senderId, m.receiver_id as receiverId, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
+        select m.msg_no as msgNo, m.sender_no as senderNo, m.receiver_no as receiverNo, m.sender_nm as senderNm, m.receiver_nm as receiverNm, m.title as title, m.content as content, m.sent_at as sentAt, m.sen_del as senDel, m.rec_del as recDel, m.read_flag as readFlag
         from message m
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
-                    order by msg_id desc limit #{startRow}, #{size}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '발신자'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and sender_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and sender_nm like #{searchInput}
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '수신자'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and receiver_nm like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and receiver_nm like #{searchInput}
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
                 <when test="searchOp == '제목'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and title like #{searchInput}
-                    order by msg_id desc limit #{startRow}, #{size}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and title like #{searchInput}
+                    order by msg_no desc limit #{startRow}, #{size}
                 </when>
             </choose>
         </where>
@@ -167,16 +174,16 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    receiver_no = #{user_no} and (rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
                 </when>
                 <when test="searchOp == '발신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and sender_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '수신자'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and receiver_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '제목'">
-                    receiver_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    receiver_no = #{user_no} and (rec_del = 0) and title like #{searchInput}
                 </when>
             </choose>
         </where>
@@ -189,16 +196,16 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    sender_no = #{user_no} and (sen_del = 0) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
                 </when>
                 <when test="searchOp == '발신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and sender_nm like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and sender_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '수신자'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and receiver_nm like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and receiver_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '제목'">
-                    sender_id = #{user_no} and (sen_del = 0 or rec_del = 0) and title like #{searchInput}
+                    sender_no = #{user_no} and (sen_del = 0) and title like #{searchInput}
                 </when>
             </choose>
         </where>
@@ -211,18 +218,76 @@
         <where>
             <choose>
                 <when test="searchOp == '전체'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and (sender_nm like #{searchInput} or receiver_nm like #{searchInput} or title like #{searchInput})
                 </when>
                 <when test="searchOp == '발신자'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and sender_nm like #{searchInput}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and sender_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '수신자'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and receiver_nm like #{searchInput}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and receiver_nm like #{searchInput}
                 </when>
                 <when test="searchOp == '제목'">
-                    (receiver_id = #{user_no} or sender_id = #{user_no}) and (sen_del = 1 or rec_del = 1) and title like #{searchInput}
+                    (receiver_no = #{user_no} or sender_no = #{user_no}) and (sen_del = 1 or rec_del = 1) and title like #{searchInput}
                 </when>
             </choose>
         </where>
+    </select>
+
+<!--    insert-->
+    <insert id="msgInsert" parameterType="com.project.lpuniv.heechan.message.dto.Message">
+        insert into message (sender_no, receiver_no, sender_nm, receiver_nm, title, content, sent_at, sen_del, rec_del, read_flag)
+        values (#{messageRequest.senderNo}, #{receiver_no}, #{messageRequest.senderNm}, #{receiver_nm}, #{messageRequest.title}, #{messageRequest.content}, now(), 0, 0, 0)
+    </insert>
+
+<!--    update-->
+    <update id="msgUpdate">
+        update message set title = #{title}, content = #{content}, sent_at = now() where msg_no = #{msg_no}
+    </update>
+
+<!--    user정보-->
+    <select id="selectByUser" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select * from user where user_no = #{user_no}
+    </select>
+
+<!--    접속한 수강생이 듣는 강의의 다른 수강생들 가져오기-->
+    <select id="getUsers" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        SELECT u.*
+        FROM USER u JOIN class c ON u.user_no = c.stud_no
+        WHERE c.occ_no = (SELECT occ_no
+                          FROM class
+                          WHERE stud_no = #{user_no}) and u.user_no != #{user_no};
+    </select>
+    
+<!--    접속한 수강생이 듣는 강의의 강사-->
+    <select id="getTeacher" resultType="Integer">
+        select teach_no
+        from occ
+        where occ_no = (select occ_no
+                        from class
+                        where stud_no = #{user_no})
+    </select>
+
+<!--    강사가 접속 했을 때 강의를 듣는 학생들-->
+    <select id="classUsers" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select u.*
+        from user u join class c on u.user_no = c.stud_no
+        where occ_no = (select occ_no
+                        from occ
+                        where teach_no = #{user_no})
+    </select>
+
+<!--    관리자 정보 가져오기-->
+    <select id="getAdmin" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select *
+        from user
+        where user_tp = 3
+    </select>
+
+<!--    사용자 전체 가져오기(관리자가 사용)-->
+    <select id="userList" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select *
+        from user
+        where user_tp != 3
+        order by user_tp desc
     </select>
 </mapper>

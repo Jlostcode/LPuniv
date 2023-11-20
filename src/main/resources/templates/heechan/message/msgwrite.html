@@ -6,12 +6,55 @@
 </head>
 <body>
 <div>
-    발신자 : <span><input type="text" name="senderNm" /></span>
-    수신자 : <span><input type="text" name="receiverNm" /></span><br/>
-    제목 : <span><input type="text" name="title" /></span><br/>
-    내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
+    <div th:if="${userTp == 1}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        수신자 : <span>
+                <select name="rec-select">
+                    <option th:value="${admin.user_nm + ':' + admin.user_no}" th:text="${admin.user_nm+'(관리자)'}"></option>
+                    <option th:value="${teacher.user_nm + ':' + teacher.user_no}" th:text="${teacher.user_nm+'(강사)'}"></option>
+                    <option th:each="u : ${users}" th:value="${u.user_nm + ':' + u.user_no}" th:text="${u.user_nm+'(수강생)'}"></option>
+                </select>
+            </span><br/>
+        제목 : <span><input type="text" name="title" /></span><br/>
+        내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
+    </div>
+    <div th:if="${userTp == 2}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        수신자 : <span>
+                <select name="rec-select" multiple>
+                    <option th:value="${admin.user_nm + ':' + admin.user_no}" th:text="${admin.user_nm+'(관리자)'}"></option>
+                    <option th:each="u : ${users}" th:value="${u.user_nm + ':' + u.user_no}" th:text="${u.user_nm+'(수강생)'}"></option>
+                </select>
+            </span><br/>
+        제목 : <span><input type="text" name="title" /></span><br/>
+        내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
+    </div>
+    <div th:if="${userTp == 3}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        수신자 : <span>
+            <input type="text" name="rec-search" id="rec-search" oninput="filterRecipients()" placeholder="수신자를 검색하세요" />
+            <select name="rec-select" id="rec-select" multiple ondblclick="updateInputValue()">
+                <span th:each="user : ${users}">
+                    <span th:if="${user.getUser_tp() == 2}">
+                        <option th:value="${user.user_nm + ':' + user.user_no}" th:text="${user.user_nm+'(강사)'}"></option>
+                    </span>
+                    <span th:if="${user.getUser_tp() == 1}">
+                        <option th:value="${user.user_nm + ':' + user.user_no}" th:text="${user.user_nm+'(수강생)'}"></option>
+                    </span>
+                </span>
+            </select>
+        </span><br/>
+        제목 : <span><input type="text" name="title" /></span><br/>
+        내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
+    </div>
 </div>
 <button onclick="changePage('/message/recmsg')">이전으로</button><br/>
-<button onclick="changePage('/message/write')">메시지보내기</button><br/>
+<button id="submit">메시지보내기</button><br/>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/heechan/js/modal.js"></script>
 </body>
 </html>
