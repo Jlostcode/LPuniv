@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SchsDto {
+public class SchsDto { //수강이력 dto
     private int schs_no;
     private Date schs_st_dt;
     private Date schs_end_dt;
@@ -19,6 +19,6 @@ public class SchsDto {
     private int schs_fnpo;
     private int schs_endpo;
     private int stud_no;
-    private int OCC_NO;
-    private int CCIM_NO;
+    private int occ_NO;
+    private int ccim_NO;
 }

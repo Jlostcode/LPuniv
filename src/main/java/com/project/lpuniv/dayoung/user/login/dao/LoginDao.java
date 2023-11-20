@@ -1,7 +1,7 @@
 package com.project.lpuniv.dayoung.user.login.dao;
 
 
-import com.project.lpuniv.dayoung.user.login.dto.UserDto;
+import com.project.lpuniv.dayoung.user.signUp.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
