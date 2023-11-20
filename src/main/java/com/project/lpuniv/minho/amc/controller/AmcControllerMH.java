@@ -35,8 +35,6 @@ public class AmcControllerMH {
     LecInfoService lecInfoService;
     @Autowired
     private AmfiService amfiService;
-    @Autowired
-    FileServiceMH fileServiceMH;
 
     @GetMapping("/amcList")
     public String amcList(Model model, @RequestParam(value = "occ_NO") int occ_NO){
@@ -52,34 +50,6 @@ public class AmcControllerMH {
         model.addAttribute("amcDtoMH", amcDtoMH);
         model.addAttribute("amfiDto", amfiDto);
         return "minho/amc/amcView";
-    }
-
-    @PostMapping("/submit")
-    public String postSubmit(@RequestParam(name = "files", required = false)List<MultipartFile> files,
-                             @RequestParam("stud_no") int stud_no, @RequestParam("occ_no") int occ_no,
-                             @RequestParam("amc_no") int amc_no, @RequestParam("submit_no") int submit_no,
-                             @RequestParam("submit_ct") String submit_ct
-                             ) throws IOException{
-        try {
-            if (files == null) {
-                files = Collections.emptyList();//파일이 전송되지 않은 경우 빈 리스트로 초기화
-            }
-            SubmitDto submitDto = new SubmitDto();
-            submitDto.setStud_no(stud_no);
-            submitDto.setOcc_NO(occ_no);
-            submitDto.setAmc_no(amc_no);
-            submitDto.setSubmit_ct(submit_ct);
-            amcServiceMH.insertSubmit(submitDto);
-
-            for (MultipartFile file : files) {
-                if (!file.isEmpty()) {
-                    fileServiceMH.insertFile(submit_no, file);
-                }
-            }
-            return "redirect:/amcList/amcView";
-        } catch (NullPointerException e) {
-            return "errorPage";
-        }
     }
 
     @GetMapping("/amfi/download/{amfi_no}")

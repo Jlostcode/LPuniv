@@ -23,7 +23,4 @@ public class AmcServiceMH {
         return amcDaoMH.selectOneAmc(amc_no);
     }
     public AmfiDto selectOneAmfi(int amc_no) {return amcDaoMH.selectOneAmfi(amc_no);}
-    public void insertSubmit(SubmitDto submitDto) {
-        amcDaoMH.insertSubmit(submitDto);
-    }
 }

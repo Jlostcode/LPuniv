@@ -13,30 +13,34 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
 </head>
 <body>
 <div class="submit_wrap">
     <h2>과제 제출</h2>
-    <div th:hidden="${userDto.user_no}"></div>
-    <div th:hidden="${amcDtoMH.occ_NO}"></div>
-    <div th:hidden="${amcDtoMH.amc_no}"></div>
-    <div class="submit_stuNm">
-        <p>학생 이름</p>
-        <p><input th:value="${userDto.user_nm}" readonly></p>
-    </div>
-    <div class="submit_content">
-        <p>과제 내용</p>
-        <p><textarea name="submit_ct" id="editor"></textarea></p>
-    </div>
-    <div class="submit_amfi">
-        <div id="dropzoneForm" class="dropzone"></div>
-    </div>
-    <div class="submit_submit">
-        <div class="button-effect">
-            <button type="button" onclick="submitAmfi()">과제 제출</button>
+    <form id="insert_form" action="/submit/submitForm" method="post" enctype="multipart/form-data">
+        <div class="hidden_data">
+            <input type="hidden"  name="user_no" th:value="${userDto.user_no}"  readonly>
+            <input type="hidden"  name="occ_no" th:value="${amcDtoMH.occ_NO}"  readonly>
+            <input type="hidden"  name="amc_no" th:value="${amcDtoMH.amc_no}"  readonly>
         </div>
-    </div>
+        <div class="submit_stuNm">
+            <p>학생 이름</p>
+            <p><input th:value="${userDto.user_nm}" readonly></p>
+        </div>
+        <div class="submit_content">
+            <p>과제 내용</p>
+            <p><textarea name="submit_ct" id="editor"></textarea></p>
+        </div>
+        <div class="submit_amfi">
+            <div id="dropzoneForm" class="dropzone"></div>
+        </div>
+        <div class="submit_submit">
+            <div class="button-effect">
+                <button type="button" onclick="submitAmfi()">과제 제출</button>
+            </div>
+        </div>
+    </form>
 </div>
 <script src="/juchan/js/editor.js"></script>
 <script src="/minho/js/submitAmc.js"></script>
