@@ -13,6 +13,4 @@ public class AmcDtoMH {
     private int occ_NO;
     private String amc_at;
     private String amc_ac;
-    private int amfi_no;
-    private String occ_title;
 }

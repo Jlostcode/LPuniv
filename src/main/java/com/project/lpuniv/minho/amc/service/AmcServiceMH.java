@@ -3,9 +3,12 @@ package com.project.lpuniv.minho.amc.service;
 import com.project.lpuniv.juchan.amfi.dto.AmfiDto;
 import com.project.lpuniv.minho.amc.dao.AmcDaoMH;
 import com.project.lpuniv.minho.amc.dto.AmcDtoMH;
+import com.project.lpuniv.minho.submit.dto.SubmitDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,4 +23,7 @@ public class AmcServiceMH {
         return amcDaoMH.selectOneAmc(amc_no);
     }
     public AmfiDto selectOneAmfi(int amc_no) {return amcDaoMH.selectOneAmfi(amc_no);}
+    public void insertSubmit(SubmitDto submitDto) {
+        amcDaoMH.insertSubmit(submitDto);
+    }
 }

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.project.lpuniv.minho.amc.dao.AmcDaoMH">
     <select id="selectAmcOccNo" resultType="com.project.lpuniv.minho.amc.dto.AmcDtoMH">
-        select a.amc_no, a.ccim_no, a.OCC_NO, a.amc_at,  a.amc_ac, a.amfi_no, o.OCC_title
+        select a.amc_no, a.ccim_no, a.OCC_NO, a.amc_at,  a.amc_ac, o.OCC_title
         from occ o, amc a
         where a.occ_NO = #{occ_NO} and a.OCC_NO = o.OCC_NO
     </select>

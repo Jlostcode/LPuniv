@@ -28,7 +28,6 @@ public class SubmitController {
         AmcDtoMH amcDtoMH = submitService.selectOneAmc(amc_no);
         model.addAttribute("userDto", userDto);
         model.addAttribute("amcDtoMH", amcDtoMH);
-        System.out.println("amcDtoMH============="+amcDtoMH);
         return "minho/submit/submitForm";
     }
 }

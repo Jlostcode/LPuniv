@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     // Dropzone 설정
     var dropzone = new Dropzone("#dropzoneForm", {
-        url:"/amc/upload",
+        url:"/amcList/submit",
         method: "post",
         autoProcessQueue: false, // 자동으로 보내기. true : 파일 업로드 되자마자 서버로 요청, false : 서버에는 올라가지 않은 상태.
         paramName: "files",  // 파일 파라미터 이름
