@@ -42,6 +42,12 @@
 
     </select>
 
+    <update id="updateUser">
+        update user_nm,user_tel,user_email,user_signdate,user_deletedate from user
+
+    </update>
+
+
     <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
         select user_no,user_tp,user_nm,user_tel,user_loginId,user_email,user_brdt,user_gen,user_signdate
         from user

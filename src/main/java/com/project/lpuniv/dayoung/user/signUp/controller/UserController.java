@@ -154,6 +154,17 @@ public class UserController {
     }
 
 
+    @PostMapping("/dayoung/list")
+    public String addGridList(@RequestParam List<ListDto> updatedData) {
+
+
+        for (ListDto data : updatedData) {
+            userDao.updateUser(data); // 예시로 userDao를 사용하여 데이터베이스 업데이트
+        }
+
+        return "업데이트가 완료되었습니다."; // 업데이트 후의 화면으로 리다이렉트할 수 있는 URL을 반환합니다.
+    }
+
 
 
     @GetMapping("/dayoung/modify/{user_tel}")

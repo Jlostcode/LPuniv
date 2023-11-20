@@ -20,4 +20,7 @@ public interface UserDao {
    public SignupDto selectUserByTel(String user_tel);
 
     List<ListDto> serchList (String serchFind, String selectOption,int startRow, int size);
+
+    List<ListDto>updateUser(ListDto data);
+
 }

@@ -7,9 +7,12 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
     <script src="https://uicdn.toast.com/tui.grid/latest/tui-grid.js"></script>
+    <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+
 </head>
 <body>
 <div id="grid1"></div>
+<button id="btn">저장</button>
 </body>
 <script>
     let gridData = null;
@@ -18,28 +21,47 @@
         var grid1 = new tui.Grid({
             el: document.getElementById('grid1'),
             data:gridData,
-            scrollX: false,
-            scrollY: false,
+
+         bodyHeight: 500,
             columns: [
                 // 칼럼 정의
                 { header: '타입',
                     name: 'user_tp',
-                    editor: 'text',
-                    rowSpan: true
+                    sortingType:'desc',
+                    formatter: 'listItemText',
+                    editor: {
+                        type: 'select',
+                        options: {
+                            listItems: [
+                                { text: '수강생', value: 1 },
+                                { text: '강사', value: 2 },
+                                { text: '관리자', value: 3 }
+                            ]
+                        }
+                    },
+                    filter:'text'
                 },
                 { header: '이름',
-                    name: 'user_nm' },
+                    name: 'user_nm',
+                    filter:'text'},
+
                 { header: '전화번호',
                     name: 'user_tel',
-                    editor: 'text'},
+                    filter:'text',
+                    editor: 'text',
+                },
                 { header: '이메일주소',
                     name: 'user_email',
+                    filter:'text',
                     editor: 'text'},
                 { header: '생년월일',
-                    name: 'user_brdt' },
+                    name: 'user_brdt',
+                    filter:'text',
+                    editor: 'text'},
                 { header: '성별',
                     name: 'user_gen',
                     rowSpan: true,
+                    filter:'text',
                     formatter: 'listItemText',
                     editor: {
                         type: 'select',
@@ -49,20 +71,17 @@
                                 { text: '여성', value: 2 }
                             ]
                         }
-                    }},
+                    }
+                    },
                 { header: '등록일',
                     name: 'user_signdate',
                     rowSpan: true,
-                    editor: {
-                        type: 'datePicker',
-                        options: {
-                            format: 'yyyy-MM-dd HH:mm A',
-                            timepicker: true
-                        }
-                    }
+                    filter:'text',
+                    editor: 'text'
                 },
                 { header: '탈퇴일',
                     name: 'user_deletedate',
+                    filter:'text',
                     rowSpan: true,
                     editor: 'text'}
 
@@ -78,6 +97,14 @@
             success: function(response) {
                 gridData= response; // 그리드에 데이터 설정
                 grid1.resetData(gridData); // 받은 데이터를 그리드에 설정
+
+                // $('#grid1').on('click', 'a.phone-link',function (e){
+                //     e.preventDefault();
+                //     var phoneNumber = $(this).text();
+                //     window.location.href='dayoung/modify'+phoneNumber;
+                // });
+
+
             },
             error: function(error) {
                 console.error('Error fetching data:', error);

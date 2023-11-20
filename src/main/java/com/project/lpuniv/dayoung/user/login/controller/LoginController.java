@@ -126,4 +126,11 @@ public class LoginController {
         return loginDao.selectId(term);
     }
 
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "/login";
+    }
+
 }
