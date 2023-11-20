@@ -42,60 +42,6 @@ public class AmfiController {
 
     @GetMapping("/amfi/download/{amfiNo}")
     public ResponseEntity<Resource> downloadFile(@PathVariable int amfiNo, HttpServletResponse response) throws IOException {
-//        try {
-//            // 해당 amfiNo에 해당하는 파일 정보를 가져옴
-//            AmfiDto amfiDto = amfiService.amfiOneSelect(amfiNo);
-//
-//            if (amfiDto != null) {
-//                // 파일명 디코딩
-//                String amfiName = amfiDto.getAmfi_name();
-//                String originFileName = URLDecoder.decode(amfiName, StandardCharsets.UTF_8);
-//                System.out.println("amfiName:"+amfiName);
-//                // 파일 경로 설정
-//                Resource file = new FileSystemResource(System.getProperty("user.dir") +
-//                        "\\src\\main\\resources\\static\\juchan\\files" + File.separator + originFileName);
-//                System.out.println("file:"+file);
-//                if (file.exists()) {
-//                    // 파일명에서 확장자를 제거한 이름 추출
-//                    String onlyFileName = originFileName.substring(originFileName.lastIndexOf("_") + 1);
-//                    System.out.println("onlyFileName:" + onlyFileName);
-//                    // Content-Disposition 헤더 설정
-//                    response.setHeader("Content-Disposition", "attachment; filename=" + onlyFileName);
-//                    // 파일의 MIME 타입 설정
-//                    // 파일의 MIME 타입 설정
-//                    String mimeType;
-//                    if (originFileName.toLowerCase().endsWith(".png") || originFileName.toLowerCase().endsWith(".jpg") || originFileName.toLowerCase().endsWith(".jpeg")) {
-//                        mimeType = MediaType.IMAGE_PNG_VALUE;
-//                    } else {
-//                        mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-//                    }
-//                    System.out.println(mimeType);
-//                    response.setContentType(mimeType);
-//
-//
-//
-//                    try (InputStream inputStream = file.getInputStream(); OutputStream outputStream = response.getOutputStream()) {
-//                        byte[] buffer = new byte[1024];
-//                        int bytesRead;
-//
-//                        // 파일을 읽어서 브라우저로 전송
-//                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-//                            outputStream.write(buffer, 0, bytesRead);
-//                        }
-//                        response.flushBuffer();
-//                    }
-//                } else {
-//                    // 파일이 존재하지 않는 경우 404 상태코드 전송
-//                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//                }
-//            } else {
-//                // 해당 amfiNo에 해당하는 파일 정보가 없는 경우 404 상태코드 전송
-//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//            }
-//        } catch (Exception e) {
-//            // 예외 발생 시 500 상태코드 전송
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//        }
         AmfiDto amfiDto = amfiService.amfiOneSelect(amfiNo);
         String uploadFileName = amfiDto.getAmfi_og_name();
         String storeFileName = amfiDto.getAmfi_name();

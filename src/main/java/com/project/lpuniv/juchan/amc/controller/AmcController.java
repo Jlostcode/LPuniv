@@ -63,11 +63,6 @@ public class AmcController {
             // 예를 들어, 기본 페이지 번호를 설정하거나 에러 핸들링을 수행합니다.
             pageNum = 1; // 기본 페이지 번호 설정
         }
-//		  if (pageNo != null) {
-//	            pageNum = Integer.parseInt(pageNo);
-//	        }
-
-
         System.out.println(pageNo);
         AmcDtoPage amcDtoPage = getAmcDtoPage(occ_no, ccim_no, pageNum, pageSize); // 사용자 페이지 정보를 조회
 //        amfiService.amcAllSelectDesc(ccim_no);

@@ -9,4 +9,10 @@
         from occ o, amc a
         where a.occ_NO = #{occ_NO} and a.OCC_NO = o.OCC_NO
     </select>
+    <select id="selectOneAmc" resultType="com.project.lpuniv.minho.amc.dto.AmcDtoMH">
+        select * from amc where amc_no = #{amc_no}
+    </select>
+    <select id="selectOneAmfi" resultType="com.project.lpuniv.juchan.amfi.dto.AmfiDto">
+        select * from amfi where amc_no = #{amc_no}
+    </select>
 </mapper>

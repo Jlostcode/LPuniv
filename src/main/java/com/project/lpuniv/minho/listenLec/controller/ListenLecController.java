@@ -51,7 +51,11 @@ public class ListenLecController {
         if (schsDto == null) {
             lecVideoService.insertSchs(new SchsDto(stud_no, occ_NO, ccim_NO));
             System.out.println("```````````````schsDto="+schsDto);
-
+            model.addAttribute("lecVideo", lecVideoDto);
+            model.addAttribute("ccim_NO", ccim_NO);
+            model.addAttribute("occ_NO", occ_NO);
+            model.addAttribute("schsDto", schsDto);
+            return "minho/listenLec/lecVideo";
         } else {
             model.addAttribute("lecVideo", lecVideoDto);
             model.addAttribute("ccim_NO", ccim_NO);
@@ -59,11 +63,6 @@ public class ListenLecController {
             model.addAttribute("schsDto", schsDto);
             return "minho/listenLec/lecVideo";
         }
-        model.addAttribute("lecVideo", lecVideoDto);
-        model.addAttribute("ccim_NO", ccim_NO);
-        model.addAttribute("occ_NO", occ_NO);
-        model.addAttribute("schsDto", schsDto);
-        return "minho/listenLec/lecVideo";
     }
 
     //재생 시간 저장

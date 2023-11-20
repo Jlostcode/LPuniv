@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>과제 제출</title>
+</head>
+<body>
+<div class="submit_wrap">
+    <h2>과제 제출</h2>
+    <div th:hidden="${userDto.user_no}"></div>
+    <div th:hidden="${amcDtoMH.amc_no}"></div>
+    <div th:hidden="${amcDtoMH.occ_NO}"></div>
+    <div class="submit_stuNm">
+        <p>학생 이름</p>
+        <p><input th:value="${userDto.user_nm}" readonly></p>
+    </div>
+</div>
+</body>
+</html>
