@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>학생 리스트</title>
+</head>
+<body>
+<div class="board_wrap">
+    <div class="board_list_stu">
+        <h2>학생 리스트</h2>
+        <div>
+            <label for="board_wrap_search_box"><strong>검색</strong></label>
+            <input type="search" id="board_wrap_search_box" placeholder="이름과 전화번호로 검색하세요">
+        </div>
+        <table id="table">
+            <thead>
+            <tr>
+                <th>선택</th>
+                <th>학생 이름</th>
+                <th>학생 전화번호</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="userDtos : ${userDtos}">
+                <td><label>
+                    <input type="checkbox" name="stud_no" th:value="${userDtos.user_no}">
+                </label></td>
+                <td th:name="studNm" th:value="${userDtos.user_no}">[[${userDtos.user_nm}]]</td>
+                <td th:text="${userDtos.user_tel}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="board_list_lec">
+        <h2>강사 리스트</h2>
+        <div>
+            <label for="board_wrap_search_box2"><strong>검색</strong></label>
+            <input type="search" id="board_wrap_search_box2" placeholder="이름과 제목으로 검색하세요">
+        </div>
+        <table id="table2">
+            <thead>
+            <tr>
+                <th>선택</th>
+                <th>강사 이름</th>
+                <th>강의 제목</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lecDtos : ${lecDtos}">
+                <td><label>
+                    <input type="checkbox" name="occ_NO" th:value="${lecDtos.occ_NO}">
+                </label></td>
+                <td id="teaNm" th:text="${lecDtos.user_nm}"></td>
+                <td th:value="${lecDtos.occ_NO}">[[${lecDtos.occ_title}]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="upload_lec_stu_list">
+        <button type="button" onclick="sendData()">제출</button>
+    </div>
+</div>
+<script src="/minho/js/uploadStu.js"></script>
+<script src="/minho/js/searchSelStu.js"></script>
+<script src="/minho/js/searchLec.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+</html>

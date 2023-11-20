@@ -10,6 +10,7 @@
         <div class="board_list_lecInfo">
             <h1 class="board_title">[[${dto.occ_title}]]</h1>
             <a th:href="@{'/listenLec/lecList?occ_NO=' + ${dto.occ_NO}}">수강하러 가기</a>
+            <a th:href="@{'/amc/amcList?occ_NO=' + ${dto.occ_NO}}">과제 정보</a>
         </div>
         <table>
             <tr>
@@ -23,8 +24,8 @@
             <tr >
                 <td th:text="${dto.user_nm}"></td>
                 <td th:text="${dto.occ_title}"></td>
-                <td th:text="${dto.occ_content}"></td>
-                <td th:text="${dto.occ_teachInfo}"></td>
+                <td th:utext="${dto.occ_content}"></td>
+                <td th:utext="${dto.occ_teachInfo}"></td>
                 <td th:text="${dto.occ_date}"></td>
                 <td th:text="${dto.occ_kakao}"></td>
             </tr>

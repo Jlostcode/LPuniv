@@ -8,11 +8,14 @@
         SELECT * FROM class
     </select>
     <select id="selectAllLecPage" resultType="com.project.lpuniv.minho.student.dto.LecDto">
-        SELECT * FROM class where OCC_NO = #{OCC_NO}
+        SELECT * FROM class where OCC_NO = #{occ_NO}
             limit #{startRow}, #{size}
     </select>
     <select id="countLecPage" resultType="Integer">
-        select count(*) from class where OCC_NO = #{OCC_NO}
+        select count(*) from class where OCC_NO = #{occ_NO}
+    </select>
+    <select id="selectStuNo" resultType="com.project.lpuniv.minho.student.dto.LecDto">
+        SELECT * FROM class where stud_no = #{stud_no}
     </select>
     <update id="modifyStudSt">
         update class

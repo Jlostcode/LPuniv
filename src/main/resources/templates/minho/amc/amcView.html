@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>과제 정보</title>
+</head>
+<body>
+<div class="amc_wrap">
+    <div class="amc_wrap_amcAt">
+        <h2>과제명</h2>
+        <div class="amc_wrap_amcNm" th:text="${amcDtoMH.amc_at}"></div>
+    </div>
+    <div class="amc_wrap_amcAc">
+        <h2>과제 내용</h2>
+        <div class="amc_wrap_amcAc" th:utext="${amcDtoMH.amc_ac}"></div>
+    </div>
+    <div class="amc_wrap_down"><a th:href="@{'/amfi/download/'+${amfiDto.amfi_no}}">파일 다운</a></div>
+    <div class="amc_wrap_submit"><a th:href="@{'/submit/submitForm?amc_no='+${amcDtoMH.amc_no}}">과제 제출</a></div>
+</div>
+<script src="/minho/js/submitAmc.js"></script>
+</body>
+</html>

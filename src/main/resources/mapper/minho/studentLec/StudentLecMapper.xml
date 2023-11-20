@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.minho.studentLec.dao.StudentLecDao">
+    <select id="stuList" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select * from user where user_tp = 1
+    </select>
+    <select id="lecList" resultType="com.project.lpuniv.minho.listenLec.dto.LecInfoDto">
+        select o.OCC_NO, o.teach_no , u.user_nm, o.OCC_title, o.OCC_content, o.OCC_date, o.OCC_ROT, o.OCC_teachInfo, o.OCC_kakao
+        from occ o, user u
+        where o.teach_no = u.user_no
+    </select>
+    <select id="selectStuList" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select * from user
+        <where>
+            <choose>
+                <when test="searchSL == '이름'">
+                    user_nm = #{searchStu}
+                </when>
+                <when test="searchSL == '전화번호'">
+                    user_tel = #{searchStu}
+                </when>
+            </choose>
+        </where>
+    </select>
+    <insert id="insertClass" parameterType="com.project.lpuniv.minho.studentLec.dto.StudentLecDto">
+        insert into class (stud_no, occ_NO, stud_pg, stud_st) values (#{stud_no}, #{occ_NO}, 0, 0)
+    </insert>
+    <select id="selectClass" resultType="com.project.lpuniv.minho.studentLec.dto.StudentLecDto">
+        select * from class where stud_no = #{stud_no} and occ_NO = #{occ_NO}
+    </select>
+</mapper>

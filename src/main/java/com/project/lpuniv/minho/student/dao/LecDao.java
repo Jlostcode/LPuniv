@@ -12,4 +12,6 @@ public interface LecDao {
     List<LecDto> selectAllLecPage(@Param("startRow") int startRow, @Param("size") int size, @Param("OCC_NO") int OCC_NO);
     //리스트 수 카운팅
     Integer countLecPage(@Param("occ_NO") int occ_NO);
+    LecDto selectStuNo(int stud_no);
+
 }

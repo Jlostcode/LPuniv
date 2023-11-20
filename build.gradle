@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.apache.poi:poi-ooxml:5.0.0'//엑셀파일 처리를 위해 필요
     implementation 'org.apache.poi:poi:5.0.0'//엑셀파일 처리를 위해 필요
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'//엑셀파일 처리를 위해 필요
+    implementation 'org.apache.poi:poi:5.0.0'//엑셀파일 처리를 위해 필요
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'

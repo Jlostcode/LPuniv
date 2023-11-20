@@ -16,7 +16,7 @@
                         <a id="lecVideoModal" th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}">강의 제목: [[${lectList.ccim_title}]]</a>
                     </div>
                     <div class="board_list_lec_ccim_NO_info_ccim_content">
-                        <a id="lecVideoModal2" th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}">강의 요약: [[${lectList.ccim_content}]]</a>
+                        <a id="lecVideoModal2" th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}" th:utext="'강의 요약:' + ${lectList.ccim_content}"></a>
                     </div>
                 </div>
             </div>
