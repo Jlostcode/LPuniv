@@ -154,8 +154,9 @@ public class UserController {
     }
 
 
-    @PostMapping("/dayoung/list")
-    public String addGridList(@RequestParam List<ListDto> updatedData) {
+    @GetMapping ("/dayoung/update")
+    @ResponseBody
+    public String addGridList(@RequestParam("data") List<ListDto> updatedData) {
 
 
         for (ListDto data : updatedData) {

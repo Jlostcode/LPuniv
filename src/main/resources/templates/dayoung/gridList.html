@@ -106,12 +106,23 @@
 
                 $('#btn').on('click', function() {
                     const allData = grid1.getData();
+                    const dataArray = allData.map(row=> {
+                        return{
+                            user_tp:row.user_tp,
+                            user_nm:row.user_nm,
+                            user_tel:row.user_tel,
+                            user_email:row.user_email,
+                            user_gen:row.user_gen,
+                            user_signdate:row.user_signdate,
+                            user_deletedate:row.user_deletedate
+                        }
+                    })
 
                     // 서버로 전체 데이터 전송
                     $.ajax({
-                        url: '/dayoung/list',
-                        method: 'POST',
-                        data: JSON.stringify(allData),
+                        url: '/dayoung/update',
+                        method: 'GET',
+                        data: {data : JSON.stringify(dataArray)},
                         contentType: 'application/json',
                         success: function(response) {
                             console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
