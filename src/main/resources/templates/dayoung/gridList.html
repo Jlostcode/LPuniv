@@ -104,7 +104,23 @@
                 //     window.location.href='dayoung/modify'+phoneNumber;
                 // });
 
+                $('#btn').on('click', function() {
+                    const allData = grid1.getData();
 
+                    // 서버로 전체 데이터 전송
+                    $.ajax({
+                        url: '/dayoung/list',
+                        method: 'POST',
+                        data: JSON.stringify(allData),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
+                        },
+                        error: function(error) {
+                            console.error('데이터 업데이트 오류:', error);
+                        }
+                    });
+                });
             },
             error: function(error) {
                 console.error('Error fetching data:', error);
