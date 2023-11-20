@@ -250,11 +250,12 @@ $(document).ready(function () { //메시지 작성
         let title = $('input[name="title"]').val();
         let content = $('textarea[name="content"]').val();
         let error = false;
-
+        console.log(receivers[0]);
         if(!title || !content){
             alert("제목과 내용을 입력해주세요.");
             error = true;
-        } else if(receivers.length === 0){
+        }
+        if(receivers.length === 0){
             alert("수신자를 한 명 이상 선택해주세요");
             error = true;
         }
@@ -319,9 +320,15 @@ $(document).ready(function () { //메시지 수정
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    setInterval(updateMessageCount, 3000);
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     setInterval(updateMessageCount, 3000);
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {// 현재 URL이 특정 페이지인 경우에만 setInterval 실행
+//     if (window.location.pathname === "/message/recmsg") {
+//         setInterval(updateMessageCount, 3000);
+//     }
+// });
 
 function updateMessageCount() {
     fetch("/message/recmsg")
@@ -336,4 +343,42 @@ function updateMessageCount() {
             }
         })
         .catch(error => console.error("Error fetching message count:", error));
+}
+
+function filterRecipients() {
+    const searchValue = document.getElementById('rec-search').value;
+    const selectElement = document.getElementById('rec-select');
+    const options = selectElement.getElementsByTagName('option');
+
+    let hasMatchingOption = false;
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].text.includes(searchValue)) {
+            options[i].style.display = '';
+            hasMatchingOption = true;
+        } else {
+            options[i].style.display = 'none';
+        }
+    }
+}
+
+function updateInputValue() {
+    const selectElement = document.getElementById('rec-select');
+    const selectedOptions = Array.from(selectElement.selectedOptions);
+
+    let currentInputValue = document.getElementById('rec-search').value;
+    console.log(currentInputValue);
+    selectedOptions.forEach(option => {
+        const optionText = option.text;
+
+        if (!currentInputValue.includes(optionText)) {
+            currentInputValue += optionText + ', ';
+            console.log(currentInputValue);
+        } else {
+            currentInputValue = currentInputValue.replace(optionText + ', ', '');
+            console.log(currentInputValue);
+        }
+    });
+
+    document.getElementById('rec-search').value = currentInputValue;
 }
