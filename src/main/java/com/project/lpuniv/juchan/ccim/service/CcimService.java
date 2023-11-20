@@ -36,4 +36,8 @@ public class CcimService {
         ccimDao.ccimModify(ccimDto);
         ccimDao.ccimModify(ccimDto);
     }
+
+    public Integer ccimDelete(int ccim_no) {
+        return ccimDao.ccimDelete(ccim_no);
+    }
 }

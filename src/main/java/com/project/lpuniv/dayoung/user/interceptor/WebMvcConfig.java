@@ -18,5 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .excludePathPatterns("/css/**")
 //                .excludePathPatterns("/js/**")
 //                .excludePathPatterns("//code.jquery.com/jquery-3.6.0.min.js");
+
 //    }
 }
