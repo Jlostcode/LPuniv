@@ -9,34 +9,19 @@
     <h1 class="board_title">강의 목록</h1>
     <div class="board_list" th:each="lectList: ${lectList}">
         <div class="board_list_lec">
-            <div class="board_list_lec_CCIM_NO">
-                <h2>[[${lectList.CCIM_NO}]] 차시</h2>
-                <div class="board_list_lec_CCIM_NO_info">
-                    <div class="board_list_lec_CCIM_NO_info_CCIM_title">
-                        <a id="lecVideoModal" th:href="@{'/minho/lecVideo?CCIM_NO=' + ${lectList.CCIM_NO} +'&OCC_NO=' + ${lectList.OCC_NO}}">강의 제목: [[${lectList.CCIM_title}]]</a>
+            <div class="board_list_lec_ccim_NO">
+                <h2>[[${lectList.ccim_NO}]] 차시</h2>
+                <div class="board_list_lec_ccim_NO_info">
+                    <div class="board_list_lec_ccim_NO_info_ccim_title">
+                        <a id="lecVideoModal" th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}">강의 제목: [[${lectList.ccim_title}]]</a>
                     </div>
-                    <div class="board_list_lec_CCIM_NO_info_CCIM_content">
-                        <a id="lecVideoModal2" th:href="@{'/minho/lecVideo?CCIM_NO=' + ${lectList.CCIM_NO} +'&OCC_NO=' + ${lectList.OCC_NO}}">강의 요약: [[${lectList.CCIM_content}]]</a>
+                    <div class="board_list_lec_ccim_NO_info_ccim_content">
+                        <a id="lecVideoModal2" th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}">강의 요약: [[${lectList.ccim_content}]]</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        <!--<table>
-            <tr>
-                <th>차시 번호</th>
-                <th>차시 제목</th>
-                <th>강의 내용 요약</th>
-                <th>강의 영상</th>
-            </tr>
-            <tr>
-                <td th:text="${lectList.CCIM_NO}"></td>
-                <td th:text="${lectList.CCIM_title}"></td>
-                <td th:text="${lectList.CCIM_content}"></td>
-                <td th:text="${lectList.CCIM_videoID}"></td>
-            </tr>
-        </table>-->
 </div>
-<script src="/js/lecVideoModal.js"></script>
 </body>
 </html>

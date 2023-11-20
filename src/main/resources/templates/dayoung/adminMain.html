@@ -6,13 +6,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<a href="dayoung/addSt" class ="button">학생 등록 </a>
-<a href="dayoung/modifySt" class ="button">학생 수정</a>
+<a th:href="@{/dayoung/addStudent}" class ="button">학생 등록 </a>
+<a th:href="@{/dayoung/addUser}" class ="button">개별 등록 </a>
+<a th:href="@{/dayoung/list}" class ="button"> 정보 확인/수정</a>
+<a href="/logout">로그아웃</a>
 
+<form action="/dayoung/addStudent" method="post" enctype="multipart/form-data">
+    <label for="file">학생 정보 등록:</label>
+    <input type="file" id="file" name="file" accept=".xlsx, .xls">
+    <button type="submit">등록</button>
+</form>
 -학생정보수정
 -강사 및 학생 메뉴 접속 및 수정
 -게시판 연동
 
+<<<<<<< HEAD
 <button type="button" class="modal-btn" data-toggle="modal" data-target="#myModal">
     쪽지<span th:text="${msgCnt}"></span>
 </button>
@@ -37,5 +45,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="/heechan/js/modal.js"></script>
+=======
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="dayoung/js/fileCheck.js"></script>
+
+>>>>>>> develop
 </body>
 </html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.juchan.amc.dao.AmcDao">
+
+    <select id="amcAllCount" resultType="Integer">
+        SELECT count(*) FROM AMC where OCC_NO = #{occ_no} and CCIM_NO = #{ccim_no}
+    </select>
+
+    <select id="amcAllSelectDescPage" resultType="com.project.lpuniv.juchan.amc.dto.AmcDto">
+        SELECT * FROM amc where OCC_NO = #{occ_no} and CCIM_NO = #{ccim_no} order by AMC_NO desc LIMIT #{startRow}, #{size}
+    </select>
+
+<!--    <select id="ccimOneSelect" resultType="com.project.lpuniv.juchan.ccim.dto.CcimDto">-->
+<!--        select * from CCIM where CCIM_NO = #{ccim_NO}-->
+<!--    </select>-->
+
+    <insert id="amcInsert" parameterType="com.project.lpuniv.juchan.amc.dto.AmcDto" useGeneratedKeys="true" keyProperty="amc_no">
+        INSERT INTO AMC (CCIM_NO, OCC_NO, AMC_AT, AMC_AC)
+        VALUES (#{ccim_no}, #{occ_no}, #{amc_at}, #{amc_ac})
+    </insert>
+
+    <select id="amcOneSelect" resultType="com.project.lpuniv.juchan.amc.dto.AmcDto">
+        select * from AMC where AMC_NO = #{amc_no}
+    </select>
+
+
+    <update id="amcModify" parameterType="com.project.lpuniv.juchan.amc.dto.AmcDto">
+        update AMC
+        set AMC_AT = #{amc_at}, AMC_AC = #{amc_ac}
+        where AMC_NO = #{amc_no}
+    </update>
+
+    <delete id="amcDelete" parameterType="int">
+        DELETE FROM AMC WHERE AMC_NO = #{amc_no}
+    </delete>
+
+</mapper>

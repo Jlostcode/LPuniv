@@ -9,14 +9,15 @@ import com.project.lpuniv.juchan.occ.dto.OccDtoPage;
 import com.project.lpuniv.juchan.occ.service.OccService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -85,5 +86,24 @@ public class CcimController {
     public String ccimModifyP(CcimDto ccimDto){
         ccimService.ccimModify(ccimDto);
         return "redirect:/ccim?occ_NO=" + ccimDto.getOcc_NO();
+    }
+
+    @GetMapping("/ccim/ccim_delete")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> ccimDelete(
+            @RequestParam("occ_no") int occ_no, @RequestParam("ccim_no") int ccim_no, @RequestParam("ccim_title") String ccim_title) {
+        Map<String, Object> response = new HashMap<>();
+
+        // 삭제한 amfi_no를 응답 데이터에 추가
+        response.put("occ_no", occ_no);
+        response.put("ccim_no", ccim_no);
+        response.put("ccim_title",ccim_title);
+
+        // 해당 amfi_no를 삭제
+        ccimService.ccimDelete(ccim_no);
+
+        System.out.println("ccim_no:" + ccim_no);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
