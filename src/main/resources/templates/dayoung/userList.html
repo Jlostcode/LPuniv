@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>user list</title>
+</head>
+<body>
+
+<table border="1">
+    <div id = listUser>
+    <select id="selectOption">
+        <option value="이름">이름</option>
+        <option value="강의명">강의명</option>
+        <option value="강사">강사</option>
+        <option value="학생">학생</option>
+
+    </select>
+    <input type="text" id="search"/>
+    <button onclick="serchList()" name="submit" >검색</button>
+    </div>
+    <thead>
+    <tr>
+
+        <th>타입</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>아이디</th>
+        <th>이메일 주소</th>
+        <th>생년월일</th>
+        <th>성별</th>
+        <th>등록일</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${userPage.hasNoUserDto()}">
+        <td colspan="7">등록된 인원이 없습니다.</td>
+    </tr>
+    <tr th:each="obj : ${userPage.content}">
+        <td th:if="${obj.user_deletedate == null}" hidden="hidden">
+
+        <td th:text="${obj.user_tp == 1 ? '수강생' : (obj.user_tp == 2 ? '강사' : '관리자')}"></td>
+        <td th:text="${obj.user_nm}"></td>
+        <td th:text="${obj.user_tel}"></td>
+<!--        <td th:text="${obj.user_loginId}"></td>-->
+        <td>
+            <a th:href="@{'/dayoung/modify?userLoginId=' + ${obj.user_loginId}}" th:text="${obj.user_loginId}"></a>
+        </td>
+        <td th:text="${obj.user_email}"></td>
+        <td th:text="${obj.user_brdt}"></td>
+        <td th:text="${obj.user_gen == 1 ? '남자' : '여자'}"></td>
+        <td th:text="${obj.user_signdate}"></td>
+        </td>
+        <td th:unless="${obj.user_deletedate == null}"></td>
+        <div th:if="${userPage.hasUserDto()}">
+            <tr>
+                <td colspan="10">
+            <span th:if="${userPage.currentPage > 1}">
+                <a th:href="@{'/dayoung/list?pageNo=' + ${userPage.currentPage - 1}}">[이전]</a>
+            </span>
+                    <span th:each="pNo : ${#numbers.sequence(userPage.startPage, userPage.endPage)}">
+                <span th:if="${pNo == userPage.currentPage}">
+                    <strong th:text="${pNo}"></strong>
+                </span>
+                <span th:unless="${pNo == userPage.currentPage}">
+                    <a th:href="@{'/dayoung/list?pageNo=' + ${pNo}}">[[${pNo}]]</a>
+                </span>
+            </span>
+                    <span th:if="${userPage.currentPage < userPage.totalPages}">
+                <a th:href="@{'/dayoung/list?pageNo=' + ${userPage.currentPage + 1}}">[다음]</a>
+            </span>
+                </td>
+            </tr>
+        </div>
+    </tr>
+    </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/dayoung/js/search.js"></script>
+</body>
+</html>

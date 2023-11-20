@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.grid/latest/tui-grid.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.grid/latest/tui-grid.js"></script>
+    <script type="text/javascript" src="https://uicdn.toast.com/tui.pagination/v3.4.0/tui-pagination.js"></script>
+
+</head>
+<body>
+<div id="grid1"></div>
+<button id="btn">저장</button>
+</body>
+<script>
+    let gridData = null;
+    // 사용자 데이터 가져오기
+    $(document).ready(function() {
+        var grid1 = new tui.Grid({
+            el: document.getElementById('grid1'),
+            data:gridData,
+
+         bodyHeight: 500,
+            columns: [
+                // 칼럼 정의
+                { header: '타입',
+                    name: 'user_tp',
+                    sortingType:'desc',
+                    formatter: 'listItemText',
+                    editor: {
+                        type: 'select',
+                        options: {
+                            listItems: [
+                                { text: '수강생', value: 1 },
+                                { text: '강사', value: 2 },
+                                { text: '관리자', value: 3 }
+                            ]
+                        }
+                    },
+                    filter:'text'
+                },
+                { header: '이름',
+                    name: 'user_nm',
+                    filter:'text'},
+
+                { header: '전화번호',
+                    name: 'user_tel',
+                    filter:'text',
+                    editor: 'text',
+                },
+                { header: '이메일주소',
+                    name: 'user_email',
+                    filter:'text',
+                    editor: 'text'},
+                { header: '생년월일',
+                    name: 'user_brdt',
+                    filter:'text',
+                    editor: 'text'},
+                { header: '성별',
+                    name: 'user_gen',
+                    rowSpan: true,
+                    filter:'text',
+                    formatter: 'listItemText',
+                    editor: {
+                        type: 'select',
+                        options: {
+                            listItems: [
+                                { text: '남성', value: 1 },
+                                { text: '여성', value: 2 }
+                            ]
+                        }
+                    }
+                    },
+                { header: '등록일',
+                    name: 'user_signdate',
+                    rowSpan: true,
+                    filter:'text',
+                    editor: 'text'
+                },
+                { header: '탈퇴일',
+                    name: 'user_deletedate',
+                    filter:'text',
+                    rowSpan: true,
+                    editor: 'text'}
+
+                // 나머지 칼럼들...
+            ],
+            draggable: true
+        });
+        $.ajax({
+            url: '/dayoung/users', // 위에서 정의한 백엔드 엔드포인트
+            method: 'GET',
+            dataType : "JSON",
+            contentType : "application/json; charset=UTF-8",
+            success: function(response) {
+                gridData= response; // 그리드에 데이터 설정
+                grid1.resetData(gridData); // 받은 데이터를 그리드에 설정
+
+                // $('#grid1').on('click', 'a.phone-link',function (e){
+                //     e.preventDefault();
+                //     var phoneNumber = $(this).text();
+                //     window.location.href='dayoung/modify'+phoneNumber;
+                // });
+
+                $('#btn').on('click', function() {
+                    const allData = grid1.getData();
+
+                    // 서버로 전체 데이터 전송
+                    $.ajax({
+                        url: '/dayoung/list',
+                        method: 'POST',
+                        data: JSON.stringify(allData),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
+                        },
+                        error: function(error) {
+                            console.error('데이터 업데이트 오류:', error);
+                        }
+                    });
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    });
+
+</script>
+</html>

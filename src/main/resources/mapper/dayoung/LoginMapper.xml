@@ -6,16 +6,19 @@
 <mapper namespace="com.project.lpuniv.dayoung.user.login.dao.LoginDao">
 
 
+<select id="loginIdnPw" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+    select user_loginId, user_passwd from user where user_loginId = #{user_loginId}
 
+</select>
 
-    <select id="selectById" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="selectById" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
         select * from user where user_loginId = #{user_loginId}
     </select>
-    <select id="loginById" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="loginById" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
         select user_loginId from user where user_loginId = #{user_loginId}
     </select>
 
-    <select id="loginByPw" resultType="com.project.lpuniv.dayoung.user.signUp.dto.UserDto">
+    <select id="loginByPw" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
         select user_passwd from user where user_loginId = #{user_loginId}
     </select>
 
@@ -24,4 +27,9 @@
         select user_tp from user where user_loginId = #{user_loginId}
     </select>
 
+    <select id="selectId" resultType="String">
+
+        SELECT user_LoginId FROM user WHERE user_LoginId LIKE #{term}%
+
+    </select>
 </mapper>

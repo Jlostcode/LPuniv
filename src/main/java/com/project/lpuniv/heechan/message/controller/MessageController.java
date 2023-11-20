@@ -24,11 +24,13 @@ public class MessageController {
     @Autowired
     private ListMsg listMsg;
 
+
     @GetMapping("/message")
     public String test(HttpSession session, Model model){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
 
         model.addAttribute("authInfo", authInfo);
+
         return "heechan/message/test";
     }
 

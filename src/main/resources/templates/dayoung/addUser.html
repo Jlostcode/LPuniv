@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/dayoung/addUser}" method="post" id = "userForm">
+    <p>
+        <label for="user_tp">타입:</label>
+        <select name="user_tp" id="user_tp">
+            <option >---------</option>
+            <option value="1">수강생</option>
+            <option value="2">강사</option>
+            <option value="3">관리자</option>
+        </select>
+    </p>
+    <p>
+        <label for="user_nm">이름:</label>
+        <input type="text" id="user_nm" name="user_nm"/>
+    </p>
+    <p>
+        <label for="user_tel">전화 번호:</label>
+        <input type="text" id="user_tel" name="user_tel"/>
+    </p>
+    <p>
+        <label for="user_loginId">아이디:</label>
+        <input type="text" id="user_loginId" name="user_loginId"/>
+    </p>
+    <p>
+        <label for="user_passwd">비밀번호:</label>
+        <input type="password" id="user_passwd" name="user_passwd"/>
+    </p>
+    <p>
+        <label for="user_email">이메일:</label>
+        <input type="text" id="user_email" name="user_email"/>
+    </p>
+    <p>
+        <label for="user_brdt">생년 월일:</label>
+        <input type="text" id="user_brdt" th:name="user_brdt"/>
+    </p>
+    <p>
+        <label for="user_gen">성별:</label>
+        <select name="user_gen" id="user_gen">
+            <option >---------</option>
+            <option value="1">남</option>
+            <option value="2">여</option>
+        </select>
+    </p>
+
+
+    <p>
+        <label for="user_signdate"> 등록일:</label>
+         <input type="text" name="user_signdate" id="user_signdate">
+    </p>
+    <input type="submit" value="등록" id="submit">
+</form>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#userForm').submit(function(event) {
+            var isFormValid = true; // 폼이 유효한지 여부를 나타내는 변수
+
+            // 각 필드에 대한 검증 수행
+            if (
+                isFieldNullOrEmpty('#user_tp') ||
+                isFieldNullOrEmpty('#user_nm') ||
+                isFieldNullOrEmpty('#user_tel') ||
+                isFieldNullOrEmpty('#user_loginId') ||
+                isFieldNullOrEmpty('#user_passwd') ||
+                isFieldNullOrEmpty('#user_email') ||
+                isFieldNullOrEmpty('#user_brdt') ||
+                isFieldNullOrEmpty('#user_gen') ||
+                isFieldNullOrEmpty('#user_signdate')) {
+                isFormValid = false;
+            }
+
+            // 폼이 유효하지 않으면 제출을 막음
+            if (!isFormValid) {
+                alert('공백 없이 기재해주세요');
+                event.preventDefault(); // 폼 제출 막기
+            } else {
+                alert('등록되었습니다');
+            }
+        });
+    });
+
+    // 필드가 null이거나 trim된 상태인지 확인하는 함수
+    function isFieldNullOrEmpty(fieldId) {
+        var fieldValue = $(fieldId).val().trim();
+        return fieldValue === '' || fieldValue === null;
+    }
+
+</script>
+</body>
+</html>

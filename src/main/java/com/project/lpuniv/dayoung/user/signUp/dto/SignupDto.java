@@ -1,16 +1,13 @@
 package com.project.lpuniv.dayoung.user.signUp.dto;
 
-import com.project.lpuniv.dayoung.user.login.exception.WrongIdPasswordException;
 import lombok.*;
-
-import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDto {
+public class SignupDto {
     private int user_no;
     private Integer user_tp;
     private String user_nm;
