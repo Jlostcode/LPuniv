@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>insert</title>
+    <link rel="stylesheet" href="/juchan/css/editor.css">
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+</head>
+<body>
+
+<div class="insert_wrap">
+    <form id="insert_form" action="/occ/occ_modify" method="post">
+        <div>
+
+            <div class="user_name">
+                <img class="user_image" src="" alt="userIcon">
+
+                <!--              <span th:text="${authInfo.emp_name}"></span><span th:text="'( '+${authInfo.dept_name}+'팀 )'"></span> <br>-->
+                <span> 게시글을 작성 중입니다...</span>
+
+            </div>
+            <hr>
+            <div class="occ_title">
+                <strong>강의명 </strong>100글자 제한
+                <br>
+                <label>
+                    <input type="text" name="occ_title" maxlength="100" th:value="${occDto.occ_title}" required>
+                </label>
+
+            </div>
+            <hr>
+<!--            <div class="hidden_data">-->
+
+<!--                <input type="hidden"  name="teach_NO" style="width:400px;" th:value="${occDto.teach_NO}"  readonly>-->
+
+
+<!--            </div>-->
+
+            <div class="occ_content">
+                <label for="editor">강의 내용</label><textarea name="occ_content" id="editor">[[${occDto.occ_content}]]</textarea>
+                <br>
+                <hr>
+
+            </div>
+
+            <div class="occ_ROT">
+                해당 교육과정 총 시간  <label>
+                <input type="number" name="occ_ROT" min="0" th:value="${occDto.occ_ROT}" required>
+            </label>
+            </div>
+
+            <hr>
+
+            <div class="occ_teachInfo">
+
+                <label for="editor2">강사 소개 / 커리큘럼</label><textarea name="occ_teachInfo" id="editor2">[[${occDto.occ_teachInfo}]]</textarea>
+
+            </div>
+
+            <div class="occ_kakao">
+                카카오 단톡방 링크 <label>
+                <input type="text" name="occ_kakao" th:value="${occDto.occ_kakao}" required>
+            </label>
+            </div>
+            <!--<div class="authInfoData">
+                <input type="hidden" name="nickname" value="${authInfo.nickname}" /> &lt;!&ndash; 세션에서 가져온 사용자 정보를 hidden 필드에 할당 &ndash;&gt;
+                <input type="hidden" name="id" value="${authInfo.id}" /> &lt;!&ndash; 세션에서 가져온 사용자 정보를 hidden 필드에 할당 &ndash;&gt;
+            </div>-->
+            <!--    <div class="container">-->
+            <!--        <div class="button-effect">-->
+            <!--            <button  type="submit"> 업로드</button>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <div class="submit">
+                <div class="button-effect">
+                    <input type="submit" value="업로드"/>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<script src="/juchan/js/editor.js"></script>
+</body>
+
+</html>

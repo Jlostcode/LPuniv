@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.juchan.occ.dao.OccDao">
+    <select id="occAllSelect" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        select * from OCC
+    </select>
+
+    <select id="occAllCount" resultType="Integer">
+        SELECT count(*) FROM OCC where teach_no = #{teach_NO}
+    </select>
+
+    <select id="occAllSelectDesc" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        SELECT * FROM OCC ORDER BY OCC_NO desc
+    </select>
+
+    <select id="occAllSelectDescPage" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        SELECT * FROM OCC where teach_no = #{teach_NO} order by OCC_NO desc LIMIT #{startRow}, #{size}
+    </select>
+
+    <insert id="occInsert" parameterType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        INSERT INTO OCC (teach_NO, OCC_title, OCC_content, OCC_date, OCC_ROT, OCC_teachInfo, OCC_kakao)
+        VALUES (#{teach_NO}, #{occ_title}, #{occ_content}, now(), #{occ_ROT}, #{occ_teachInfo}, #{occ_kakao})
+    </insert>
+
+    <select id="occOneSelect" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        select * from OCC where OCC_NO = #{occ_NO}
+    </select>
+
+
+    <update id="occModify" parameterType="com.project.lpuniv.juchan.occ.dto.OccDto">
+        update OCC
+        set OCC_title = #{occ_title},
+            OCC_content = #{occ_content}, OCC_Mdate = now(),
+            OCC_ROT = #{occ_ROT}, OCC_teachInfo = #{occ_teachInfo}, OCC_kakao = #{occ_kakao}
+        where OCC_NO = #{occ_NO}
+    </update>
+
+    <delete id="occDelete" parameterType="int">
+        DELETE FROM OCC WHERE OCC_NO = #{occ_no}
+    </delete>
+
+</mapper>

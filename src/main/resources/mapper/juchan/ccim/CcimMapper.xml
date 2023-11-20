@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.juchan.ccim.dao.CcimDao">
+    <select id="ccimAllSelect" resultType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        select * from CCIM
+    </select>
+
+    <select id="ccimAllCount" resultType="Integer">
+        SELECT count(*) FROM CCIM where OCC_NO = #{occ_NO}
+    </select>
+
+    <select id="ccimAllSelectDesc" resultType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        select * from CCIM where OCC_NO = #{occ_NO} ORDER BY CCIM_NO desc
+    </select>
+
+    <select id="ccimAllSelectDescPage" resultType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        SELECT * FROM CCIM where OCC_NO = #{occ_NO} order by CCIM_NO desc LIMIT #{startRow}, #{size}
+    </select>
+
+    <select id="ccimOneSelect" resultType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        select * from CCIM where CCIM_NO = #{ccim_NO}
+    </select>
+
+    <insert id="ccimInsert" parameterType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        INSERT INTO CCIM (OCC_NO, CCIM_title, CCIM_content, CCIM_videoID, CCIM_rt)
+        VALUES (#{occ_NO}, #{ccim_title}, #{ccim_content}, #{ccim_videoID}, #{ccim_rt})
+    </insert>
+
+
+
+    <update id="ccimModify" parameterType="com.project.lpuniv.juchan.ccim.dto.CcimDto">
+        update CCIM
+        set CCIM_title = #{ccim_title}, CCIM_content = #{ccim_content},
+            CCIM_videoID = #{ccim_videoID}, CCIM_rt = #{ccim_rt}
+        where CCIM_NO = #{ccim_NO}
+    </update>
+
+    <delete id="ccimDelete" parameterType="int">
+        DELETE FROM CCIM WHERE CCIM_NO = #{ccim_no}
+    </delete>
+
+</mapper>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+</head>
+<body>
+<div class="header"><strong>강의 목록</strong> <br></div>
+<div class="cards" style="justify-content: center; align-content: center; display: flex;">
+<div th:each="card : ${listPage.occDtos}" class="card" style="width: 18rem;">
+<!--    <img src="..." class="card-img-top" alt="..." style="color: #4f34c6;">-->
+    <div class="card-header" style="background-color: #a2a8ff; height: 5rem; display: flex; justify-content: flex-end; align-items: flex-start;">
+        <button type="button" class="btn btn-outline-primary delete-btn"
+                th:data-occ-no="${card.occ_NO}" th:data-occ-title="${card.occ_title}"
+                style="height: 2rem; width: 4rem; font-size: 11px">삭제</button>
+    </div>
+    <div class="card-body">
+        <div style="display: flex;">
+        <h5 class="card-title" style="margin-right: 10px;" th:text="${card.occ_title}">Card title</h5>
+        </div>
+        <p class="card-text"  > 해당 강의 "[[${card.occ_title}]]" 관리</p>
+        <a th:href="@{'/ccim?occ_NO=' + ${card.occ_NO}}" class="btn btn-primary">챕터 관리</a>
+        <a th:href="@{'/occ/occ_modify?occ_NO=' + ${card.occ_NO}}" class="btn btn-primary">강의 수정</a>
+        <button class="btn btn-primary toggle-details-btn"
+                data-coreui-toggle="collapse"
+                data-coreui-target="#collapseWidthExample"
+                aria-expanded="false"
+                aria-controls="collapseWidthExample"
+                th:data-occ-title="${card.occ_title}"
+                th:data-occ-content="${card.occ_title}"
+                th:data-occ-teachInfo="${card.occ_teachInfo}"
+                th:data-occ-kakao="${card.occ_kakao}"
+                th:data-occ-rot="${card.occ_ROT}"
+                th:data-occ-date="${card.occ_date}"
+                th:data-occ-Mdate="${card.occ_Mdate}"
+        >&raquo;</button>
+        <hr>
+        <p class="card-text" th:text="'등록 일시: '+ ${#dates.format(card.occ_date, 'yyyy-MM-dd HH:mm:ss')}"> 등록 일시 : </p>
+    </div>
+</div>
+</div>
+<nav aria-label="Page navigation example">
+<div class="board-list-page" th:if="${listPage.hasOccDtos()}">
+    <ul class="pagination" style="justify-content: center; text-align: center;">
+        <li class="page-item">
+            <li class="page-item" th:if="${listPage.currentPage > 1}">
+                <a class="page-link" aria-label="<<" th:href="@{'/occ?pageNo=' + ${listPage.currentPage - 1}}">&laquo;</a>
+            </li>
+            <span th:each="pNo : ${#numbers.sequence(listPage.startPage, listPage.endPage)}">
+                <span th:if="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a style="font-weight: bold" class="page-link" aria-current="page" th:text="${pNo}">[[${pNo}]]</a>
+                    </li>
+                </span>
+                <span  th:unless="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a class="page-link" th:aria-label="${pNo}" th:text="${pNo}" th:href="@{'/occ?pageNo=' + ${pNo}}">[[${pNO}]]</a>
+                    </li>
+                </span>
+            </span>
+            <span th:if="${listPage.currentPage < listPage.totalPages}">
+                <a class="page-link" th:href="@{'/occ?pageNo=' + ${listPage.currentPage + 1}}">&raquo;</a>
+            </span>
+
+    </ul>
+</div>
+</nav>
+
+<div class="footer">
+    <a class="effect effect-1" th:href="@{'/occ/occ_insert'}">새로운 강의 등록</a>
+</div>
+
+<div style="min-height: 200px;">
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <strong> 강의 정보 </strong>
+        <label for="occ_title_info" style="font-weight: bold">강의명 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_title_info"></div>
+        </div>
+        <label for="occ_content_info" style="font-weight: bold">강의 내용 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_content_info"></div>
+        </div>
+        <label for="occ_teachInfo_info" style="font-weight: bold">강사 소개 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_teachInfo_info"></div>
+        </div>
+        <label for="occ_kakao_info" style="font-weight: bold">강의 오픈카카오 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_kakao_info"></div>
+        </div>
+        <label for="occ_rot_info" style="font-weight: bold">강의 과정 시간 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_rot_info"></div>
+        </div>
+        <label for="occ_date_info" style="font-weight: bold">강의 개설 일시 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_date_info"></div>
+        </div>
+        <label for="occ_Mdate_info" style="font-weight: bold">강의 최종 수정 일시 </label>
+        <div class="card card-body" style="width: 1000px;">
+            <div id="occ_Mdate_info"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.min.js" integrity="sha384-Ccu4pXX7m9x5nOmnhLGyxq3pqYWoc67qHmnJwC20bxJvdziB6gZtOAb9BLN5bOOb" crossorigin="anonymous"></script>
+<script src="/juchan/js/occ_main_infodata.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/juchan/js/deleteOcc.js"></script>
+</body>
+</html>
