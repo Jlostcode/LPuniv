@@ -1,18 +1,16 @@
 package com.project.lpuniv.minho.listenLec.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LecListDto {
-    private int CCIM_NO;
-    private int OCC_NO;
-    private String CCIM_title;
-    private String CCIM_content;
-    private String CCIM_videoID;
+@ToString
+public class LecListDto { //강의 리스트 dto
+    private int ccim_NO;
+    private int occ_NO;
+    private String ccim_title;
+    private String ccim_content;
+    private String ccim_videoID;
 }

@@ -11,8 +11,8 @@ public class LecVideoService {
     @Autowired
     ListenLecDao listenLecDao;
 
-    public LecVideoDto selectLecVideo(int CCIM_NO, int OCC_NO) {
-        return listenLecDao.selectLecVideo(CCIM_NO, OCC_NO);
+    public LecVideoDto selectLecVideo(int ccim_NO, int occ_NO) {
+        return listenLecDao.selectLecVideo(ccim_NO, occ_NO);
     }
     public SchsDto selectSchs(int stud_no) {
         return listenLecDao.selectSchs(stud_no);

@@ -9,7 +9,7 @@
     </select>
 
     <select id="occAllCount" resultType="Integer">
-        SELECT count(*) FROM OCC
+        SELECT count(*) FROM OCC where teach_no = #{teach_NO}
     </select>
 
     <select id="occAllSelectDesc" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
@@ -17,7 +17,7 @@
     </select>
 
     <select id="occAllSelectDescPage" resultType="com.project.lpuniv.juchan.occ.dto.OccDto">
-        SELECT * FROM OCC order by OCC_NO desc LIMIT #{startRow}, #{size}
+        SELECT * FROM OCC where teach_no = #{teach_NO} order by OCC_NO desc LIMIT #{startRow}, #{size}
     </select>
 
     <insert id="occInsert" parameterType="com.project.lpuniv.juchan.occ.dto.OccDto">
@@ -38,8 +38,8 @@
         where OCC_NO = #{occ_NO}
     </update>
 
-<!--    <delete id="deleteClub" parameterType="int">-->
-<!--        DELETE FROM club WHERE club_id = #{club_id}-->
-<!--    </delete>-->
+    <delete id="occDelete" parameterType="int">
+        DELETE FROM OCC WHERE OCC_NO = #{occ_no}
+    </delete>
 
 </mapper>

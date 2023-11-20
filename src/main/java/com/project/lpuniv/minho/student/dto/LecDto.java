@@ -10,7 +10,7 @@ public class LecDto {
     private int stud_no;
 
     //강의 관리번호
-    private int OCC_NO;
+    private int occ_NO;
 
     //수업 전체 진도율
     private double stud_pg;
@@ -21,9 +21,9 @@ public class LecDto {
     //학생 수료 여부
     private String stud_St;
 
-    public LecDto(int stud_no, int OCC_NO, double stud_pg, double stud_sc, String stud_St) {
+    public LecDto(int stud_no, int occ_NO, double stud_pg, double stud_sc, String stud_St) {
         this.stud_no = stud_no;
-        this.OCC_NO = OCC_NO;
+        this.occ_NO = occ_NO;
         this.stud_pg = stud_pg;
         this.stud_sc = stud_sc;
         this.stud_St = stud_St;

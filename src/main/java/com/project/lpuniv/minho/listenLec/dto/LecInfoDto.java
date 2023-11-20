@@ -11,13 +11,13 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LecInfoDto {
-    private int OCC_NO;
+public class LecInfoDto { //강의 정보 dto
+    private int occ_NO;
     private String user_nm;
-    private String OCC_title;
-    private String OCC_content;
-    private Date OCC_date;
-    private Date OCC_Mdate;
-    private String OCC_teachInfo;
-    private String OCC_kakao;
+    private String occ_title;
+    private String occ_content;
+    private Date occ_date;
+    private Date occ_Mdate;
+    private String occ_teachInfo;
+    private String occ_kakao;
 }
