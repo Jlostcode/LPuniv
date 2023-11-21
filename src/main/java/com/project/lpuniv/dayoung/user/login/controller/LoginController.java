@@ -42,10 +42,11 @@ public class LoginController {
         UserDto userDto = loginDao.loginById(id);
 
          String userId = userDto.getUser_loginId();
+         String deldate = userDto.getUser_deletedate();
 
 
 
-        if(userId != null ) {
+        if(userId != null && deldate == null) {
             String hashedPasswd = hashPassword(user_passwd);
 
             userDto = loginDao.loginByPw(id);
@@ -68,10 +69,13 @@ public class LoginController {
                         return "/dayoung/adminMain";
 
                     }
-                }
+                }else if(hashedPasswd != dbPassword){
+                    return "redirect:/login";
           }
+
+            }
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -119,11 +123,6 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
-    }
-    @GetMapping("/getIdList")
-    public List<String> getIdList(@RequestParam("term") String term) {
-        // Call your service method to get user IDs based on the input
-        return loginDao.selectId(term);
     }
 
 

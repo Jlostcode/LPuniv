@@ -27,13 +27,13 @@ public class UserController {
     @Autowired
     UserDao userDao;
 
-    private int size = 10;
-    public ListPage getUserPage(int pageNum, int pageSize) {
-        int total = userDao.countUser();
-        System.out.println("user의 총 합"+total);
-        List<ListDto> content = userDao.userList((pageNum-1)*size,size);
-        return new ListPage(total,pageNum,size,content);
-    }
+//    private int size = 10;
+//    public ListPage getUserPage(int pageNum, int pageSize) {
+//        int total = userDao.countUser();
+//        System.out.println("user의 총 합"+total);
+//        List<ListDto> content = userDao.userList((pageNum-1)*size,size);
+//        return new ListPage(total,pageNum,size,content);
+//    }
 //    @PostMapping("/excel")
 //    public String uploadStudent(@RequestParam("file") MultipartFile file) {
 //        if (file.isEmpty()) {
@@ -154,34 +154,45 @@ public class UserController {
     }
 
 
-    @GetMapping ("/dayoung/update")
-    @ResponseBody
-    public String addGridList(@RequestParam("data") List<ListDto> updatedData) {
 
+    @PostMapping("/dayoung/update")
+    @ResponseBody
+    public String addGridList(@RequestBody List<ListDto> updatedData) {
+        System.out.println(updatedData);
 
         for (ListDto data : updatedData) {
+            System.out.println(data);
             userDao.updateUser(data); // 예시로 userDao를 사용하여 데이터베이스 업데이트
         }
 
-        return "업데이트가 완료되었습니다."; // 업데이트 후의 화면으로 리다이렉트할 수 있는 URL을 반환합니다.
+        return "업데이트가 완료되었습니다."; // 업데이트 후의 화면으로 리다이렉트할 수 있는 URL을 반환합니다
     }
 
 
 
-    @GetMapping("/dayoung/modify/{user_tel}")
-    public String modifyStudent(Model model,@RequestParam String user_tel){
-
-    SignupDto list=  userDao.selectUserByTel(user_tel);
-        System.out.println(list);
-        model.addAttribute("list",list);
-        return "dayoung/modifyStudent";
-}
+//    @GetMapping("/dayoung/modify/{user_tel}")
+//    public String modifyStudent(Model model,@RequestParam String user_tel){
+//
+//    SignupDto list=  userDao.selectUserByTel(user_tel);
+//        System.out.println(list);
+//        model.addAttribute("list",list);
+//        return "dayoung/modifyStudent";
+//}
 
     @PostMapping("/dayoung/modify")
     public String modifyStudentSuccess(){
 
 
         return "dayoung/modifyStudent";
+    }
+    @PostMapping("/dayoung/delete")
+    public String deleteUser(HttpSession session){
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int no = authInfo.getUser_no();
+
+        userDao.deleteUser(no);
+
+        return "redirect:/login";
     }
     @GetMapping("/dayoung/userInfo")
     public String userInfo(HttpSession session , Model model){

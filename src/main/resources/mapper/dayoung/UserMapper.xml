@@ -45,10 +45,12 @@
     <update id="updateUser">
         update  user set user_tp= #{user_tp}, user_nm=#{user_nm},user_tel=#{user_tel},user_email=#{user_email},user_brdt=#{user_brdt},user_gen=#{user_gen},
                          user_signdate=#{user_signdate},user_deletedate=#{user_deletedate}
-                     where user_tel = #{user_tel}
+                     where user_no = #{user_no}
 
     </update>
-
+    <update id="deleteUser">
+    update user set user_deletedate = now() where user_no=#{user_no}
+    </update>
 
     <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
         select user_no,user_tp,user_nm,user_tel,user_loginId,user_email,user_brdt,user_gen,user_signdate

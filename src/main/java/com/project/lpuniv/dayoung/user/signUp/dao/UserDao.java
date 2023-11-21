@@ -23,4 +23,6 @@ public interface UserDao {
 
     List<ListDto>updateUser(ListDto data);
 
+    public String deleteUser(int user_no);
+
 }

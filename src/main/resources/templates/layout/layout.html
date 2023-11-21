@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="setContent(content)">
+    <head>
+        <meta charset="utf-8">
+        <title>Myself</title>
+        <link rel="stylesheet" type="text/css" href="/layout/layout.css">
+        <link rel="stylesheet" type="text/css" href="/layout/styles.css">
+    </head>
+    <body id="body-pd">
+        <div class="page" th:with="userTp=${#httpServletRequest.getSession().getAttribute('authInfo')?.user_no}">
+
+            <header>
+                <h2>Lo-Pie Academy</h2>
+                <nav>
+                    <ul>
+                        <li><a href="#">Food</a></li>
+                        <li><a href="">Hobby</a></li>
+                        <li><a href="">Game</a></li>
+                        <li><a href="">Dream</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        <div class="l-navbar" id="navbar">
+          <nav class="nav">
+              <div  th:with="userTp=${#httpServletRequest.getSession().getAttribute('authInfo')?.user_tp}">
+
+                  <div class="nav__brand">
+                      <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                      <a href="#" class="nav__logo">Bedimcode</a>
+                  </div>
+
+                  <div class="nav__list" th:if="${userTp == 1}">
+                      <a href="#" class="nav__link active">
+                          <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Dashbdfdfdfddfoard</span>
+                      </a>
+                      <a href="#" class="nav__link">
+                          <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Messenger</span>
+                      </a>
+
+                      <a href="#" class="nav__link">
+                          <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Analytics</span>
+                      </a>
+  
+                      <a href="#" class="nav__link">
+                          <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Settings</span>
+                      </a>
+                  </div>
+
+                  <div class="nav__list" th:if="${userTp == 2}">
+                      <a href="#" class="nav__link active">
+                          <ion-icon name="reader-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">강의 목록 / 관리</span>
+                      </a>
+                      <a href="#" class="nav__link">
+                          <ion-icon name="people-circle-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">수강자 조회</span>
+                      </a>
+                  </div>
+
+                  <div class="nav__list" th:if="${userTp == 3}">
+                      <a href="#" class="nav__link active">
+                          <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Dashboard</span>
+                      </a>
+                      <a href="#" class="nav__link">
+                          <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Messenger</span>
+                      </a>
+
+                      <a href="#" class="nav__link">
+                          <ion-icon name="pie-chart-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Analytics</span>
+                      </a>
+
+                      <a href="#" class="nav__link">
+                          <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                          <span class="nav_name">Settings</span>
+                      </a>
+                  </div>
+                  <a href="#" class="nav__link">
+                      <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                      <span class="nav_name">Log out</span>
+                  </a>
+              </div>
+          </nav>
+      </div>
+<div id="contentBig">
+        <th:block th:replace="${content}"></th:block>
+</div>
+      <!-- IONICONS -->
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    <!-- JS -->
+    <script src="/layout/main.js"></script>
+    </body>
+</th:block>
+</html>

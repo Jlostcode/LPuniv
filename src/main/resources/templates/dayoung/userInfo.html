@@ -13,5 +13,28 @@
 <p>생년월일: <span th:text="${user.user_brdt}"></span></p>
 <p>등록일: <span th:text="${user.user_signdate}"></span></p>
 
+
+<button id="btn"> 수정</button>
+<button id="btn2"> 탈퇴</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('btn').addEventListener('click', function() {
+            window.location.href = '/dayoung/modify'; // 버튼을 누르면 /dayoung/modify 페이지로 이동
+        });
+
+        document.getElementById('btn2').addEventListener('click', function() {
+            var confirmed = confirm('정말 탈퇴하시겠습니까?'); // 확인 창 띄우기
+
+            if (confirmed) {
+                // 탈퇴 로직 실행 (여기서는 임시로 콘솔에 출력)
+                console.log('탈퇴가 진행됩니다.');
+
+            } else {
+                // 취소 시 동작 (여기서는 임시로 콘솔에 출력)
+                console.log('탈퇴가 취소되었습니다.');
+            }
+        });
+    });
+</script>
 </body>
 </html>
