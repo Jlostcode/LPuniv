@@ -3,6 +3,7 @@ package com.project.lpuniv.dayoung.user.signUp.dao;
 import com.project.lpuniv.dayoung.user.signUp.dto.ListDto;
 import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,6 +24,12 @@ public interface UserDao {
 
     List<ListDto>updateUser(ListDto data);
 
-    public String deleteUser(int user_no);
+    void deleteDate(int user_no);
+
+  void modifySelf(int user_no,String user_tel);
+  void resetPw(int user_no);
+  void delUser(int user_no);
+
+void updateUserPw(@Param("user_no") int user_no,@Param("user_pw") String user_passwd);
 
 }

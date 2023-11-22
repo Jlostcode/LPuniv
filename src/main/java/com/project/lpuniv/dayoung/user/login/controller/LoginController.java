@@ -42,8 +42,9 @@ public class LoginController {
         UserDto userDto = loginDao.loginById(id);
 
          String userId = userDto.getUser_loginId();
-         String deldate = userDto.getUser_deletedate();
 
+        UserDto deldate =loginDao.selectDeldate(userId);
+        System.out.println("Deleted date: "+deldate);
 
 
         if(userId != null && deldate == null) {
@@ -74,6 +75,8 @@ public class LoginController {
           }
 
             }
+        } else if (userId != null && deldate != null) {
+            return "redirect:/login";
         }
         return "redirect:/login";
     }

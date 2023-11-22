@@ -3,38 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999; /* 이 값을 조정하여 다른 요소 위로 모달을 표시합니다 */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
 </head>
 <body>
 <h1> 개인 정보 </h1>
-
 <p>이름: <span th:text="${user.user_nm}"></span></p>
 <p>전화번호: <span th:text="${user.user_tel}"></span></p>
 <p>이메일주소: <span th:text="${user.user_email}"></span></p>
 <p>생년월일: <span th:text="${user.user_brdt}"></span></p>
 <p>등록일: <span th:text="${user.user_signdate}"></span></p>
+<button id="btn" onclick="openModal()"> 수정</button>
 
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span onclick="closeModal()" style="float:right;">&times;</span>
+        <label for="current_password">현재 비밀번호</label>
+        <input type="password" id="current_password" name="current_password"/>
 
-<button id="btn"> 수정</button>
+        <button onclick="checkPassword()">확인</button>
+
+    </div>
+</div>
 <button id="btn2"> 탈퇴</button>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('btn').addEventListener('click', function() {
-            window.location.href = '/dayoung/modify'; // 버튼을 누르면 /dayoung/modify 페이지로 이동
-        });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/dayoung/js/userInfo.js"></script>
 
-        document.getElementById('btn2').addEventListener('click', function() {
-            var confirmed = confirm('정말 탈퇴하시겠습니까?'); // 확인 창 띄우기
 
-            if (confirmed) {
-                // 탈퇴 로직 실행 (여기서는 임시로 콘솔에 출력)
-                console.log('탈퇴가 진행됩니다.');
-
-            } else {
-                // 취소 시 동작 (여기서는 임시로 콘솔에 출력)
-                console.log('탈퇴가 취소되었습니다.');
-            }
-        });
-    });
-</script>
-</body>
-</html>
+        </body>
+        </html>

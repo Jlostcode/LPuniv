@@ -48,9 +48,25 @@
                      where user_no = #{user_no}
 
     </update>
-    <update id="deleteUser">
+
+
+    <update id="modifySelf">
+        update  user set user_tel=#{user_tel}
+        where user_no = #{user_no}
+
+    </update>
+    <update id="resetPw">
+        update user set user_passwd=' 0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c'
+        where user_no=#{user_no}
+        </update>
+
+
+    <update id="deleteDate">
     update user set user_deletedate = now() where user_no=#{user_no}
     </update>
+    <delete id="delUser">
+        delete from user where user_no= #{user_no};
+    </delete>
 
     <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
         select user_no,user_tp,user_nm,user_tel,user_loginId,user_email,user_brdt,user_gen,user_signdate
@@ -73,4 +89,8 @@
         </where>
         LIMIT #{startRow},#{size}
     </select>
+
+    <update id="updateUserPw">
+        update user set user_passwd =#{user_pw} where user_no = #{user_no}
+    </update>
 </mapper>

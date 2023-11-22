@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 학생 페이지
 <a href="/dayoung/userInfo" class ="button">마이페이지 </a>
 <a href="/listenLec/lecInfo" class ="button">강의 정보 </a>
@@ -43,7 +46,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="/heechan/js/modal.js"></script>
+</th:block>
 
-
+</th:block>
 </body>
 </html>

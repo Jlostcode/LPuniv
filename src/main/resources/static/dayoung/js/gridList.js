@@ -77,6 +77,48 @@ $(document).ready(function() {
             gridData= response; // 그리드에 데이터 설정
             grid1.resetData(gridData); // 받은 데이터를 그리드에 설정
 
+            $('#password').on('click',function (){
+                const changePassword = grid1.getCheckedRows();
+                console.log(changePassword);
+                if(changePassword.length ===0){
+                    alert('선택된 행이 없습니다.');
+                    return;
+                }
+                $.ajax({
+                    url: '/dayoung/changePassword',
+                    method: 'POST',
+                    data: JSON.stringify(changePassword),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
+                        alert('비밀번호가 변경되었습니다. ' +
+                            '변경된 비밀번호는 1111 입니다.');
+                    },
+                    error: function(error) {
+                        console.error('데이터 업데이트 오류:', error);
+                    }
+                });
+            })
+            $('#delete').on('click',function (){
+                const deleteUser = grid1.getCheckedRows();
+                console.log(deleteUser);
+                if(deleteUser.length ===0){
+                    alert('선택된 행이 없습니다.');
+                    return;
+                }
+                $.ajax({
+                    url: '/dayoung/deleteUser',
+                    method: 'POST',
+                    data: JSON.stringify(deleteUser),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        alert('삭제되었습니다.');
+                    },
+                    error: function(error) {
+                        console.error('데이터 업데이트 오류:', error);
+                    }
+                });
+            })
 
 
             $('#btn').on('click', function() {
