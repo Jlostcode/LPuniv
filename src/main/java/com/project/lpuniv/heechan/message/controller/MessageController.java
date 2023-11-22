@@ -3,6 +3,7 @@ package com.project.lpuniv.heechan.message.controller;
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dto.Message;
 import com.project.lpuniv.heechan.message.dto.MessageRequest;
+import com.project.lpuniv.heechan.message.dto.MsgUserList;
 import com.project.lpuniv.heechan.message.dto.Receiver;
 import com.project.lpuniv.heechan.message.msgpage.ListMsg;
 import com.project.lpuniv.heechan.message.msgpage.MsgPage;
@@ -247,9 +248,9 @@ public class MessageController {
             model.addAttribute("users", users);
             model.addAttribute("admin", admin);
         } else {
-            List<UserDto> users = messageService.userList();
-
-            model.addAttribute("users", users);
+            List<MsgUserList> msgUsersList = messageService.userList();
+            System.out.println(msgUsersList);
+            model.addAttribute("msgUsersList", msgUsersList);
         }
 
         model.addAttribute("user", user);
@@ -320,5 +321,41 @@ public class MessageController {
 
         model.addAttribute("authInfo", authInfo);
         return "redirect:/message/recycle";
+    }
+
+    @GetMapping("/message/msgreplyform") //받은 메시지 답변 메시지 보내기
+    public String msgReplyForm(@RequestParam(value = "searchInput", required = false) String searchInput, @RequestParam(value = "searchOp", required = false) String searchOp,
+                               @RequestParam(value = "div", required = false) String div, @RequestParam("msgNo") int msgNo,
+                               @RequestParam(value = "pageNo", required = false) String pageNoVal, HttpSession session, Model model) {
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        int pageNo = 1;
+        if(pageNoVal != null){
+            pageNo = Integer.parseInt(pageNoVal);
+        }
+        int userNo = authInfo.getUser_no();
+        Message msg = messageService.selectMsg(msgNo);
+
+        model.addAttribute("searchInput", searchInput);
+        model.addAttribute("searchOp", searchOp);
+        model.addAttribute("div", div);
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("userNo", userNo);
+        model.addAttribute("msg", msg);
+        model.addAttribute("authInfo", authInfo);
+        return "heechan/message/msgreply";
+    }
+
+    @ResponseBody
+    @PostMapping("/message/msgreply") //메시지 작성
+    public String msgReply(@RequestBody MessageRequest messageRequest, HttpSession session, Model model) {
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        for (Receiver receiver : messageRequest.getReceivers()) {
+            int receiverNo = receiver.getReceiverNo();
+            String receiverNm = receiver.getReceiverNm();
+            messageService.msgInsert(messageRequest, receiverNo, receiverNm);
+        }
+
+        model.addAttribute("authInfo", authInfo);
+        return "redirect:/message/senmsg";
     }
 }

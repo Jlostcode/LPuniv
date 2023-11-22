@@ -284,10 +284,11 @@
     </select>
 
 <!--    사용자 전체 가져오기(관리자가 사용)-->
-    <select id="userList" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
-        select *
-        from user
-        where user_tp != 3
-        order by user_tp desc
+    <select id="userList" resultType="com.project.lpuniv.heechan.message.dto.MsgUserList">
+        select u.user_no as userNo, u.user_nm as userNm, u.user_tp as userTp, o.occ_title as occTitle
+        from user u join occ o on u.user_no = o.teach_no
+        union
+        select u.user_no as userNo, u.user_nm as userNm, u.user_tp as userTp, o.occ_title as occTitle
+        from occ o join class c on o.occ_no = c.OCC_NO join user u on c.stud_no = u.user_no
     </select>
 </mapper>

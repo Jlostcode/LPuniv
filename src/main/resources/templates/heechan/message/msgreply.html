@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메시지내용</title>
+</head>
+<body>
+    <div>
+        <input type="hidden" name="msg-recno" th:value="${msg.receiverNo}" />
+        <input type="hidden" name="msg-senno" th:value="${msg.senderNo}" />
+        발신자 : <span id="receiverNm" th:text="${msg.receiverNm}"></span>
+        수신자 : <span id="senderNm" th:text="${msg.senderNm}"></span><br/>
+        제목 : <span><input type="text" name="title" th:value="${msg.title}"/></span><br/>
+        내용 : <br/><label><textarea th:text="${msg.content}" style="resize: none;" name="content"  cols="90" rows="25"></textarea></label>
+    </div>
+    <button id="submit2">메시지보내기</button>
+
+    <span th:if="${searchInput == null && searchOp  == null && div == null}">
+        <button th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${msg.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">뒤로가기</button><br/>
+    </span>
+    <span th:if="${searchInput != null && searchOp  != null && div != null}">
+        <button th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${msg.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">뒤로가기</button><br/>
+    </span>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/heechan/js/modal.js"></script>
+</body>
+</html>

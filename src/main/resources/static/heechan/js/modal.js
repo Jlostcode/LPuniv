@@ -229,34 +229,32 @@ function searchMsg(div) { //검색
 $(document).ready(function () { //메시지 작성
     $('#submit').click(function (e) {
         e.preventDefault();
+        let error = false;
         let senderNo = $('input[name="sen-no"]').val();
         let senderNm = $('input[name="sen-nm"]').val();
 
-        let selectedOptions = $('select[name="rec-select"] option:selected');
+        let selectedUsers = $('input[name="rec-nm-no"]').val().split(',');
         let receivers = [];
 
-        selectedOptions.each(function () {
-            let values = $(this).val().split(':');
-            let receiverNm = values[0];
-            let str = values[1];
-            let receiverNo = parseInt(str);
-
-            receivers.push({
-                receiverNo: receiverNo,
-                receiverNm: receiverNm
+        if(selectedUsers[0] === ''){
+            alert("수신자를 지정해주세요.");
+            error = true;
+        } else {
+            selectedUsers.forEach(function (user) {
+                let receiverNm = user.trim();
+                let receiverNo = $(`select[name="rec-select"] option[value="${receiverNm}"]`).attr('data-user-no');
+                receivers.push({
+                    receiverNo: receiverNo,
+                    receiverNm: receiverNm
+                });
             });
-        });
+        }
 
         let title = $('input[name="title"]').val();
         let content = $('textarea[name="content"]').val();
-        let error = false;
-        console.log(receivers[0]);
+
         if(!title || !content){
             alert("제목과 내용을 입력해주세요.");
-            error = true;
-        }
-        if(receivers.length === 0){
-            alert("수신자를 한 명 이상 선택해주세요");
             error = true;
         }
 
@@ -320,6 +318,60 @@ $(document).ready(function () { //메시지 수정
     });
 });
 
+$(document).ready(function () { //받은 메시지에서 답변 메시지 작성
+    $('#submit2').click(function (e) {
+        e.preventDefault();
+        let error = false;
+        let senderNo = $('input[name="msg-recno"]').val();
+        console.log(senderNo);
+        let senderNm = $('#receiverNm').text();
+        console.log(senderNm);
+        let receiverNo = $('input[name="msg-senno"]').val();
+        console.log(receiverNo);
+        let receiverNm = $('#senderNm').text();
+        console.log(receiverNm);
+        let receivers = [];
+        receivers.push({
+            receiverNo: receiverNo,
+            receiverNm: receiverNm
+        });
+
+        let title = $('input[name="title"]').val();
+        console.log(title);
+        let content = $('textarea[name="content"]').val();
+        console.log(content);
+
+        if(!title || !content){
+            alert("제목과 내용을 입력해주세요.");
+            error = true;
+        }
+
+        if(!error){
+            $.ajax({
+                type: 'POST',
+                url: '/message/msgwrite',
+                contentType: 'application/json',
+                dataType: 'text',
+                data: JSON.stringify({
+                    senderNo: senderNo,
+                    senderNm: senderNm,
+                    receivers: receivers,
+                    title: title,
+                    content: content
+                }),
+                success: function () {
+                    alert("작성 성공");
+                    $('#modalContent').load('/message/senmsg');
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("오류 발생: " + error);
+                }
+            });
+        }
+    });
+});
+
 // document.addEventListener("DOMContentLoaded", function () {
 //     setInterval(updateMessageCount, 3000);
 // });
@@ -346,8 +398,8 @@ function updateMessageCount() {
 }
 
 function filterRecipients() {
-    const searchValue = document.getElementById('rec-search').value;
-    const selectElement = document.getElementById('rec-select');
+    const searchValue = document.getElementsByName('rec-search')[0].value;
+    const selectElement = document.getElementsByName('rec-select')[0];
     const options = selectElement.getElementsByTagName('option');
 
     let hasMatchingOption = false;
@@ -363,22 +415,24 @@ function filterRecipients() {
 }
 
 function updateInputValue() {
-    const selectElement = document.getElementById('rec-select');
+    const selectElement = document.getElementsByName('rec-select')[0];
     const selectedOptions = Array.from(selectElement.selectedOptions);
+    const inputElement = document.getElementsByName('rec-nm-no')[0];
 
-    let currentInputValue = document.getElementById('rec-search').value;
-    console.log(currentInputValue);
+    let currentInputValue = inputElement.value;
+
     selectedOptions.forEach(option => {
-        const optionText = option.text;
+        const optionValue = option.value;
+        const [userNm, userNo] = optionValue.split(':');
 
-        if (!currentInputValue.includes(optionText)) {
-            currentInputValue += optionText + ', ';
-            console.log(currentInputValue);
+        if (!currentInputValue.includes(optionValue)) {
+            currentInputValue += (currentInputValue ? ', ' : '') + optionValue;
         } else {
-            currentInputValue = currentInputValue.replace(optionText + ', ', '');
-            console.log(currentInputValue);
+            currentInputValue = currentInputValue.replace(new RegExp(optionValue + '(,\\s*)?'), '');
         }
     });
 
-    document.getElementById('rec-search').value = currentInputValue;
+    // Remove trailing comma and space, if any
+    currentInputValue = currentInputValue.replace(/,\s*$/, '');
+    inputElement.value = currentInputValue;
 }

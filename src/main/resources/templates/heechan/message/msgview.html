@@ -13,6 +13,9 @@
         내용 : <br/><label><textarea th:text="${message.content}" style="resize: none;" name="content"  cols="90" rows="25" readonly="readonly"></textarea></label>
     </div>
     <span th:if="${searchInput == null && searchOp  == null}">
+        <span th:if="${message.receiverNo == userNo}">
+            <button th:attr="onclick='changePage(\'' + @{'/message/msgreplyform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">글쓰기</button>
+        </span>
         <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
             <button th:attr="onclick='recDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</button>
@@ -28,6 +31,9 @@
         </th:block>
     </span>
     <span th:if="${searchInput != null && searchOp  != null && div != null}">
+        <span th:if="${message.receiverNo == userNo}">
+            <button th:attr="onclick='changePage(\'' + @{'/message/msgreplyform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">글쓰기</button>
+        </span>
         <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
             <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
             <button th:attr="onclick='recDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
