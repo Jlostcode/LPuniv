@@ -11,11 +11,14 @@
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <!-- include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 
 <div class="insert_wrap">
-    <form id="insert_form" action="/ccim/ccim_insert" method="post">
+    <form id="insert_form" action="/ccim/ccim_insert" method="post" onsubmit="return checkNullCcim();">
         <div>
 
             <div class="user_name">
@@ -30,7 +33,7 @@
                 <strong>챕터명 </strong>100글자 제한
                 <br>
                 <label>
-                    <input type="text" name="ccim_title" maxlength="100" required>
+                    <input type="text" name="ccim_title" maxlength="100">
                 </label>
 
             </div>
@@ -52,9 +55,9 @@
             <div class="ccim_videoID">
                 해당 챕터 영상 ID
                 <label>
-                <input type="text" id="videoID" name="ccim_videoID" onblur="getVideoDuration()" required>
+                <input type="text" id="videoID" name="ccim_videoID" readonly>
+                    &nbsp;&nbsp;<button type="button" onclick="openModal()">영상 시간 확인</button>
                 </label>
-                <img class="videoIDex" src="/juchan/image/videoIDex.png" alt="videoID 예시" ondragstart="return false;" oncontextmenu="return false;">
             </div>
 
             <hr>
@@ -63,6 +66,7 @@
                 해당 챕터 영상 시간 <label>
                 <input type="hidden" id="setDuration" >
                 <input type="text" id="viewDuration" name="ccim_rt" required readonly>
+
             </label>
             </div>
 
@@ -75,9 +79,9 @@
 
     </form>
 </div>
-
 <script src="/juchan/js/editor.js"></script>
 <script src="/juchan/js/youtubeData.js"></script>
+<script src="/juchan/js/ccimNull.js"></script>
 </body>
 
 </html>

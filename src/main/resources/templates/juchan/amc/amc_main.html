@@ -4,12 +4,49 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+    <style>
+        .btn-outline-primary{
+            --cui-btn-color: #ffffff;
+            --cui-btn-border-color: #ffffff;
+            --cui-btn-hover-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-hover-bg: #989898;
+            --cui-btn-hover-border-color: #ffffff;
+            --cui-btn-focus-shadow-rgb: 50,31,219;
+            --cui-btn-active-color: rgb(0 0 0 / 87%);
+            --cui-btn-active-bg: #ffffff;
+            --cui-btn-active-border-color: #ffffff;
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: #626163;
+            --cui-btn-disabled-bg: transparent;
+            --cui-gradient: none;
+        }
+        .btn-primary {
+            --cui-btn-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-bg: #12192c;
+            --cui-btn-border-color: #12192c;
+            --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-hover-bg: #29334e;
+            --cui-btn-hover-border-color: #29334e;
+            --cui-btn-focus-shadow-rgb: 75, 58, 223;
+            --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-active-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-border-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-disabled-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-disabled-border-color: rgba(44, 56, 74, 0.95);
+        }
+        .page-link {
+            color: #12192c;
+        }
+    </style>
 </head>
 <body>
-<div class="header"><strong>과제 목록</strong> <br></div>
+<div class="header"><strong style="float: left;">과제 목록</strong>
+    <a th:href="@{'/ccim?occ_NO=' + ${occ_no}}" class="btn btn-primary" style="float: right;">이전 페이지</a></div></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
     <div th:each="card, cardStat : ${listPage.amcDtos}" th:id="'card' + ${cardStat.index}" class="card" style="width: 18rem;">
-        <div class="card-header" style="background-color: #a2a8ff; height: 5rem;  display: flex;">
+        <div class="card-header" style="background-color: #12192c; height: 5rem;  display: flex;">
             <p class="card-text"> 해당 강의 "[[${card.amc_at}]]" 챕터 관리</p>
             <button type="button" class="btn btn-outline-primary delete-btn"
                     th:data-amc-at="${card.amc_at}" th:data-amc-no="${card.amc_no}"

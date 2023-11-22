@@ -12,11 +12,14 @@
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <!-- include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 
 <div class="insert_wrap">
-    <form id="insert_form" action="/occ/occ_modify" method="post">
+    <form id="insert_form" action="/occ/occ_modify" method="post" onsubmit="return checkNullOcc();">
         <div>
 
             <div class="user_name">
@@ -36,12 +39,12 @@
 
             </div>
             <hr>
-<!--            <div class="hidden_data">-->
+            <div class="hidden_data">
 
-<!--                <input type="hidden"  name="teach_NO" style="width:400px;" th:value="${occDto.teach_NO}"  readonly>-->
+                <input type="hidden"  name="occ_NO" style="width:400px;" th:value="${occDto.occ_NO}"  readonly>
 
 
-<!--            </div>-->
+            </div>
 
             <div class="occ_content">
                 <label for="editor">강의 내용</label><textarea name="occ_content" id="editor">[[${occDto.occ_content}]]</textarea>
@@ -90,6 +93,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="/juchan/js/editor.js"></script>
+<script src="/juchan/js/occNull.js"></script>
 </body>
 
 </html>

@@ -14,11 +14,14 @@
 
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <!-- include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
 
 <div class="insert_wrap">
-    <form id="insert_form" action="/amc/upload" method="post" enctype="multipart/form-data">
+    <form id="insert_form" action="/amc/upload" method="post" enctype="multipart/form-data" onsubmit="return checkNullAmc();">
         <div>
 
 <!--            <div class="user_name">-->
@@ -73,7 +76,7 @@
 </div>
 <script src="/juchan/js/fileDrag.js"></script>
 <script src="/juchan/js/editor.js"></script>
-
+<script src="/juchan/js/amcNull.js"></script>
 
 </body>
 

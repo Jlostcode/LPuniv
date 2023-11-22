@@ -12,11 +12,15 @@
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <!-- include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body>
 
 <div class="insert_wrap">
-    <form id="insert_form" action="/ccim/ccim_modify" method="post">
+    <form id="insert_form" action="/ccim/ccim_modify" method="post" onsubmit="return checkNullCcim();">
         <div>
 
             <div class="user_name">
@@ -31,7 +35,7 @@
                 <strong>챕터명 </strong>100글자 제한
                 <br>
                 <label>
-                    <input type="text" name="ccim_title" maxlength="100" th:value="${ccimdto.ccim_title}" required>
+                    <input type="text" name="ccim_title" maxlength="100" th:value="${ccimdto.ccim_title}" >
                 </label>
 
             </div>
@@ -45,7 +49,7 @@
             </div>
 
             <div class="ccim_content">
-                <label for="editor">강의 내용</label><textarea name="ccim_content" id="editor">[[${ccimdto.ccim_content}]]</textarea>
+                <label for="editor">강의 내용</label><textarea name="ccim_content" id="editor" th:utext="${ccimdto.ccim_content}"></textarea>
                 <br>
                 <hr>
 
@@ -54,9 +58,9 @@
             <div class="ccim_videoID">
                 해당 챕터 영상 ID
                 <label>
-                    <input type="text" id="videoID" name="ccim_videoID" min="0" th:value="${ccimdto.ccim_videoID}" onblur="getVideoDuration()" required>
+                    <input type="text" id="videoID" name="ccim_videoID" min="0" th:value="${ccimdto.ccim_videoID}" readonly>
                 </label>
-                <img class="videoIDex" src="/juchan/image/videoIDex.png" alt="videoID 예시" ondragstart="return false;" oncontextmenu="return false;">
+                &nbsp;&nbsp;<button type="button" onclick="openModal()">영상 시간 확인</button>
             </div>
 
             <hr>
@@ -64,13 +68,13 @@
             <div class="ccim_rt">
                 해당 챕터 영상 시간(대략 예상 총 시간) <label>
                 <input type="hidden" id="setDuration" >
-                <input type="text" id="viewDuration" name="ccim_rt" th:value="${ccimdto.ccim_rt}" required readonly>
+                <input type="text" id="viewDuration" name="ccim_rt" th:value="${ccimdto.ccim_rt}" readonly>
             </label>
             </div>
 
             <div class="submit">
                 <div class="button-effect">
-                    <input type="submit" value="업로드"/>
+                    <input type="submit" value="업로드" />
                 </div>
             </div>
         </div>
@@ -81,6 +85,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 <script src="/juchan/js/editor.js"></script>
 <script src="/juchan/js/youtubeData.js"></script>
+<script src="/juchan/js/ccimNull.js"></script>
 </body>
 
 </html>
