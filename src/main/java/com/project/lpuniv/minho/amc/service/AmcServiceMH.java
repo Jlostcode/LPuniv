@@ -22,5 +22,5 @@ public class AmcServiceMH {
     public AmcDtoMH selectOneAmc(int amc_no) {
         return amcDaoMH.selectOneAmc(amc_no);
     }
-    public AmfiDto selectOneAmfi(int amc_no) {return amcDaoMH.selectOneAmfi(amc_no);}
+    public List<AmfiDto> selectOneAmfi(int amc_no) {return amcDaoMH.selectOneAmfi(amc_no);}
 }

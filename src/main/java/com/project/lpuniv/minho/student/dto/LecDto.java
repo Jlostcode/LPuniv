@@ -1,10 +1,12 @@
 package com.project.lpuniv.minho.student.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class LecDto {
     //학생번호(FK 이름 가져올 때)
     private int stud_no;
@@ -15,19 +17,17 @@ public class LecDto {
     //수업 전체 진도율
     private double stud_pg;
 
-    //과제 종합 점수
-    private double stud_sc;
-
     //학생 수료 여부
-    private String stud_St;
+    private int stud_st;
+    private String occ_title;
 
-    public LecDto(int stud_no, int occ_NO, double stud_pg, double stud_sc, String stud_St) {
-        this.stud_no = stud_no;
-        this.occ_NO = occ_NO;
-        this.stud_pg = stud_pg;
-        this.stud_sc = stud_sc;
-        this.stud_St = stud_St;
-    }
+//    public LecDto(int stud_no, int occ_NO, double stud_pg, double stud_sc, int stud_St) {
+//        this.stud_no = stud_no;
+//        this.occ_NO = occ_NO;
+//        this.stud_pg = stud_pg;
+//        this.stud_sc = stud_sc;
+//        this.stud_St = stud_St;
+//    }
 }
 
 //한 강사의 강의에 들어가면 학생 등록 버튼

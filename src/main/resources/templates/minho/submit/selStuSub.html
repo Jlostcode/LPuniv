@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>과제 정보</title>
+</head>
+<body>
+<div class="selStuSub_wrap">
+    <div class="selStuSub_wrap_content">
+        <h2>학생 [[${submitDto.stud_nm}]]의 과제</h2>
+
+        <hr>
+
+        <div>
+            <p>과제 제목: [[${amcDtoMH.amc_at}]]</p>
+        </div>
+
+        <hr>
+
+        <div>
+            <p>과제 제출 내용:</p>
+            <p th:utext="${submitDto.submit_ct}"></p>
+
+        </div>
+
+        <hr>
+
+        <div>
+            <p>첨부된 파일</p>
+            <div class="selStuSub_wrap_file" th:each="fileDtoMHS : ${fileDtoMHS}">
+                <a th:if="${fileDtoMHS != null}" th:href="@{'/file/download/' + ${fileDtoMHS.file_no}}" th:value="fileDtoMHS.file_no">[[${fileDtoMHS.file_uuid}]]</a>
+            </div>
+        </div>
+        <div class="hidden_data">
+            <input type="hidden" th:value="${submitDto.submit_no}" name="submit_no">
+            <input type="hidden" th:value="${submitDto.amc_no}" name="amc_no">
+            <input type="hidden" th:value="${submitDto.submit_sc}" name="submit_sc2">
+        </div>
+        <div>
+            <p>점수 입력</p>
+            <div class="selStuSub_wrap_score"><input type="text" name="submit_sc" id="submit_sc"></div>
+            <button type="button" onclick="uploadScore()">입력</button>
+        </div>
+        <div>
+            <p>학생 점수 수정 </p>
+            <div class="selStuSub_wrap_score3"><input type="text" name="submit_sc3" id="submit_sc3"></div>
+            <button type="button" onclick="modifyScore()">입력</button>
+        </div>
+
+
+        <hr>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/minho/js/uploadScore.js"></script>
+<script src="/minho/js/modifyScore.js"></script>
+</body>
+</html>

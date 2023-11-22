@@ -33,7 +33,7 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
     event.target.playVideo(); // 플레이어 재생
     player.seekTo(schs_fnpo); // 마지막으로 이동
-    RUN_TM = event.target.getDuration() - 5; //재생시간 총 시간에서 5초를 뺌
+    RUN_TM = event.target.getDuration(); //재생시간 총 시간에서 5초를 뺌
     schs_endpo = event.target.getDuration(); // 영상의 총 재생 시간을 가져옴
 }
 
@@ -80,6 +80,7 @@ function onPlayerStateChange(event) {
         event.target.seekTo(event.target.getDuration() - 1);
         event.target.pauseVideo();
     }
+
 }
 
 // requestPost 함수 정의, 데이터값을 post로 넘기기

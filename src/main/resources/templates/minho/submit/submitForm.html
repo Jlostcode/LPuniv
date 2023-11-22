@@ -18,9 +18,9 @@
 <body>
 <div class="submit_wrap">
     <h2>과제 제출</h2>
-    <form id="insert_form" action="/submit/submitForm" method="post" enctype="multipart/form-data">
+    <form id="insert_form" action="/submit/send" method="post" enctype="multipart/form-data">
         <div class="hidden_data">
-            <input type="hidden"  name="user_no" th:value="${userDto.user_no}"  readonly>
+            <input type="hidden"  name="stud_no" th:value="${userDto.user_no}"  readonly>
             <input type="hidden"  name="occ_no" th:value="${amcDtoMH.occ_NO}"  readonly>
             <input type="hidden"  name="amc_no" th:value="${amcDtoMH.amc_no}"  readonly>
         </div>

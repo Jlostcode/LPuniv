@@ -9,6 +9,11 @@
         from occ o, user u
         where o.teach_no = u.user_no
     </select>
+    <select id="listenLecList" resultType="com.project.lpuniv.minho.student.dto.LecDto">
+        select c.stud_no as stud_no, o.occ_title as occ_title, c.stud_pg as stud_pg, c.stud_st as stud_St, c.occ_NO as occ_NO
+        from class c, occ o
+        where c.occ_no = o.occ_no and stud_no =#{stud_no}
+    </select>
     <select id="selectLecList" resultType="com.project.lpuniv.minho.listenLec.dto.LecListDto">
         select * from ccim where occ_NO = #{occ_NO}
     </select>
@@ -26,5 +31,23 @@
     </select>
     <update id="updatePo">
         update schs set schs_end_dt = now(), schs_fnpo = #{schs_fnpo}, schs_endpo = #{schs_endpo} where stud_no = #{stud_no} and occ_NO = #{occ_NO} and ccim_NO = #{ccim_NO}
+    </update>
+    <update id="updateOcs">
+        update schs set schs_ocs = 1 where stud_no = #{stud_no} and occ_NO = #{occ_NO} and ccim_NO = #{ccim_NO}
+    </update>
+    <select id="countCcimNo" resultType="Integer">
+        select count(ccim_no) from ccim where occ_NO = #{occ_NO}
+    </select>
+    <select id="countSchsOcs" resultType="Integer">
+        select count(schs_ocs) from schs where stud_no = #{stud_no} and occ_NO = #{occ_NO}
+    </select>
+    <update id="updateStudPg">
+        update class set stud_pg = #{stud_pg} where stud_no = #{stud_no} and occ_NO = #{occ_NO}
+    </update>
+    <select id="selectOneClass">
+        select * from class where stud_no = #{stud_no} and occ_NO = #{occ_NO}
+    </select>
+    <update id="updateStudSt">
+        update class set stud_st = 1 where stud_no = #{stud_no} and occ_NO = #{occ_NO} and stud_pg = #{stud_pg}
     </update>
 </mapper>

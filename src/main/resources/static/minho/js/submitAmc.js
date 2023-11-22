@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     // Dropzone 설정
     var dropzone = new Dropzone("#dropzoneForm", {
-        url:"/submit/submitForm",
+        url:"/submit/send",
         method: "post",
         autoProcessQueue: false, // 자동으로 보내기. true : 파일 업로드 되자마자 서버로 요청, false : 서버에는 올라가지 않은 상태.
         paramName: "files",  // 파일 파라미터 이름
@@ -39,24 +39,28 @@ $(document).ready(function () {
         console.log(file);
         formData.append("files", file);
         if (!formData.has("occ_no")) {
-            formData.append("user_no", document.getElementsByName("user_no")[0].value);
+            formData.append("stud_no", document.getElementsByName("stud_no")[0].value);
+
             formData.append("occ_no", document.getElementsByName("occ_no")[0].value);
+            console.log("occ_no==================================" +  document.getElementsByName("occ_no")[0].value);
             formData.append("amc_no", document.getElementsByName("amc_no")[0].value);
+            console.log("amc_no==================================" +document.getElementsByName("amc_no")[0].value);
 
             // 중복으로 amc_at을 추가하지 않도록 확인
             if (!formData.has("submit_ct")) {
                 formData.append("submit_ct", document.getElementsByName("submit_ct")[0].value);
             }
+            console.log("user_no==================================" + document.getElementsByName("stud_no")[0].value);
+            console.log("submit_ct==================================" +  document.getElementsByName("submit_ct")[0].value);
         }
     });
     dropzone.on("success", function(file, response) {
         // 업로드가 완료된 후의 동작
         // 서버에서 전달받은 응답(response)를 확인하여 추가 동작 수행 가능
-
+        console.log("테스트 확인 입니다.");
         // 폼을 서버에 제출
         $("#insert_form").submit();
         window.location.href = '/amc/amcView' + '?amc_no=' + document.getElementsByName("amc_no")[0].value;
-
     });
 // 기타 Dropzone 이벤트 등록 가능
     $("#insert_form").submit(function (event) {
@@ -64,9 +68,6 @@ $(document).ready(function () {
         event.stopPropagation();
         dropzone.processQueue(); // Dropzone에 파일 업로드 수행
     });
-
-
-
 });
 
 function submitAmfi() {

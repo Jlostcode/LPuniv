@@ -14,8 +14,8 @@
         <h2>과제 내용</h2>
         <div class="amc_wrap_amcAc" th:utext="${amcDtoMH.amc_ac}"></div>
     </div>
-    <div class="amc_wrap_down"><a th:href="@{'/amfi/download/'+${amfiDto.amfi_no}}">파일 다운</a></div>
-    <div class="amc_wrap_submit"><a th:href="@{'/submit/submitForm?amc_no='+${amcDtoMH.amc_no}}">과제 제출</a></div>
+    <div class="amc_wrap_down" th:each="amfiDto: ${amfiDto}"><a th:if="${amfiDto != null}" th:href="@{'/amfi/download/'+${amfiDto.amfi_no}}">파일 다운</a></div>
+    <div class="amc_wrap_submit"><a th:if="${submitDto == null}" th:href="@{'/submit/submitForm?amc_no='+${amcDtoMH.amc_no}}">과제 제출</a></div>
 </div>
 <script src="/minho/js/submitAmc.js"></script>
 </body>

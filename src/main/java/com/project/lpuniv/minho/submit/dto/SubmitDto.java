@@ -1,20 +1,18 @@
 package com.project.lpuniv.minho.submit.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class SubmitDto {
     private int submit_no;
     private int stud_no;
     private int occ_NO;
     private int amc_no;
     private String submit_ct;
-    private int submit_att;
     private Double submit_sc;
+    private String stud_nm;
 }

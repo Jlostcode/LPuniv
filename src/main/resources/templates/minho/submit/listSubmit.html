@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>학생 과제 리스트</title>
+</head>
+<body>
+<div class="submit_wrap">
+    <div class="submit_wrap_content">
+        <h1>학생 과제 리스트</h1>
+        <div class="submit_wrap_content_table" th:each="submitDtos: ${submitDtos}">
+            <table>
+                <tr>
+                    <th>학생 이름</th>
+                    <th>과제 이름</th>
+                    <th>과제 내용</th>
+                </tr>
+                <tr>
+                    <td th:value="${submitDtos.stud_no}"><a th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${submitDtos.stud_nm}]]</a></td>
+                    <td th:value="${submitDtos.amc_no}">[[${amcDtoMH.amc_at}]]</td>
+                    <td th:utext="${amcDtoMH.amc_ac}"></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
