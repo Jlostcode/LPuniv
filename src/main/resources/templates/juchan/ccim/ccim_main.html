@@ -39,9 +39,25 @@
         .page-link {
             color: #12192c;
         }
+        .effect-1 {
+            width: 100%;
+            color: #12192c;
+        }
+        .footer:hover{
+            background-color: #d0d1d2;
+
+        }
+        .header {
+            background-color: #12192c;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 <div class="header" ><strong style="float: left;">챕터 목록</strong>
     <a th:href="@{'/occ'}" class="btn btn-primary" style="float: right;">이전 페이지</a></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
@@ -133,5 +149,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/juchan/js/ccim_main_infodata.js"></script>
 <script src="/juchan/js/deleteCcim.js"></script>
+</th:block>
+
+</th:block>
 </body>
 </html>

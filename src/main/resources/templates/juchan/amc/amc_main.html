@@ -39,15 +39,31 @@
         .page-link {
             color: #12192c;
         }
+        .effect-1 {
+            width: 100%;
+            color: #12192c;
+        }
+        .footer:hover{
+            background-color: #d0d1d2;
+
+        }
+        .header {
+            background-color: #12192c;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 <div class="header"><strong style="float: left;">과제 목록</strong>
-    <a th:href="@{'/ccim?occ_NO=' + ${occ_no}}" class="btn btn-primary" style="float: right;">이전 페이지</a></div></div>
+    <a th:href="@{'/ccim?occ_NO=' + ${occ_no}}" class="btn btn-primary" style="float: right;">이전 페이지</a></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
     <div th:each="card, cardStat : ${listPage.amcDtos}" th:id="'card' + ${cardStat.index}" class="card" style="width: 18rem;">
-        <div class="card-header" style="background-color: #12192c; height: 5rem;  display: flex;">
-            <p class="card-text"> 해당 강의 "[[${card.amc_at}]]" 챕터 관리</p>
+        <div class="card-header" style="background-color: #12192c; height: 5rem; display: flex; justify-content: flex-end; align-items: flex-start;">
+
             <button type="button" class="btn btn-outline-primary delete-btn"
                     th:data-amc-at="${card.amc_at}" th:data-amc-no="${card.amc_no}"
                     th:data-occ-no="${occ_no}" th:data-ccim-no="${ccim_no}"
@@ -57,7 +73,7 @@
             <h5 class="card-title" th:text="${card.amc_at}">Card title</h5>
 
             <a th:href="@{'/amc/amc_modify?amc_no=' + ${card.amc_no}}" class="btn btn-primary">과제 수정</a>
-
+            <a th:href="@{'/submit/listSubmit?amc_no=' + ${card.amc_no}}" class="btn btn-primary">제출 과제</a>
             <button class="btn btn-primary toggle-details-btn"
                     data-coreui-toggle="collapse"
                     data-coreui-target="#collapseWidthExample"
@@ -112,9 +128,9 @@
         <div class="card card-body" style="width: 1000px;">
             <div id="amc_ac_info"></div>
         </div>
-        <label for="amfi_info" style="font-weight: bold">과제 내용 </label>
+        <label for="amfi_info" style="font-weight: bold">과제 첨부 파일 (파일 이름 클릭) </label>
         <div class="card card-body" style="width: 1000px;">
-            <div id="amfi_info">
+            <div id="amfi_info" >
                 <div id="amfi_og_name_info">
                 </div>
                 <div id="amfi_date">
@@ -131,5 +147,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/juchan/js/amc_main_infodata.js"></script>
 <script src="/juchan/js/deleteAmc.js"></script>
+    </th:block>
+
+</th:block>
 </body>
 </html>

@@ -315,4 +315,22 @@ function submitFormModify() {
         });
     }
 }
-
+function deleteAmfi(amfiNO) {
+    $.ajax({
+        type: 'GET',
+        url: '/amfi/amfi_delete',
+        data: { amfi_no: document.getElementsByName("amfi_no")[0].value },
+        success: function (response) {
+            console.log(response); // 서버 응답을 콘솔에 출력
+            // 여기에서 적절한 방식으로 amfiDto를 사용
+            let amfiTag = "#" + amfiNO;
+            $(amfiTag).remove();
+            console.log(amfiNO)
+            // 삭제 완료 알림
+            alert("삭제 완료");
+        },
+        error: function (error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+}
