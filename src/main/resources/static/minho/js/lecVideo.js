@@ -1,5 +1,5 @@
 // YouTube API 키
-const apiKey = 'AIzaSyArivYMriACjf4a5097KcqUOJLmAuFi0cw';
+ const apiKey = 'AIzaSyArivYMriACjf4a5097KcqUOJLmAuFi0cw';
 
 // YouTube 동영상 ID
 const CCIM_videoID = document.querySelector("#board_wrap_videoId").getAttribute("videoId");
@@ -90,23 +90,27 @@ function requestPost(schs_fnpo, schs_endpo) {
     ccim_NO = document.querySelector("#board_wrap_ccim_NO").getAttribute("ccimNo");
     occ_NO = document.querySelector("#board_wrap_occ_NO").getAttribute("occNo");
     //해당하는 서버 엔드포인트 URL
-    const url = `/listenLec/savePo?ccim_NO=${ccim_NO}&occ_NO=${occ_NO}&schs_fnpo=${schs_fnpo}&schs_endpo=${schs_endpo}`;
-    const data = {
-        schs_fnpo: schs_fnpo,
-        schs_endpo: schs_endpo
+    if (schs_fnpo > document.querySelector("#board_wrap_fnpo").getAttribute("schsFnpo")) {
+        const url = `/listenLec/savePo?ccim_NO=${ccim_NO}&occ_NO=${occ_NO}&schs_fnpo=${schs_fnpo}&schs_endpo=${schs_endpo}`;
+        const data = {
+            schs_fnpo: schs_fnpo,
+            schs_endpo: schs_endpo
+        }
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // 데이터 형식 지정
+            },
+            body: JSON.stringify(data) // 객체를 JSON 문자열로 변환하여 전송
+        })
+            .then(response => // 특정 URL로 리다이렉트
+                window.location.href = "/listenLec/lecList?occ_NO=" + occ_NO // 원하는 URL로 "/new-page" 부분을 바꿔주세요
+            ) // 응답을 JSON 형식으로 파싱
+            .then(data => console.log('Watch time successfully sent to the server:', data)) // 처리된 데이터를 콘솔에 출력
+            .catch(error => console.error('Error:', error)); // 오류 처리
+    } else {
+        window.location.href = "/listenLec/lecList?occ_NO=" + occ_NO;
     }
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json' // 데이터 형식 지정
-        },
-        body: JSON.stringify(data) // 객체를 JSON 문자열로 변환하여 전송
-    })
-        .then(response => // 특정 URL로 리다이렉트
-            window.location.href = "/listenLec/lecList?occ_NO="+occ_NO // 원하는 URL로 "/new-page" 부분을 바꿔주세요
-) // 응답을 JSON 형식으로 파싱
-        .then(data => console.log('Watch time successfully sent to the server:',data)) // 처리된 데이터를 콘솔에 출력
-        .catch(error => console.error('Error:', error)); // 오류 처리
 }
 
 //시간기록

@@ -9,7 +9,7 @@
 }
 
 .board_list_stu_table {
-    height: 500px;
+    height: 350px;
     overflow: auto;
     margin-bottom: 20px; /* 아래쪽 간격 */
 }

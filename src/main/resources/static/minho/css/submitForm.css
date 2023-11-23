@@ -14,17 +14,17 @@
     height:40px;
     line-height:40px;
     border:1px solid;;
-    background-color:#E2E2E2;
+    background-color:#12192c;
     border-radius: 20px;
     text-align:center;
     cursor: pointer;
 
-    color:#333;
+    color:white;
     transition:all 0.9s, color 0.3s;
 }
 
 .submitBtn:hover {
-    color:#fff;
+    background-color: #850cf0;
     box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
     0 -80px 0 0 rgba(0,0,0,0.25) inset;
 }
@@ -37,17 +37,16 @@
     height:40px;
     line-height:40px;
     border:1px solid;;
-    background-color:#E2E2E2;
+    background-color:#12192c;
     border-radius: 20px;
     text-align:center;
     cursor: pointer;
-
-    color:#333;
+    color:white;
     transition:all 0.9s, color 0.3s;
 }
 
 .goBackBtn:hover {
-    color:#fff;
+    background-color:#850cf0;
     box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
     0 -80px 0 0 rgba(0,0,0,0.25) inset;
 }

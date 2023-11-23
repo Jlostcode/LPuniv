@@ -1,13 +1,13 @@
 .board_wrap {
-    background-color: #f5f5f5; /* 밝은 회색 배경 */
-    color: #333; /* 기본 텍스트 색상 */
+    bwidth: 100%; /* 원하는 폭 설정 */
 }
 
 .board_list_Container_toggleButton {
     /* 기본 화살표 스타일 */
     width: 100%;
     height: 40px;
-    background-color: #E2E2E2;
+    background-color: #12192c;
+    color: white;
     border: none;
     outline: none;
     cursor: pointer;
@@ -21,6 +21,13 @@
 .rotate-arrow {
     transform: rotate(180deg); /* 버튼을 아래로 회전 */
 }
+
+.board_list_Container_toggleButton:hover {
+    background-color: #850cf0;
+    box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
+    0 -80px 0 0 rgba(0,0,0,0.25) inset;
+}
+
 
 .board_list_Container ul li {
     list-style: none; /* 기본 점을 없앰 */
@@ -50,10 +57,9 @@
 }
 
 .board_wrap_head {
+    max-width: 80%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center; /* 수직 정렬 */
 }
 
 .board_title {
@@ -65,27 +71,6 @@ hr {
     border: none;
     border-top: 1px solid #ddd; /* 회색 구분선 */
     margin: 20px 0;
-}
-
-.goBackBtn {
-    margin-right: auto; /* 뒤로가기 버튼을 왼쪽으로 붙임 */
-    width:100px;
-    height:40px;
-    line-height:40px;
-    border:1px solid;;
-    background-color:#E2E2E2;
-    border-radius: 20px;
-    text-align:center;
-    cursor: pointer;
-
-    color:#333;
-    transition:all 0.9s, color 0.3s;
-}
-
-.goBackBtn:hover {
-    color:#fff;
-    box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
-    0 -80px 0 0 rgba(0,0,0,0.25) inset;
 }
 
 /* 입력 필드 스타일 */

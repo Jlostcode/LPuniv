@@ -71,7 +71,13 @@ $(document).ready(function () {
 });
 
 function submitAmfi() {
-    if (confirm("파일 업로드가 완료되었습니다. 내용을 확인하셨나요?")) {
+    if (confirm("과제를 제출하시겠습니까? 내용을 확인하셨나요?")) {
+        let submit_sc = document.getElementsByName("submit_ct")[0].value;
+
+        if (!submit_sc) {
+            showAlert("과제 내용을 작성해 주세요.");
+            return;
+        }
         // 확인 버튼을 눌렀을 때의 동작
         let dropzone = Dropzone.forElement("#dropzoneForm");
         dropzone.processQueue();
@@ -80,5 +86,15 @@ function submitAmfi() {
         console.log("사용자가 확인하지 않고 취소했습니다.");
     }
 
+}
 
+function showAlert(message) {
+    Swal.fire({
+        icon: 'warning',
+        iconColor:'#12192c',
+        title: '알림',
+        text: message,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '확인'
+    });
 }

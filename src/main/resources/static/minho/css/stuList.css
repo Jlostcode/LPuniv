@@ -1,5 +1,5 @@
 .board_wrap {
-    background-color: #fff;
+    width: 100%; /* 원하는 폭 설정 */
 }
 
 .board_title {
