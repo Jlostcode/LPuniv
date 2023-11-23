@@ -5,6 +5,8 @@
     padding: 20px;
     text-align: center;
     cursor: pointer;
+    text-align: center;
+    justify-content: center;
 }
 
 #selected-file-list {
@@ -25,4 +27,9 @@
     border: none;
     padding: 5px;
     cursor: pointer;
+}
+
+.file{
+    text-align: center;
+    justify-content: center;
 }

@@ -4,7 +4,7 @@ img{
 .login {
     height: 1000px;
     width: 100%;
-    background: radial-gradient(#b6cefc, #0c5df4);
+    background: white;
     position: relative;
 }
 .login_box {
@@ -63,7 +63,7 @@ img{
     font-size: 14px;
 }
 .left{
-    background: linear-gradient(-45deg, #dcd7e0, #fff);
+    background:  #fff;
 }
 .submit {
     border: none;
