@@ -10,7 +10,7 @@
         where o.teach_no = u.user_no
     </select>
     <select id="listenLecList" resultType="com.project.lpuniv.minho.student.dto.LecDto">
-        select c.stud_no as stud_no, o.occ_title as occ_title, c.stud_pg as stud_pg, c.stud_st as stud_St, c.occ_NO as occ_NO
+        select c.stud_no as stud_no, o.occ_title as occ_title, c.stud_pg as stud_pg, c.stud_st as stud_st, c.occ_NO as occ_NO
         from class c, occ o
         where c.occ_no = o.occ_no and stud_no =#{stud_no}
     </select>

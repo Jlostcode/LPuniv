@@ -3,28 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>학생 과제 리스트</title>
+    <link rel="stylesheet" href="/minho/css/listSubmit.css">
 </head>
 <body>
-<div class="submit_wrap">
-    <div class="submit_wrap_content">
-        <h1>학생 과제 리스트</h1>
-        <div class="submit_wrap_content_table" th:each="submitDtos: ${submitDtos}">
-            <table>
+<div class="board_wrap">
+    <div class="board_wrap_head">
+        <button type="button" class="goBackBtn" onclick="location.href='javascript:history.back();' ">뒤로가기</button>
+        <h1 class="board_title">학생 과제 리스트</h1>
+    </div>
+    <div class="board_wrap_content">
+        <div>
+            <label for="board_wrap_search_box"><strong>검색</strong></label>
+            <input type="search" id="board_wrap_search_box" placeholder="학생 이름으로 검색해 주세요.">
+        </div>
+        <div class="board_list_stu_table">
+            <table class="table">
+                <thead>
                 <tr>
                     <th>학생 이름</th>
                     <th>과제 이름</th>
                     <th>과제 내용</th>
+                    <th>과제 점수</th>
                 </tr>
-                <tr>
-                    <td th:value="${submitDtos.stud_no}"><a th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${submitDtos.stud_nm}]]</a></td>
+                </thead>
+                <tbody>
+                <tr th:each="submitDtos: ${submitDtos}">
+                    <td th:value="${submitDtos.stud_no}"><a
+                            th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${submitDtos.stud_nm}]]</a>
+                    </td>
                     <td th:value="${submitDtos.amc_no}">[[${amcDtoMH.amc_at}]]</td>
                     <td th:utext="${amcDtoMH.amc_ac}"></td>
+                    <td th:if="${submitDtos.submit_sc} != 0" th:text="${submitDtos.submit_sc}"></td>
                 </tr>
+                </tbody>
             </table>
-
         </div>
     </div>
-
 </div>
+<script src="/minho/js/searchSelStu.js"></script>
 </body>
 </html>

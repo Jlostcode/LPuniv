@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/minho/css/stuList.css">
 </head>
 <body>
 <div class="board_wrap">
@@ -13,15 +14,14 @@
                 <th>수강생 번호</th>
                 <th>강의 번호</th>
                 <th>전체 진도율</th>
-                <th>전체 성적</th>
                 <th>수료 여부</th>
             </tr>
             <tr th:each="lecPage : ${lecPage.content}">
-                <td th:text="${lecPage.stud_no}"></td>
-                <td th:text="${lecPage.occ_NO}"></td>
+                <td th:value="${lecPage.stud_no}">[[${lecPage.stud_nm}]]</td>
+                <td th:value="${lecPage.occ_NO}">[[${lecPage.occ_title}]]</td>
                 <td th:text="${lecPage.stud_pg}"></td>
-                <td th:text="${lecPage.stud_sc}"></td>
-                <td th:text="${lecPage.stud_St}"></td>
+                <td th:if="${lecPage.stud_st == 0}">수료 불가</td>
+                <td th:if="${lecPage.stud_st != 0}">수료 가능</td>
             </tr>
             <tfoot>
             <div class="lecPage" th:if="${lecPage.hasArticles()}">

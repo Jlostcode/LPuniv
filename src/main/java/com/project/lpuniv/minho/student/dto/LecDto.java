@@ -20,6 +20,7 @@ public class LecDto {
     //학생 수료 여부
     private int stud_st;
     private String occ_title;
+    private String stud_nm;
 
 //    public LecDto(int stud_no, int occ_NO, double stud_pg, double stud_sc, int stud_St) {
 //        this.stud_no = stud_no;

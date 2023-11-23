@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 검색창 element를 id값으로 가져오기
     const payrollSearch = document.querySelector('#board_wrap_search_box');
     // 테이블의 tbody element를 id값으로 가져오기
-    const payrollTable = document.querySelector('#table tbody');
+    const payrollTable = document.querySelector('.table tbody');
 
     //검색창 element에 keyup 이벤트 세팅. 글자 입력 시 마다 발생.
     payrollSearch.addEventListener('keyup', function() {

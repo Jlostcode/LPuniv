@@ -3,6 +3,7 @@ package com.project.lpuniv.minho.student.controller;
 import com.project.lpuniv.minho.student.dto.LecDto;
 import com.project.lpuniv.minho.student.dto.LecPage;
 import com.project.lpuniv.minho.student.service.LectureService;
+import com.project.lpuniv.minho.studentLec.service.StudentLecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,9 @@ public class LecController {
 
     private int size = 5;
 
-    public LecPage getLecPage(int pageNum, int pageSize, int OCC_NO) {
-        int total = lectureService.countLecPage(OCC_NO);
-        List<LecDto> lecDto = lectureService.selectAllLecPage((pageNum - 1) * size, size, OCC_NO);
+    public LecPage getLecPage(int pageNum, int pageSize, int occ_NO) {
+        int total = lectureService.countLecPage(occ_NO);
+        List<LecDto> lecDto = lectureService.selectAllLecPage((pageNum - 1) * size, size, occ_NO);
         return new LecPage(total, pageNum, size, lecDto);
     }
 
