@@ -56,13 +56,8 @@
 }
 
 .board_wrap_head {
-    max-width: 80%;
-    display: flex;
+    max-width: 100%;
     align-items: center; /* 수직 정렬 */
-}
-
-.board_title {
-    flex: 1; /* 여백을 주기 위한 flex 속성 추가 */
 }
 
 .goBackBtn {

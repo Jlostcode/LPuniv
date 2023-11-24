@@ -72,8 +72,10 @@ function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PAUSED) {
         clearInterval(recordInterval);
         clearInterval(finishInterval);
-        if (event.target.getCurrentTime() <= schs_fnpo + 5) {
-            updatePosition();
+        if (recordInterval >= schs_fnpo + 5) {
+            if (event.target.getCurrentTime() <= schs_fnpo + 5) {
+                updatePosition();
+            }
         }
     }
     if (event.data === YT.PlayerState.ENDED) {

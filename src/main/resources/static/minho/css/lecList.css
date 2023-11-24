@@ -23,6 +23,12 @@
     transform: rotate(180deg); /* 버튼을 아래로 회전 */
 }
 
+.board_list_Container_toggleButton:hover {
+    background-color: #850cf0;
+    box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
+    0 -80px 0 0 rgba(0,0,0,0.25) inset;
+}
+
 .board_list_Container ul li {
     list-style: none; /* 기본 점을 없앰 */
     padding: 0; /* 기본 패딩 제거 */
@@ -51,13 +57,14 @@
 }
 
 .board_wrap_head {
-    max-width: 80%;
+    max-width: 100%;
     display: flex;
     align-items: center; /* 수직 정렬 */
 }
 
 .board_title {
     flex: 1; /* 여백을 주기 위한 flex 속성 추가 */
+    padding-right: 90px;
 }
 
 .goBackBtn {
@@ -76,7 +83,7 @@
 }
 
 .goBackBtn:hover {
-    background-color:#0a3ecc;
+    background-color: #850cf0;
     box-shadow: 0 80px 0 0  rgba(0,0,0,0.25) inset,
     0 -80px 0 0 rgba(0,0,0,0.25) inset;
 }

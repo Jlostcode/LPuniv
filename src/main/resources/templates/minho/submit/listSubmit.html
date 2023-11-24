@@ -28,7 +28,7 @@
                             <th>과제 점수</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="board_list_stu_table_tbody">
                         <tr th:each="submitDtos: ${submitDtos}">
                             <td th:value="${submitDtos.stud_no}"><a
                                     th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${submitDtos.stud_nm}]]</a>

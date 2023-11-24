@@ -35,7 +35,6 @@ public class ListenLecController {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int stud_no = authInfo.getUser_no();
         List<LecDto> listenLecDtos = lecInfoService.listenLecList(stud_no);
-        System.out.println("******************************"+listenLecDtos);
         model.addAttribute("listenLecDtos", listenLecDtos);
         return "minho/listenLec/lecInfo";
     }
@@ -48,9 +47,7 @@ public class ListenLecController {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int stud_no = authInfo.getUser_no();
         int countCcimNo = listenLecDao.countCcimNo(occ_NO);
-        System.out.println("=========================="+countCcimNo);
         int countSchsOcs = listenLecDao.countSchsOcs(stud_no, occ_NO);
-        System.out.println("countSchsOcs==========="+countSchsOcs);
         Double stud_pg = (double) ((100/countCcimNo) * countSchsOcs);
         lecVideoService.updateStudPg(stud_pg, stud_no, occ_NO);
         LecDto lecDto = lecVideoService.selectOneClass(stud_no, occ_NO);

@@ -15,9 +15,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-//        String requestURI = request.getRequestURI();
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        System.out.println("세션값"+authInfo);
         if (ObjectUtils.isEmpty(authInfo)) {
 
             response.sendRedirect("/login");//수업 연결 후에 연결하기.

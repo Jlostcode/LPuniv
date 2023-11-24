@@ -19,8 +19,8 @@
                 <div class="board_list_Container" style="display: none">
                     <ul>
                         <li th:text="'현재 진행률: ' + ${listenLecDtos.stud_pg} + '%'"></li>
-                        <li th:if="${listenLecDtos.stud_st == 0}">수료불가</li>
-                        <li th:if="${listenLecDtos.stud_st != 0}">수료가능</li>
+                        <li th:if="${listenLecDtos.stud_st == 0}" style="color: red">수료불가</li>
+                        <li th:if="${listenLecDtos.stud_st != 0}" style="color: green">수료가능</li>
                         <li><a th:href="@{'/listenLec/lecList?occ_NO=' + ${listenLecDtos.occ_NO}}">수강하러 가기</a></li>
                         <li><a th:href="@{'/amc/amcList?occ_NO=' + ${listenLecDtos.occ_NO}}">과제 정보</a></li>
                     </ul>

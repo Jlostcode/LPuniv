@@ -51,12 +51,12 @@
 
 .board_title {
     flex: 1; /* 여백을 주기 위한 flex 속성 추가 */
+    padding-left: 500px;
 }
 
 .board_wrap_head {
-    max-width: 80%;
+    max-width: 100%;
     display: flex;
-    align-items: center; /* 수직 정렬 */
 }
 
 .goBackBtn {

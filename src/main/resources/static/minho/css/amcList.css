@@ -46,7 +46,7 @@
 }
 
 .board_list_Container a:hover {
-    background-color: #0a3ecc; /* 원하는 진한 배경색 지정 */
+    background-color: #ccc; /* 원하는 진한 배경색 지정 */
 }
 
 /* 리스트가 나오는 부분의 배경색을 파란색으로 지정 */
@@ -56,13 +56,14 @@
 }
 
 .board_wrap_head {
-    max-width: 80%;
+    max-width: 100%;
     display: flex;
     align-items: center; /* 수직 정렬 */
 }
 
 .board_title {
     flex: 1; /* 여백을 주기 위한 flex 속성 추가 */
+    padding-right: 100px;
 }
 
 .goBackBtn {

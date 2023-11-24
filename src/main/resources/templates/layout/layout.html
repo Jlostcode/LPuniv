@@ -52,7 +52,7 @@
 
                 <div class="small_nav_brand">
                     <ion-icon name="menu-outline" class="small_nav__toggle" id="nav-toggle"></ion-icon>
-                    <a href="#" class="small_nav__logo">Bedimcode</a>
+                    <a href="#" class="small_nav__logo">Lo-Pie</a>
                 </div>
 
                 <div class="small_nav__list" th:if="${userTp == 1}">
@@ -69,14 +69,11 @@
                 </div>
 
                 <div class="small_nav__list" th:if="${userTp == 2}">
-                    <a href="/occ" class="small_nav__link actives">
+                    <a href="/occ" class="small_nav__link">
                         <ion-icon name="library-outline" class="small_nav__icon"></ion-icon>
                         <span class="small_nav_name">강의 목록 / 관리</span>
                     </a>
-                    <a href="#" class="small_nav__link">
-                        <ion-icon name="people-circle-outline" class="small_nav__icon"></ion-icon>
-                        <span class="small_nav_name">수강자 조회</span>
-                    </a>
+
                     <a href="/dayoung/userInfo" class="small_nav__link">
                         <ion-icon name="person-outline" class="small_nav__icon"></ion-icon>
                         <span class="small_nav_name">마이페이지</span>
@@ -84,7 +81,7 @@
                 </div>
 
                 <div class="small_nav__list" th:if="${userTp == 3}">
-                    <a href="/dayoung/addStudent" class="small_nav__link actives">
+                    <a href="/dayoung/addStudent" class="small_nav__link">
                         <ion-icon name="person-add-outline" class="small_nav__icon"></ion-icon>
                         <span class="small_nav_name">학생 등록</span>
                     </a>
@@ -129,6 +126,7 @@
     <!-- IONICONS -->
     <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
     <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/layout/main.js"></script>
     <script src="/layout/loginInfo.js"></script>
     </body>
