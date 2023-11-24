@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.layout.dao.LayoutDao">
+
+
+<select id="findNm" resultType="com.project.lpuniv.layout.dto.LayoutDto">
+    select user_nm from user where user_no = #{user_no}
+
+</select>
+
+
+</mapper>

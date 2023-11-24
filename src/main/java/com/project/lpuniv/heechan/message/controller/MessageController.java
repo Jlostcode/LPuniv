@@ -168,6 +168,7 @@ public class MessageController {
         model.addAttribute("searchOp", searchOp);
         model.addAttribute("div", div);
         model.addAttribute("pageNo", pageNo);
+        model.addAttribute("userNo", userNo);
         model.addAttribute("authInfo", authInfo);
         return "heechan/message/recycle";
     }
@@ -188,7 +189,9 @@ public class MessageController {
             messageService.recDel(msgNo);
         }
 
-        if(msg.getRecDel() == 2 && msg.getSenDel() == 2){ //보낸사람, 받은사람 모두 메시지를 삭제 했을 때 DB에서도 삭제
+        Message dleMsg = messageService.selectMsg(msgNo);
+
+        if(dleMsg.getRecDel() == 2 && dleMsg.getSenDel() == 2){ //보낸사람, 받은사람 모두 메시지를 삭제 했을 때 DB에서도 삭제
             messageService.msgDel(msgNo);
         }
 
@@ -249,7 +252,6 @@ public class MessageController {
             model.addAttribute("admin", admin);
         } else {
             List<MsgUserList> msgUsersList = messageService.userList();
-            System.out.println(msgUsersList);
             model.addAttribute("msgUsersList", msgUsersList);
         }
 

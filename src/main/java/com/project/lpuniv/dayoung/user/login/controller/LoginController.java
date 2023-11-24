@@ -6,8 +6,10 @@ import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.dayoung.user.login.service.AuthService;
 import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
+import com.project.lpuniv.heechan.message.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,9 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private MessageService messageService;
+    
     @GetMapping(value = "/login")
     public String getLogin() {
         return "dayoung/loginForm";
@@ -75,9 +80,19 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String Main(HttpSession session) {
+    public String Main(@RequestParam(value = "msgCnt", required = false) Integer msgCntVal, HttpSession session, Model model) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
+        int userNo = authInfo.getUser_no();
+        System.out.println(userNo);
+        int msgCnt = messageService.userRecMsgCnt(userNo);
+        System.out.println(msgCnt);
+        if(msgCntVal == null){
+            model.addAttribute("msgCnt", msgCnt);
+        } else if (msgCntVal > msgCnt) {
+            model.addAttribute("msgCnt", msgCntVal);
+        } else {
+            model.addAttribute("msgCnt", msgCnt);
+        }
 
         int type = authInfo.getUser_tp();
 

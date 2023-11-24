@@ -1,8 +1,20 @@
-$(document).ready(function() { //모달 시작
-    $('#myModal').on('show.bs.modal', function () {
-        $('#modalContent').load('/message/recmsg');
-    });
-});
+// $(document).ready(function() { //모달 시작
+//     $('#openModalBtn').on('show.bs.modal', function () {
+//         $('#modalContent').load('/message/recmsg');
+//     });
+// });
+
+document.getElementById('openModalBtn').addEventListener('click', openModal);
+function openModal() {
+    document.getElementById('msg-modal-area').style.display = 'block';
+    $('#modalContent').load('/message/recmsg');
+}
+
+function closeModal() {
+    document.getElementById('msg-modal-area').style.display = 'none';
+}
+
+document.querySelector('.modal-header .close').addEventListener('click', closeModal);
 
 function changePage(pageUrl) { //모달 화면 전환
     $('#modalContent').load(pageUrl);
@@ -373,7 +385,7 @@ $(document).ready(function () { //받은 메시지에서 답변 메시지 작성
 });
 
 // document.addEventListener("DOMContentLoaded", function () {
-//     setInterval(updateMessageCount, 3000);
+//     setInterval(updateMessageCount, 1000);
 // });
 
 // document.addEventListener("DOMContentLoaded", function () {// 현재 URL이 특정 페이지인 경우에만 setInterval 실행
@@ -394,7 +406,7 @@ function updateMessageCount() {
                 console.error("Error: Unable to find msgCnt in HTML");
             }
         })
-        .catch(error => console.error("Error fetching message count:", error));
+        .catch();
 }
 
 function filterRecipients() {
@@ -432,7 +444,6 @@ function updateInputValue() {
         }
     });
 
-    // Remove trailing comma and space, if any
     currentInputValue = currentInputValue.replace(/,\s*$/, '');
     inputElement.value = currentInputValue;
 }

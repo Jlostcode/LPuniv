@@ -6,6 +6,9 @@
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
 </head>
 <body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 <div class="header"><strong>강의 목록</strong> <br></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
 <div th:each="card : ${listPage.occDtos}" class="card" style="width: 18rem;">
@@ -112,5 +115,7 @@
 <script src="/juchan/js/occ_main_infodata.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/juchan/js/deleteOcc.js"></script>
+    </th:block>
+</th:block>
 </body>
 </html>

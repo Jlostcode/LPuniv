@@ -2,6 +2,7 @@ package com.project.lpuniv.heechan.message.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class Message {
     private String receiverNm;
     private String title;
     private String content;
-    private Date sentAt;
+    private LocalDateTime sentAt;
     private int senDel;
     private int recDel;
     private int readFlag;
