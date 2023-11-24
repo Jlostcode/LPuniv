@@ -4,12 +4,65 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+    <style>
+        .btn-outline-primary{
+            --cui-btn-color: #ffffff;
+            --cui-btn-border-color: #ffffff;
+            --cui-btn-hover-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-hover-bg: #989898;
+            --cui-btn-hover-border-color: #ffffff;
+            --cui-btn-focus-shadow-rgb: 50,31,219;
+            --cui-btn-active-color: rgb(0 0 0 / 87%);
+            --cui-btn-active-bg: #ffffff;
+            --cui-btn-active-border-color: #ffffff;
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: #626163;
+            --cui-btn-disabled-bg: transparent;
+            --cui-gradient: none;
+        }
+        .btn-primary {
+            --cui-btn-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-bg: #12192c;
+            --cui-btn-border-color: #12192c;
+            --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-hover-bg: #29334e;
+            --cui-btn-hover-border-color: #29334e;
+            --cui-btn-focus-shadow-rgb: 75, 58, 223;
+            --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-active-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-border-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-disabled-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-disabled-border-color: rgba(44, 56, 74, 0.95);
+        }
+        .page-link {
+            color: #12192c;
+        }
+        .effect-1 {
+            width: 100%;
+            color: #12192c;
+        }
+        .footer:hover{
+            background-color: #d0d1d2;
+
+        }
+        .header {
+            background-color: #12192c;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-<div class="header"><strong>챕터 목록</strong> <br></div>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+<div class="header" ><strong style="float: left;">챕터 목록</strong>
+    <a th:href="@{'/occ'}" class="btn btn-primary" style="float: right;">이전 페이지</a></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
     <div th:each="card, cardStat : ${listPage.ccimDtos}" th:id="'card' + ${cardStat.index}" class="card" style="width: 25rem;">
-        <div class="card-header" style="background-color: #a2a8ff; height: 5rem; display: flex; justify-content: flex-end; align-items: flex-start;">
+        <div class="card-header" style="background-color: #12192c; height: 5rem; display: flex; justify-content: flex-end; align-items: flex-start;">
             <button type="button" class="btn btn-outline-primary delete-btn"
                     th:data-occ-no="${occ_NO}" th:data-ccim-no="${card.ccim_NO}"
                     th:data-ccim-title="${card.ccim_title}"
@@ -69,19 +122,19 @@
         <strong> 챕터 정보 </strong>
         <hr>
         <label for="ccim_title_info" style="font-weight: bold">챕터명 </label>
-        <div class="card card-body" style="width: 1000px;">
+        <div class="card card-body" style="width: 100%;">
             <div id="ccim_title_info"></div>
         </div>
         <label for="ccim_content_info" style="font-weight: bold">챕터 소개 </label>
-        <div class="card card-body" style="width: 1000px;">
+        <div class="card card-body" style="width: 100%;">
             <div id="ccim_content_info"></div>
         </div>
         <label for="ccim_videoID_info" style="font-weight: bold">챕터 영상 (YOUTUBE) ID </label>
-        <div class="card card-body" style="width: 1000px;">
+        <div class="card card-body" style="width: 100%;">
             <div id="ccim_videoID_info"></div>
         </div>
         <label for="ccim_rt_info" style="font-weight: bold">챕터 영상 시간 </label>
-        <div class="card card-body" style="width: 1000px;">
+        <div class="card card-body" style="width: 100%;">
             <div id="ccim_rt_info"></div>
         </div>
     </div>
@@ -96,5 +149,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/juchan/js/ccim_main_infodata.js"></script>
 <script src="/juchan/js/deleteCcim.js"></script>
+</th:block>
+
+</th:block>
 </body>
 </html>

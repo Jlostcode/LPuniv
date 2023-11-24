@@ -37,31 +37,36 @@ $(document).ready(function () {
         // 파일이 업로드되기 전의 동작
         // 추가적인 데이터를 formData에 추가할 수 있음
         console.log(file);
-        formData.append("files", file);
+
+
         if (!formData.has("occ_no")) {
-
             formData.append("occ_no", document.getElementsByName("occ_no")[0].value);
-            formData.append("ccim_no", document.getElementsByName("ccim_no")[0].value);
-
-            // 중복으로 amc_at을 추가하지 않도록 확인
-            if (!formData.has("amc_at")) {
-                formData.append("amc_at", document.getElementsByName("amc_at")[0].value);
-            }
-
-            formData.append("amc_ac", document.getElementsByName("amc_ac")[0].value);
-
-            console.log(document.getElementsByName("occ_no")[0].value);
-            console.log(document.getElementsByName("ccim_no")[0].value);
-            console.log(document.getElementsByName("amc_at")[0].value);
-            console.log(document.getElementsByName("amc_ac")[0].value);
         }
+        if (!formData.has("ccim_no")) {
+            formData.append("ccim_no", document.getElementsByName("ccim_no")[0].value);
+        }
+
+        if (!formData.has("amc_at")) {
+            formData.append("amc_at", document.getElementsByName("amc_at")[0].value);
+        }
+            // 중복으로 amc_ac을 추가하지 않도록 확인
+        if (!formData.has("amc_ac")) {
+            formData.append("amc_ac", document.getElementsByName("amc_ac")[0].value);
+        }
+
+        formData.append("files", file);
+
+        console.log(document.getElementsByName("occ_no")[0].value);
+        console.log(document.getElementsByName("ccim_no")[0].value);
+        console.log(document.getElementsByName("amc_at")[0].value);
+        console.log(document.getElementsByName("amc_ac")[0].value);
+
     });
     dropzone.on("success", function(file, response) {
         // 업로드가 완료된 후의 동작
         // 서버에서 전달받은 응답(response)를 확인하여 추가 동작 수행 가능
 
         // 폼을 서버에 제출
-        $("#insert_form").submit();
         window.location.href = '/amc' + '?occ_no=' + document.getElementsByName("occ_no")[0].value + '&ccim_no=' + document.getElementsByName("ccim_no")[0].value;
 
     });
@@ -76,15 +81,67 @@ $(document).ready(function () {
 
 });
 
+// function submitForm() {
+//     if (confirm("파일 업로드가 완료되었습니다. 내용을 확인하셨나요?")) {
+//         // 확인 버튼을 눌렀을 때의 동작
+//         let dropzone = Dropzone.forElement("#dropzoneForm");
+//         dropzone.processQueue();
+//     } else {
+//         // 취소 버튼을 눌렀을 때의 동작 (예를 들어, 다른 동작 수행)
+//         console.log("사용자가 확인하지 않고 취소했습니다.");
+//     }
+//
+//
+// }
 function submitForm() {
-    if (confirm("파일 업로드가 완료되었습니다. 내용을 확인하셨나요?")) {
-        // 확인 버튼을 눌렀을 때의 동작
-        let dropzone = Dropzone.forElement("#dropzoneForm");
-        dropzone.processQueue();
+    let dropzone = Dropzone.forElement("#dropzoneForm");
+    let form = document.querySelector('form');
+
+    if (dropzone.getQueuedFiles().length === 0) {
+        // 파일이 없는 경우
+        Swal.fire({
+            title: "파일이 없습니다.",
+            text: "등록된 파일이 없습니다. 과제만 등록하시겠습니까?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니오"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 확인을 눌렀을 때의 동작 (예를 들어, 과제 등록)
+                console.log("과제 등록");
+                if (checkNullAmc()){
+                form.submit();
+                // 여기에 추가적인 동작을 추가하십시오.
+                }
+            } else {
+                // 아니오를 눌렀을 때의 동작 (예를 들어, 다른 동작 수행)
+                console.log("사용자가 아니오를 선택했습니다.");
+            }
+        });
     } else {
-        // 취소 버튼을 눌렀을 때의 동작 (예를 들어, 다른 동작 수행)
-        console.log("사용자가 확인하지 않고 취소했습니다.");
+        // 파일이 있는 경우
+        Swal.fire({
+            title: "파일이 등록되었습니다.",
+            text: "파일이 등록되어 있습니다. 과제 등록하시겠습니까?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니오"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 확인을 눌렀을 때의 동작 (예를 들어, 과제 등록)
+                if (checkNullAmc()){
+                    dropzone.processQueue();
+                    // 여기에 추가적인 동작을 추가하십시오.
+                }
+                console.log("과제 등록");
+                // 여기에 추가적인 동작을 추가하십시오.
+            } else {
+                // 아니오를 눌렀을 때의 동작 (예를 들어, 다른 동작 수행)
+                console.log("사용자가 아니오를 선택했습니다.");
+            }
+        });
     }
-
-
 }
+

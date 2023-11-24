@@ -84,7 +84,9 @@ public class OccController {
     public String occModifyPost(OccDto occDto, HttpSession session){
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         occDto.setTeach_NO(authInfo.getUser_no());
+        System.out.println(occDto);
         occService.occModify(occDto);
+
         return "redirect:/occ";
     }
 
