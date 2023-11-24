@@ -14,7 +14,7 @@ function sendData() {
     console.log(occ_NO);
     // 선택된 값이 없는 경우 처리
     if(stud_no.length === 0 || occ_NO.length === 0) {
-        alert("학생과 강의를 선택해 주세요.");
+        showAlert("학생과 강의를 선택해 주세요.");
         return;
     }
 
@@ -29,14 +29,25 @@ function sendData() {
         traditional: true,
         success: function(response) {
             if (response.value === null){
-                alert("이미 수강되어 있는 학생이 있습니다")
+                showAlert("이미 수강되어 있는 학생이 있습니다")
             }
             console.log(response);
             window.location.href = "/stuLec/stuList"
-            alert("수강등록 되었습니다!");
+            showAlert("수강등록 되었습니다!");
         },
         error: function(xhr, status, error) {
-            alert("이미 수강된 학생이 존재합니다." + error);
+            showAlert("이미 수강된 학생이 존재합니다." + error);
         }
+    });
+}
+
+function showAlert(message) {
+    Swal.fire({
+        icon: 'warning',
+        iconColor:'#12192c',
+        title: '알림',
+        text: message,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: '확인'
     });
 }

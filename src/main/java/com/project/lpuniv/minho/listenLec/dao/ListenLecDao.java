@@ -1,9 +1,11 @@
 package com.project.lpuniv.minho.listenLec.dao;
 
+import com.project.lpuniv.minho.amc.dto.AmcDtoMH;
 import com.project.lpuniv.minho.listenLec.dto.LecInfoDto;
 import com.project.lpuniv.minho.listenLec.dto.LecListDto;
 import com.project.lpuniv.minho.listenLec.dto.LecVideoDto;
 import com.project.lpuniv.minho.listenLec.dto.SchsDto;
+import com.project.lpuniv.minho.student.dto.LecDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +27,11 @@ public interface ListenLecDao {
     SchsDto selectSchsPo (int stud_no, int occ_NO, int ccim_NO);
     //강의 총 시간 및 시청기록 업데이트
     void updatePo(int stud_no, @Param("schs_fnpo") int schs_fnpo, @Param("schs_endpo") int schs_endpo ,@Param("ccim_NO") int ccim_NO, @Param("occ_NO") int occ_NO);
+    List<LecDto> listenLecList(@Param("stud_no") int stud_no);
+    void updateOcs(int stud_no, int occ_NO, int ccim_NO, int schs_ocs);
+    Integer countCcimNo(@Param("occ_NO") int occ_NO);
+    Integer countSchsOcs(@Param("stud_no") int stud_no, @Param("occ_NO") int occ_NO);
+    void updateStudPg(Double stud_pg, int stud_no, int occ_NO);
+    LecDto selectOneClass(int stud_no, int occ_NO);
+    void updateStudSt (int stud_no, int occ_NO, Double stud_pg);
 }

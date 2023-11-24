@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>강의 영상</title>
-
+    <link rel="stylesheet" href="/minho/css/lecVideo.css">
 </head>
 <body>
-<div class="modal_wrap" th:each="lecVideo : ${lecVideo}">
+<div id="videoModal" class="modal_wrap" th:each="lecVideo : ${lecVideo}">
     <div class="modal_wrap_content">
         <div id="youtubeVideo"></div>
         <div id="board_wrap_videoId" th:attr="videoId=${lecVideo.ccim_videoID}"></div>
@@ -20,7 +20,7 @@
         <div id="board_wrap_endpo2" th:hidden="${schsDto.schs_endpo}"></div>
     </div>
     <div class="modal_wrap_content_closeBtn">
-        <button type="button" onclick="requestPost()">닫기</button>
+        <button type="button" id="closeModalButton" onclick="requestPost()">수강 종료(반드시 눌러주세요)</button>
     </div>
 </div>
 <script src="/minho/js/lecVideo.js"></script>

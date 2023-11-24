@@ -4,8 +4,11 @@ import com.project.lpuniv.minho.file.dto.FileDtoMH;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface FileDaoMH {
     void insertFile(FileDtoMH fileDtoMH);
-    FileDtoMH selectFile(@Param("submit_no") int submit_no);
+    List<FileDtoMH> selectFile(@Param("submit_no") int submit_no);
+    FileDtoMH downloadFile(@Param("file_no") int file_no);
 }
