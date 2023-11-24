@@ -70,7 +70,6 @@ public class AmcController {
 //        amfiService.amcAllSelectDesc(ccim_no);
         System.out.println("occ_no:" + occ_no);
         System.out.println("ccim_no:" + ccim_no);
-        System.out.println("amcDtoPage" + amcDtoPage);
         model.addAttribute("listPage", amcDtoPage);
         model.addAttribute("occ_no", occ_no);
         model.addAttribute("ccim_no", ccim_no);
@@ -113,7 +112,7 @@ public class AmcController {
                 }
             }
 
-            return "redirect:/main";
+            return "redirect:/amc?occ_no=" + occ_no + "&ccim_no=" + ccim_no;
         } catch (NullPointerException e) {
             // 예외 처리 (로그 기록 또는 다른 방법으로 예외를 처리하세요)
             log.error("NullPointerException in amcInsertP", e);
@@ -164,7 +163,7 @@ public class AmcController {
                 }
             }
 
-            return "redirect:/main";
+            return "redirect:/amc?occ_no=" + occ_no + "&ccim_no=" + ccim_no;
         } catch (NullPointerException | IOException e) {
             // 예외 처리 (로그 기록 또는 다른 방법으로 예외를 처리하세요)
             log.error("NullPointerException in amcInsertP", e);
@@ -190,5 +189,10 @@ public class AmcController {
         System.out.println("amc_no:" + amc_no);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/loginModal")
+    public String modal() {
+        return "/juchan/amc/amc_main_modal";
     }
 }
