@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
@@ -21,10 +20,8 @@
         <li><a href="/boards/qa/posts">Q&A</a></li>
     </ul>
 </nav>
-<button type="button" class="modal-btn" data-toggle="modal" data-target="#myModal">
-    쪽지<span th:text="${msgCnt}"></span>
-</button>
 <a href="#" class ="button">공지 게시판 </a>
+<<<<<<< HEAD
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -47,7 +44,6 @@
 
 <script src="/heechan/js/modal.js"></script>
 </th:block>
-
 </th:block>
 </body>
 </html>

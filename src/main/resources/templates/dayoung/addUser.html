@@ -16,8 +16,10 @@
 <th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
 
     <th:block th:fragment="content">
+
 <div id="container">
     <div style="font-size: 1.5rem; font-weight: bold">Registration</div> <br>
+
 <form th:action="@{/dayoung/addUser}" method="post" id = "userForm">
     <div class="form first">
         <div class="details personal">
@@ -106,7 +108,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.bundle.min.js" integrity="sha384-Iqk8EE7ao72xAVBuuQTEwrU5N2IdvpJER5ZzM6LxwcXHqj2WstttaOvopXziv0nU" crossorigin="anonymous"></script>
 <script src="/dayoung/js/addUser.js"></script>
     </th:block>
-
 </th:block>
 </body>
 </html>
