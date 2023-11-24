@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>수강 페이지</title>
 </head>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 <body>
 <div class="board_wrap">
     <div class="board_list" th:each="dto: ${dto}">
@@ -32,5 +35,8 @@
         </table>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </th:block>
+</th:block>
 </body>
 </html>

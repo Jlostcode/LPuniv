@@ -3,43 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>메시지내용</title>
+    <link rel="stylesheet" href="/heechan/css/msgView.css">
 </head>
-<body>
-    <div>
-        발신자 : <span th:text="${message.senderNm}"></span>
-        수신자 : <span th:text="${message.receiverNm}"></span><br/>
-        <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span><br/>
-        제목 : <span th:text="${message.title}"></span><br/>
-        내용 : <br/><label><textarea th:text="${message.content}" style="resize: none;" name="content"  cols="90" rows="25" readonly="readonly"></textarea></label>
+<body class="message-body">
+    <div class="message-details">
+        발신자 : <span class="view-sender" th:text="${message.senderNm}"></span>
+        수신자 : <span class="view-receiver" th:text="${message.receiverNm}"></span><br/>
+        날짜 : <span class="sent-time" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span><br/>
+        제목 : <span class="message-view-title" th:text="${message.title}"></span><br/>
+        내용 : <br/><label class="content-label"><textarea class="message-content" th:text="${message.content}" style="resize: none;" name="content"  cols="90" rows="25" readonly="readonly"></textarea></label>
     </div>
-    <span th:if="${searchInput == null && searchOp  == null}">
+    <span class="button-group" th:if="${searchInput == null && searchOp  == null}">
         <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
-            <button th:attr="onclick='recDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='recDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="write-button" th:attr="onclick='changePage(\'' + @{'/message/msgreplyform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">글쓰기</button>
         </th:block>
         <th:block th:if="${message.senDel == 0 && message.senderNo == userNo}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/msgupdateform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">수정하기</button>
-            <button th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
-            <button th:attr="onclick='senDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='senDelMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="edit-button" th:attr="onclick='changePage(\'' + @{'/message/msgupdateform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">수정하기</button>
         </th:block>
-        <th:block th:if="${message.senDel == 1 || message.recDel == 1}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
-            <button th:attr="onclick='recycleDelMsg(\''+ ${message.msgNo} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+        <th:block th:if="${(message.senDel == 1 && message.senderNo == userNo) || (message.recDel == 1 && message.receiverNo == userNo)}">
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${pageNo}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='recycleDelMsg(\''+ ${message.msgNo} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
         </th:block>
     </span>
-    <span th:if="${searchInput != null && searchOp  != null && div != null}">
+    <span class="button-group" th:if="${searchInput != null && searchOp  != null && div != null}">
         <th:block th:if="${message.recDel == 0 && message.receiverNo == userNo}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
-            <button th:attr="onclick='recDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/recmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='recDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="write-button" th:attr="onclick='changePage(\'' + @{'/message/msgreplyform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">글쓰기</button>
         </th:block>
         <th:block th:if="${message.senDel == 0 && message.senderNo == userNo}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/msgupdateform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">수정하기</button>
-            <button th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
-            <button th:attr="onclick='senDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/senmsg?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='senDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="edit-button" th:attr="onclick='changePage(\'' + @{'/message/msgupdateform?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">수정하기</button>
         </th:block>
         <th:block th:if="${message.senDel == 1 || message.recDel == 1}">
-            <button th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
-            <button th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
+            <button class="list-button" th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">목록으로</button>
+            <button class="view-delete-button" th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</button>
         </th:block>
     </span>
 </body>

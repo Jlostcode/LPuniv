@@ -4,6 +4,7 @@ import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dao.MessageMapper;
 import com.project.lpuniv.heechan.message.dto.Message;
 import com.project.lpuniv.heechan.message.dto.MessageRequest;
+import com.project.lpuniv.heechan.message.dto.MsgUserList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -121,7 +122,7 @@ public class MessageService {
         return messageMapper.getAdmin();
     }
 
-    public List<UserDto> userList(){
+    public List<MsgUserList> userList(){
         return messageMapper.userList(); //사용자 전체 가져오기(관리자가 사용)
     }
 }
