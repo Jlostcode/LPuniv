@@ -3,6 +3,7 @@ package com.project.lpuniv.heechan.message.dao;
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.heechan.message.dto.Message;
 import com.project.lpuniv.heechan.message.dto.MessageRequest;
+import com.project.lpuniv.heechan.message.dto.MsgUserList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -37,5 +38,5 @@ public interface MessageMapper {
     int getTeacher(@Param("user_no") int userNo); //접속한 수강생이 듣는 강의의 강사
     List<UserDto> classUsers(@Param("user_no") int userNo); //강사가 접속 했을 때 강의를 듣는 학생들
     UserDto getAdmin(); //관리자 정보 가져오기
-    List<UserDto> userList(); //사용자 전체 가져오기(관리자가 사용)
+    List<MsgUserList> userList(); //사용자 전체 가져오기(관리자가 사용)
 }

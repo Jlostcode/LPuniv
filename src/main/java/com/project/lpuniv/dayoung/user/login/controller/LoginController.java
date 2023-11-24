@@ -6,8 +6,10 @@ import com.project.lpuniv.dayoung.user.login.dto.AuthInfo;
 import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.dayoung.user.login.service.AuthService;
 import com.project.lpuniv.dayoung.user.signUp.dto.SignupDto;
+import com.project.lpuniv.heechan.message.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,9 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private MessageService messageService;
+    
     @GetMapping(value = "/login")
     public String getLogin() {
         return "dayoung/loginForm";
@@ -43,9 +48,11 @@ public class LoginController {
 
          String userId = userDto.getUser_loginId();
 
+        UserDto deldate =loginDao.selectDeldate(userId);
+        System.out.println("Deleted date: "+deldate);
 
 
-        if(userId != null ) {
+        if(userId != null && deldate == null) {
             String hashedPasswd = hashPassword(user_passwd);
 
             userDto = loginDao.loginByPw(id);
@@ -68,16 +75,31 @@ public class LoginController {
                         return "/dayoung/adminMain";
 
                     }
-                }
+                }else if(hashedPasswd != dbPassword){
+                    return "redirect:/login";
           }
+
+            }
+        } else if (userId != null && deldate != null) {
+            return "redirect:/login";
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String Main(HttpSession session) {
+    public String Main(@RequestParam(value = "msgCnt", required = false) Integer msgCntVal, HttpSession session, Model model) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
+        int userNo = authInfo.getUser_no();
+        System.out.println(userNo);
+        int msgCnt = messageService.userRecMsgCnt(userNo);
+        System.out.println(msgCnt);
+        if(msgCntVal == null){
+            model.addAttribute("msgCnt", msgCnt);
+        } else if (msgCntVal > msgCnt) {
+            model.addAttribute("msgCnt", msgCntVal);
+        } else {
+            model.addAttribute("msgCnt", msgCnt);
+        }
 
         int type = authInfo.getUser_tp();
 
@@ -119,11 +141,6 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
-    }
-    @GetMapping("/getIdList")
-    public List<String> getIdList(@RequestParam("term") String term) {
-        // Call your service method to get user IDs based on the input
-        return loginDao.selectId(term);
     }
 
 

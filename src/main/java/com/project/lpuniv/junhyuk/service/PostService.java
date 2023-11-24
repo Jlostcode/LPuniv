@@ -76,6 +76,21 @@ public class PostService {
         postDao.PostHits(post_no);
     }
 
+    public List<Post> getPostsWithCommentCount(int boardNo) {
+        return postDao.selectPostsWithCommentCount(boardNo);
+    }
+
+
+    public List<Post> searchAndPaginatePostsWithComments(int board_no, String searchType, String searchTerm, int page, int size) {
+        int limit = size;
+        int offset = (page - 1) * size;
+        return postDao.searchPostsWithComments(board_no, searchType, searchTerm, limit, offset);
+    }
+
+    public List<Post> getAllPostsWithCommentsByBoardWithPaging(int board_no, int page, int size) {
+        int offset = (page - 1) * size;
+        return postDao.getAllPostsWithCommentsByBoardWithPaging(board_no, size, offset);
+    }
 
 
 }

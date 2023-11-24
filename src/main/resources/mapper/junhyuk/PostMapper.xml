@@ -27,7 +27,11 @@
 
 
     <select id="findByPostNo" resultType="com.project.lpuniv.junhyuk.dto.Post">
-        SELECT * FROM post WHERE post_no = #{post_no}
+        SELECT p.*, u.user_nm AS authorName
+        FROM post p
+                 JOIN user u ON p.user_no = u.user_no
+        WHERE p.post_no = #{post_no}
+
     </select>
 
     <update id="updatePost" parameterType="com.project.lpuniv.junhyuk.dto.Post">
@@ -116,7 +120,54 @@
         UPDATE  post SET hits = hits + 1 WHERE post_no = #{post_no}
     </update>
 
+    <!--댓글 수-->
+    <select id="selectPostsWithCommentCount" resultType="com.project.lpuniv.junhyuk.dto.Post">
+        SELECT p.*,
+               (SELECT COUNT(*) FROM comments c WHERE c.post_no = p.post_no) as commentCount
+        FROM post p
+        WHERE p.board_no = #{board_no}
+        ORDER BY p.date_created DESC
+    </select>
 
+
+    <select id="searchPostsWithComments" resultType="com.project.lpuniv.junhyuk.dto.Post">
+        SELECT p.*,
+        (SELECT COUNT(*) FROM comments c WHERE c.post_no = p.post_no) as commentCount,
+        u.user_nm as authorName
+        FROM post p
+        JOIN user u ON p.user_no = u.user_no
+        WHERE p.board_no = #{board_no}
+        <choose>
+            <when test="searchType == 'title'">
+                AND p.title LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'content'">
+                AND p.content LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'author'">
+                AND u.user_nm LIKE CONCAT('%', #{searchTerm}, '%')
+            </when>
+            <when test="searchType == 'all'">
+                AND (p.title LIKE CONCAT('%', #{searchTerm}, '%') OR p.content LIKE CONCAT('%', #{searchTerm}, '%') OR u.user_nm LIKE CONCAT('%', #{searchTerm}, '%'))
+            </when>
+            <otherwise>
+                AND p.title LIKE CONCAT('%', #{searchTerm}, '%')
+            </otherwise>
+        </choose>
+        ORDER BY p.post_no DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getAllPostsWithCommentsByBoardWithPaging" resultType="com.project.lpuniv.junhyuk.dto.Post">
+        SELECT p.*,
+               u.user_nm as authorName,
+               (SELECT COUNT(*) FROM comments c WHERE c.post_no = p.post_no) as commentCount
+        FROM post p
+                 JOIN user u ON p.user_no = u.user_no
+        WHERE p.board_no = #{board_no}
+        ORDER BY p.date_created DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
 
 
 

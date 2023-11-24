@@ -27,9 +27,8 @@
         select user_tp from user where user_loginId = #{user_loginId}
     </select>
 
-    <select id="selectId" resultType="String">
-
-        SELECT user_LoginId FROM user WHERE user_LoginId LIKE #{term}%
-
+    <select id="selectDeldate" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select user_deletedate from user where user_loginId=#{user_loginId}
     </select>
+
 </mapper>
