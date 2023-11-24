@@ -22,7 +22,8 @@ public interface UserDao {
 
     List<ListDto> serchList (String serchFind, String selectOption,int startRow, int size);
 
-    List<ListDto>updateUser(ListDto data);
+    void updateUser(ListDto data);
+//    List<ListDto> updateUser(ListDto data);
 
     void deleteDate(int user_no);
 

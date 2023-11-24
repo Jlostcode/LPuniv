@@ -37,3 +37,16 @@ button {
     
 }
 
+.w-btn-small{
+    background-color: #12192c;
+    color: #ffffff;
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 13px 11px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+
+}

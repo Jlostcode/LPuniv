@@ -114,8 +114,23 @@ public class UserController {
             userDao.updateUser(data); // 예시로 userDao를 사용하여 데이터베이스 업데이트
         }
 
-        return "업데이트가 완료되었습니다."; // 업데이트 후의 화면으로 리다이렉트할 수 있는 URL을 반환합니다
+        return "success"; //
     }
+
+//    @PostMapping("/dayoung/update")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, String>> addGridList(@RequestBody List<ListDto> updatedData) {
+//        System.out.println(updatedData);
+//        Map<String, String> response = new HashMap<>();
+//        for (ListDto data : updatedData) {
+//            System.out.println(data);
+//            userDao.updateUser(data); // 예시로 userDao를 사용하여 데이터베이스 업데이트
+//        }
+//
+//        response.put("status", "success");
+//        return ResponseEntity.ok(response); // 업데이트 후의 화면으로 리다이렉트할 수 있는 URL을 반환합니다
+//    }
+
 
     @PostMapping("/dayoung/modify")
     public String modifyStudentSuccess(@RequestParam String user_tel,HttpSession session){

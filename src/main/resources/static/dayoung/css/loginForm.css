@@ -4,7 +4,7 @@ img{
 .login {
     height: 1000px;
     width: 100%;
-    background: white;
+    background: rgba(217, 217, 217, 0.53);
     position: relative;
 }
 .login_box {

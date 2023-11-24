@@ -93,6 +93,7 @@ $(document).ready(function() {
                         console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
                         alert('비밀번호가 변경되었습니다. ' +
                             '변경된 비밀번호는 1111 입니다.');
+                        location.reload();
                     },
                     error: function(error) {
                         console.error('데이터 업데이트 오류:', error);
@@ -113,6 +114,7 @@ $(document).ready(function() {
                     contentType: 'application/json',
                     success: function(response) {
                         alert('삭제되었습니다.');
+                        location.reload();
                     },
                     error: function(error) {
                         console.error('데이터 업데이트 오류:', error);
@@ -150,6 +152,8 @@ $(document).ready(function() {
                     success: function(response) {
                         console.log('그리드 데이터가 성공적으로 업데이트되었습니다.');
                         alert('저장되었습니다.');
+                        // location.reload();
+                        window.location.href = '/dayoung/list';
                     },
                     error: function(error) {
                         console.error('데이터 업데이트 오류:', error);
