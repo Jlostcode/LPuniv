@@ -1,4 +1,4 @@
-.modal {
+.modalling {
     display: none;
     position: fixed;
     z-index: 9999; /* 이 값을 조정하여 다른 요소 위로 모달을 표시합니다 */

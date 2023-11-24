@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn').addEventListener('click', function() {
-        openModal();
+        openModalhehe();
         // window.location.href = '/dayoung/modify'; // 버튼을 누르면 /dayoung/modify 페이지로 이동
     });
 
@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function openModal() {
+function openModalhehe() {
     document.getElementById('myModal').style.display = 'block';
 }
 
-function closeModal() {
+function closeModalhehe() {
     document.getElementById('myModal').style.display = 'none';
 }
 

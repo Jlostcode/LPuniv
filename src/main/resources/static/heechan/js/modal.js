@@ -4,17 +4,17 @@
 //     });
 // });
 
-document.getElementById('openModalBtn').addEventListener('click', openModal);
-function openModal() {
+document.getElementById('openModalBtn').addEventListener('click', openModals);
+function openModals() {
     document.getElementById('msg-modal-area').style.display = 'block';
     $('#modalContent').load('/message/recmsg');
 }
 
-function closeModal() {
+function closeModals() {
     document.getElementById('msg-modal-area').style.display = 'none';
 }
 
-document.querySelector('.modal-header .close').addEventListener('click', closeModal);
+document.querySelector('.modal-header .close').addEventListener('click', closeModals);
 
 function changePage(pageUrl) { //모달 화면 전환
     $('#modalContent').load(pageUrl);

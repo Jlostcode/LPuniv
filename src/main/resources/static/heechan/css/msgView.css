@@ -183,8 +183,8 @@
 .recycle-message-rec {
     width: 15%;
     text-align: left;
-    margin-left: 9.5%;
-    margin-right: 1%;
+    margin-left: 9.3%;
+    margin-right: 1.5%;
 }
 
 .recycle-message-title {
@@ -193,13 +193,13 @@
     color: #007bff;
     text-align: center;
     display: inline-block;
-    margin-left: 3.5%;
+    margin-left: 3.1%;
 }
 
 .recycle-message-date {
     width: 15%;
     text-align: center;
-    margin-left: 2%;
+    margin-left: 2.5%;
     margin-right: 1%;
 }
 
@@ -208,7 +208,7 @@
     cursor: pointer;
     color: #dc3545;
     text-align: center;
-    margin-left: 4.3%;
+    margin-left: 4.5%;
 }
 
 .recycle-delete-button2 {

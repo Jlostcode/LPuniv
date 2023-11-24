@@ -67,9 +67,9 @@ public class LoginController {
                     int user_tp =authInfo.getUser_tp();
 
                     if (user_tp == 1) {
-                        return "/dayoung/stuMain";
+                        return "redirect:/listenLec/lecInfo";
                     } else if (user_tp == 2) {
-                        return "/dayoung/teaMain";
+                        return "redirect:/occ";
 
                     } else if (user_tp == 3) {
                         return "/dayoung/adminMain";
@@ -107,9 +107,9 @@ public class LoginController {
             int user_tp = authInfo.getUser_tp();
 
             if (user_tp == 1) {
-                return "/dayoung/stuMain";
+                return "redirect:/listenLec/lecInfo";
             } else if (user_tp == 2) {
-                return "/dayoung/teaMain";
+                return "redirect:/occ";
 
             } else if (user_tp == 3) {
                 return "/dayoung/adminMain";

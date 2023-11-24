@@ -81,7 +81,7 @@
     <select id="recycleMsgCnt" resultType="Integer">
         select count(*)
         from message
-        where (receiver_no = 2 and rec_del = 1) or (sender_no = 2 and sen_del = 1)
+        where (receiver_no = #{user_no} and rec_del = 1) or (sender_no = #{user_no} and sen_del = 1)
     </select>
 
 <!--    읽음으로 변경-->
@@ -257,7 +257,7 @@
                           FROM class
                           WHERE stud_no = #{user_no}) and u.user_no != #{user_no};
     </select>
-    
+
 <!--    접속한 수강생이 듣는 강의의 강사-->
     <select id="getTeacher" resultType="Integer">
         select teach_no
