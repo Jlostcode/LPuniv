@@ -63,10 +63,16 @@ public class PostController {
         List<Post> posts;
         int totalPosts;
 
+
+
+
+
+
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         if (authInfo != null){
             model.addAttribute("currentUserId", authInfo.getUser_no());
         }
+
 
         if(page <= 1) {
             page = 1;
@@ -74,14 +80,17 @@ public class PostController {
 
 
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            posts = postService.searchAndPaginatePosts(board_no, searchType, searchTerm.trim(), page, size);
+            posts = postService.searchAndPaginatePostsWithComments(board_no, searchType, searchTerm.trim(), page, size);
             totalPosts = postService.countSearchPosts(board_no, searchTerm.trim(), searchType);
         } else {
-            posts = postService.getAllPostsByBoardWithPaging(board_no, page, size);
+            posts = postService.getAllPostsWithCommentsByBoardWithPaging(board_no, page, size);
             totalPosts = postService.countPosts(board_no);
         }
 
         int totalPages = (int) Math.ceil((double) totalPosts / size);
+
+
+
 
         model.addAttribute("posts", posts);
         model.addAttribute("totalPosts", totalPosts);
@@ -131,6 +140,7 @@ public class PostController {
         }
 
         post.setUser_no(authInfo.getUser_no());
+
 
         int board_no = boardService.getBoardNumberByName(board_name);
         post.setBoard_no(board_no);
@@ -186,12 +196,23 @@ public class PostController {
         postService.postHits(post_no);
 
         Post post = postService.findByPostNo(post_no);
+        System.out.println("++++++++++++++++++" + post);
+        String authorName = post.getAuthorName();
+        System.out.println("------------------" + authorName);
+        model.addAttribute("authorName", authorName);
         List<FileAttachment> attachments = fileService.findAttachmentsByPostNo(post_no);
 
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+
+
         boolean isOwner = authInfo != null && authInfo.getUser_no() == post.getUser_no();
 
 
+
+
+
+
+        model.addAttribute("postId", post_no);
 
 
         List<Comments> commentsWithReplies = commentService.getCommentsByPostId(post_no);
@@ -205,6 +226,7 @@ public class PostController {
         model.addAttribute("post", post);
         model.addAttribute("attachments", attachments);
         model.addAttribute("isOwner", isOwner); // 게시물의 소유권 여부를 모델에 추가
+
 
         return "junhyuk/posts/view";
     }

@@ -6,7 +6,7 @@
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
     <meta charset="UTF-8">
-    <title>FAQ</title>
+    <title>공지사항</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -179,10 +179,10 @@
 <body>
 
 <div class="faq-container">
-    <h1>FAQ</h1><br>
+    <h1>공지사항</h1><br>
 
     <div th:if="${currentUserId == 3}">
-        <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 FAQ 등록</a>
+        <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 공지사항 등록</a>
     </div>
 
     <form class="search-form" id="searchForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" method="get">
@@ -202,10 +202,10 @@
     <div th:each="post : ${posts}" class="faq-item">
         <div class="faq-title">
             <span class="faq-prefix" >Q</span> <!-- Add 'Q' on the left -->
-            <span class="titles" th:text="${post.title}">FAQ 제목</span> <!-- FAQ Title in the center -->
+            <span class="titles" th:text="${post.title}">공지사항 제목</span> <!-- FAQ Title in the center -->
             <span class="user-title" th:text="${post.authorName}">사용자</span>
         </div>
-        <div class="faq-content" th:utext="${post.content}">FAQ 내용</div>
+        <div class="faq-content" th:utext="${post.content}">공지사항 내용</div>
     </div>
 
 

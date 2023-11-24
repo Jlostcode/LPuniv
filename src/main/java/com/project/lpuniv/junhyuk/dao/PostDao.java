@@ -45,6 +45,9 @@ public interface PostDao {
 
     int countPosts(@Param("board_no") int board_no);
 
+    List<Post> selectPostsWithCommentCount(int board_no);
 
+    List<Post> searchPostsWithComments(int board_no, String searchType, String searchTerm, int limit, int offset);
+    List<Post> getAllPostsWithCommentsByBoardWithPaging(int board_no, int limit, int offset);
 
 }

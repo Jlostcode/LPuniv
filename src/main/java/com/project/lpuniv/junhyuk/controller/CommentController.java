@@ -24,37 +24,40 @@ public class CommentController {
 
     // 댓글 추가
     @PostMapping("/{postId}/comments")
-    public String addComment(@PathVariable int postId, Comments comment, HttpSession session) {
+    @ResponseBody
+    public ResponseEntity<?> addComment(@PathVariable int postId, @RequestBody Comments comment, HttpSession session) {
+
         comment.setPostNo(postId);
 
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         if (authInfo != null) {
             comment.setUserNo(authInfo.getUser_no());
+            comment.setPostNo(postId);
+            commentService.addComment(comment);
+            return ResponseEntity.ok("댓글이 성공적으로 추가되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
-        commentService.addComment(comment);
-        return "redirect:/posts/" + postId;
     }
+
+
+
+
 
     // 대댓글 추가
     @PostMapping("/{postId}/comments/{commentId}/reply")
-    public String addReply(@PathVariable int postId, @PathVariable int commentId, Comments comment, HttpSession session) {
-
+    @ResponseBody
+    public ResponseEntity<?> addReply(@PathVariable int postId, @PathVariable int commentId, @RequestBody Comments comment, HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         if (authInfo != null) {
             comment.setUserNo(authInfo.getUser_no());
-        }else {
-            return "redirect:/";
+            comment.setPostNo(postId);
+            comment.setParentCommentNo(commentId);
+            commentService.addReply(comment);
+            return ResponseEntity.ok("대댓글이 성공적으로 추가되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
-
-
-        comment.setPostNo(postId);
-        comment.setParentCommentNo(commentId);
-
-
-        commentService.addReply(comment);
-
-
-        return "redirect:/posts/" + postId;
     }
 
 
@@ -129,6 +132,7 @@ public class CommentController {
         commentService.deleteComment(replyId);
         return ResponseEntity.ok("대댓글이 성공적으로 삭제되었습니다.");
     }
+
 
 
 
