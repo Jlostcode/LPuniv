@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface LoginDao {
 
-
+    UserDto selectDeldate(String id);
     Integer countEmpAdress();
 
     boolean checkTel(String user_tel);

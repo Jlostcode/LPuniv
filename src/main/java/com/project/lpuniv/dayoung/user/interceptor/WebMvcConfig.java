@@ -15,7 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggerInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns( "/login","/main","/css/**", "/js/**", "//code.jquery.com/jquery-3.6.0.min.js","https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js","https://uicdn.toast.com/tui.grid/latest/tui-grid.js","https://uicdn.toast.com/tui.grid/latest/tui-grid.css");
+                .excludePathPatterns( "/login","/main","/dayoung/css/**", "/dayoung/js/**","/css/**", "/js/**", "//code.jquery.com/jquery-3.6.0.min.js","https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js","https://uicdn.toast.com/tui.grid/latest/tui-grid.js","https://uicdn.toast.com/tui.grid/latest/tui-grid.css");
 //                .excludePathPatterns("/dayoung/logIn","/")
 //                .excludePathPatterns("/css/**")
 //                .excludePathPatterns("/js/**")
