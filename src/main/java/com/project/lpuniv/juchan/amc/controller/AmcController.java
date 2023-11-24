@@ -190,4 +190,9 @@ public class AmcController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/loginModal")
+    public String modal() {
+        return "/juchan/amc/amc_main_modal";
+    }
 }
