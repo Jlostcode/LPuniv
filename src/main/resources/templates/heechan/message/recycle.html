@@ -47,13 +47,13 @@
                     <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=sen' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span class="recycle-delete-button1" th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'sen' + '\')'" style="cursor: pointer">삭제</span>
-                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
                 <span class="recycle-message-span" th:if="${searchInput != null && searchOp  != null && div != null}">
                     <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span class="recycle-delete-button1" th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
-                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
             </span>
 
@@ -65,13 +65,13 @@
                     <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span class="recycle-delete-button1" th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'rec' + '\')'" style="cursor: pointer">삭제</span>
-                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
                 <span class="recycle-message-span" th:if="${searchInput != null && searchOp  != null && div != null}">
                     <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
                     <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
                     <span class="recycle-delete-button1" th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
-                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span><br/>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
             </span>
         </div>

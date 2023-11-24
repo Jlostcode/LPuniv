@@ -25,6 +25,8 @@
     color: white;
     background-color: #12192c;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
 }
 
 .modal-body {
