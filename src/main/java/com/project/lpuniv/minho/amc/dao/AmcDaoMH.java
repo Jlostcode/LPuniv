@@ -12,6 +12,6 @@ import java.util.List;
 public interface AmcDaoMH {
     List<AmcDtoMH> selectAmcOccNo(@Param(value = "occ_NO") int occ_NO);
     AmcDtoMH selectOneAmc(@Param(value = "amc_no") int amc_no);
-    AmfiDto selectOneAmfi(@Param(value = "amc_no") int amc_no);
+    List<AmfiDto> selectOneAmfi(@Param(value = "amc_no") int amc_no);
     void insertSubmit(SubmitDto submitDto);
 }

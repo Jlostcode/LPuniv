@@ -7,6 +7,8 @@ import com.project.lpuniv.minho.submit.dto.SubmitDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubmitService {
     @Autowired
@@ -20,5 +22,20 @@ public class SubmitService {
     }
     public void insertSubmit(SubmitDto submitDto) {
         submitDao.insertSubmit(submitDto);
+    }
+    public Integer selectSubmit(){
+        return submitDao.selectSubmit();
+    }
+    public SubmitDto selectSubmitAmcno(int user_no, int amc_no){
+        return submitDao.selectSubmitAmcno(user_no, amc_no);
+    }
+    public List<SubmitDto> selectAllSubmit(int amc_no) {
+        return submitDao.selectAllSubmit(amc_no);
+    }
+    public SubmitDto selectOneStuSubmit(int amc_no, int stud_no){
+        return submitDao.selectOneStuSubmit(amc_no, stud_no);
+    }
+    public void updateScore(int submit_no, int submit_sc){
+        submitDao.updateScore(submit_no, submit_sc);
     }
 }
