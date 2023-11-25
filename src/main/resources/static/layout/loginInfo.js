@@ -11,15 +11,22 @@ $(document).ready(function() {
                 let user_tp = session.user_tp;
                 if (user_tp === 1) {
                     type = "수강생";
+                    // 프로필 카드의 HTML 요소에 사용자 이름을 삽입
+                    console.log(userName);
+                    document.getElementById('profile-usertitle-name').innerHTML = userName + ' ' + type + ' 님' + '<br> 환영합니다.';
                 } else if (user_tp === 2) {
                     type = "강사";
+                    // 프로필 카드의 HTML 요소에 사용자 이름을 삽입
+                    console.log(userName);
+                    document.getElementById('profile-usertitle-name').innerHTML = userName + ' ' + type + ' 님' + '<br> 환영합니다.';
                 } else if (user_tp === 3) {
                     type = "관리자";
+                    // 프로필 카드의 HTML 요소에 사용자 이름을 삽입
+                    console.log(userName);
+                    document.getElementById('profile-usertitle-name').innerHTML = type + ' 님' + '<br> 환영합니다.';
                 }
             }
-            // 프로필 카드의 HTML 요소에 사용자 이름을 삽입
-            console.log(userName);
-            document.getElementById('profile-usertitle-name').innerHTML = userName + ' ' + type + ' 님' + '<br> 환영합니다.';
+
         },
         error: function(xhr, status, error) {
             // 에러 처리
