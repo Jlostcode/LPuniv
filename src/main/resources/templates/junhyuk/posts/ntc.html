@@ -178,10 +178,10 @@
 
 <body>
 
-<div class="faq-container">
+<div class="faq-container" th:with="userTp=${#httpServletRequest.getSession().getAttribute('authInfo')?.user_tp}">
     <h1>공지사항</h1><br>
 
-    <div th:if="${currentUserId == 3}">
+    <div th:if="${userTp == 3}">
         <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 공지사항 등록</a>
     </div>
 

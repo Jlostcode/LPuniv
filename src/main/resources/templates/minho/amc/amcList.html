@@ -17,7 +17,7 @@
             </div>
             <div class="board_list" th:each="amcList: ${amcList}">
                 <div th:value="${amcList.ccim_NO}">
-                    <button class="board_list_Container_toggleButton">[[${amcList.ccim_NO}]] 차시 과제 ></button>
+                    <button class="board_list_Container_toggleButton">[[${amcList.amc_at}]] 과제  </button>
                 </div>
                 <div class="board_list_Container" style="display: none">
                     <ul>

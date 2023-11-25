@@ -63,6 +63,9 @@ public class ListenLecController {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         int stud_no = authInfo.getUser_no();
         LecVideoDto lecVideoDto = lecVideoService.selectLecVideo(ccim_NO, occ_NO);
+        lecVideoDto.setCcim_NO(ccim_NO);
+        lecVideoDto.setOcc_NO(occ_NO);
+        System.out.println(lecVideoDto);
         SchsDto schsDto = lecVideoService.selectSchs(stud_no, occ_NO, ccim_NO);
         if (schsDto == null) {
             lecVideoService.insertSchs(new SchsDto(stud_no, occ_NO, ccim_NO));
@@ -92,7 +95,8 @@ public class ListenLecController {
         model.addAttribute("lecVideo", lecVideoDto);
         model.addAttribute("ccim_NO", ccim_NO);
         model.addAttribute("occ_NO", occ_NO);
-        SchsDto schsDto = lecVideoService.selectSchs(stud_no, ccim_NO, occ_NO);
+        SchsDto schsDto = lecVideoService.selectSchs(stud_no, occ_NO, ccim_NO);
+        System.out.println(schsDto);
         model.addAttribute("schsDto", schsDto);
         if (schsDto != null){
             lecVideoService.updatePo(stud_no, occ_NO, ccim_NO, schs_fnpo, schs_endpo);

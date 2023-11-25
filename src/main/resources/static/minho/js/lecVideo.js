@@ -2,7 +2,8 @@
  const apiKey = 'AIzaSyArivYMriACjf4a5097KcqUOJLmAuFi0cw';
 
 // YouTube 동영상 ID
-const CCIM_videoID = document.querySelector("#board_wrap_videoId").getAttribute("videoId");
+const CCIM_videoID = document.getElementById('board_wrap_videoId').getAttribute('videoId');
+console.log(CCIM_videoID);
 
 // 동영상 플레이어 변수
 let player;

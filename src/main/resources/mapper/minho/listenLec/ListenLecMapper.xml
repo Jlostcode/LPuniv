@@ -18,7 +18,7 @@
         select * from ccim where occ_NO = #{occ_NO}
     </select>
     <select id="selectLecVideo" resultType="com.project.lpuniv.minho.listenLec.dto.LecVideoDto">
-        select ccim_videoID from ccim where ccim_NO = #{ccim_NO} and occ_NO = #{occ_NO}
+        select * from ccim where ccim_NO = #{ccim_NO} and occ_NO = #{occ_NO}
     </select>
     <select id="selectSchs" resultType="com.project.lpuniv.minho.listenLec.dto.SchsDto">
         select * from schs where stud_no = #{stud_no} and occ_NO = #{occ_NO} and ccim_NO = #{ccim_NO}

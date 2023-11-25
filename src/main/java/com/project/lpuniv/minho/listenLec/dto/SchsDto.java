@@ -13,7 +13,7 @@ public class SchsDto { //수강이력 dto
     private int schs_no;
     private Date schs_st_dt;
     private Date schs_end_dt;
-    private int shcs_ocs;
+    private int schs_ocs;
     private int schs_fnpo;
     private int schs_endpo;
     private Integer stud_no;
