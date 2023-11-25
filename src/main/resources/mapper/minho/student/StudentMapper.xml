@@ -8,8 +8,11 @@
         SELECT * FROM class
     </select>
     <select id="selectAllLecPage" resultType="com.project.lpuniv.minho.student.dto.LecDto">
-        select c.stud_no as stud_no, u.user_nm as stud_nm, o.occ_title as occ_title, c.stud_pg as stud_pg, c.stud_st as stud_St, c.occ_NO as occ_NO
-        from class c, occ o, user u where c.stud_no = u.user_no and c.occ_NO = #{occ_NO}
+        SELECT c.stud_no AS stud_no, u.user_nm AS stud_nm, o.occ_title AS occ_title, c.stud_pg AS stud_pg, c.stud_st AS stud_St, c.occ_NO AS occ_NO
+        FROM class c
+                 JOIN occ o ON c.occ_NO = o.occ_NO
+                 JOIN user u ON c.stud_no = u.user_no
+        WHERE c.occ_NO = #{occ_NO}
             limit #{startRow}, #{size}
     </select>
     <select id="countLecPage" resultType="Integer">

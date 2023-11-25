@@ -1,0 +1,28 @@
+자바 스윙 정리
+
+1. 윈도우 만들기 (JFrame 상속)
+
+2. 윈도우 기본 코드
+		Container c = this.getContentPane();
+		this.setLayout(null);
+		this.setTitle("person");
+		this.setSize(400, 300);
+		this.setLocation(500, 500);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+
+3. 컴포넌트 배치 (JLable, JTextField, JButton, JTextArea)
+		JButton bt1 = new JButton("검색");
+		bt1.setSize(70,  30);              // 폭과 높이 조절
+		bt1.setLocation(20, 230);          // 위치 조정
+		c.add(bt1);
+
+4. JTextArea 경우 스크롤이 필요할 때 (ta는 JTextArea로 생성된 객체 이름)
+		JScrollPane scrollPane = new JScrollPane(ta);
+		ta.setCaretPosition(ta.getDocument().getLength());
+		scrollPane.setSize(320,  80);
+		scrollPane.setLocation(30,  100);
+		c.add(scrollPane);
+
+5. 버튼 이벤트
+	bt1.addActionListener(new ActionListener() {  // 엔터 후 actionPerformed를 구현(재정의)

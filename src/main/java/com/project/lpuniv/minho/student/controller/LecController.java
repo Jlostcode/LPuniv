@@ -29,13 +29,14 @@ public class LecController {
     }
 
     @GetMapping("/stuList")
-    public String getStuList(Model model, @RequestParam(name = "occ_NO") int occ_NO, @RequestParam(name = "pageNo") String pageNo, HttpSession session){
+    public String getStuList(Model model, @RequestParam(name = "occ_NO") int occ_NO, @RequestParam(name = "pageNo", required = false) String pageNo, HttpSession session){
         int pageSize = 5;
         int pageNum = 1;
         if (pageNo != null) {
             pageNum = Integer.parseInt(pageNo);
         }
         LecPage lecPage = getLecPage(pageNum, pageSize, occ_NO);
+        System.out.println(lecPage);
         model.addAttribute("lecPage", lecPage);
         model.addAttribute("occ_NO", occ_NO);
         return "minho/student/stuList";

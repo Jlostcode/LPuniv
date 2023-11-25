@@ -1,7 +1,9 @@
 package com.project.lpuniv.minho.student.dto;
 
-import java.util.List;
+import lombok.ToString;
 
+import java.util.List;
+@ToString
 public class LecPage {
     private int total;
     private int currentPage;

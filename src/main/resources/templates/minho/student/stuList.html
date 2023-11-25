@@ -31,18 +31,18 @@
                         <tr>
                             <td colspan="10">
                <span th:if="${lecPage.currentPage > 1}">
-                   <a th:href="@{'/class/stuList?occ_NO=' + ${lecPage.occ_NO} + '&pageNo=' + ${lecPage.currentPage - 1}}">[이전]</a>
+                   <a th:href="@{'/student/stuList?occ_NO=' + ${occ_NO} + '&pageNo=' + ${lecPage.currentPage - 1}}">[이전]</a>
                </span>
                                 <span th:each="pNo: ${#numbers.sequence(lecPage.startPage, lecPage.endPage)}">
                    <span th:if="${pNo == lecPage.currentPage}">
                        <strong th:text="${pNo}"></strong>
                    </span>
                    <span th:unless="${pNo == lecPage.currentPage}">
-                       <a th:href="@{'/class/stuList?occ_NO=' + ${lecPage.occ_NO} + '&pageNo=' + ${pNo}}">[[${pNo}]]</a>
+                       <a th:href="@{'/student/stuList?occ_NO=' + ${occ_NO} + '&pageNo=' + ${pNo}}">[[${pNo}]]</a>
                    </span>
                </span>
                                 <span th:if="${lecPage.currentPage < lecPage.totalPages}">
-                   <a th:href="@{'/class/stuList?occ_NO=' + ${lecPage.occ_NO} + '&pageNo=' + ${lecPage.currentPage + 1}}">[다음]</a>
+                   <a th:href="@{'/student/stuList?occ_NO=' + ${occ_NO} + '&pageNo=' + ${lecPage.currentPage + 1}}">[다음]</a>
                </span>
                             </td>
                         </tr>
