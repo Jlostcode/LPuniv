@@ -27,7 +27,7 @@
 
 
     <select id="findByPostNo" resultType="com.project.lpuniv.junhyuk.dto.Post">
-        SELECT p.*, u.user_nm AS authorName
+        SELECT p.*, u.user_nm AS authorName, u.user_tp AS userTp
         FROM post p
                  JOIN user u ON p.user_no = u.user_no
         WHERE p.post_no = #{post_no}
@@ -40,9 +40,14 @@
     </update>
 
     <delete id="deletePost" parameterType="int">
-        DELETE FROM post WHERE post_no = #{post_no} AND user_no = #{user_no}
+        DELETE FROM post WHERE post_no = #{post_no}
     </delete>
 
+
+
+    <select id="findPostOwnerById" resultType="int">
+        SELECT user_no FROM post WHERE post_no = #{post_no}
+    </select>
 
     <!--검색쿼리-->
     <select id="searchPosts" resultType="com.project.lpuniv.junhyuk.dto.Post">

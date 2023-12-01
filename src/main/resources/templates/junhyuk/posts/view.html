@@ -374,7 +374,7 @@
             </div>
 
             <!-- 삭제 버튼 -->
-            <div th:if="${isOwner}">
+            <div th:if="${isOwner or currentUserTp == 3}">
                 <form th:action="@{/boards/{board_name}/posts/{post_no}/delete(board_name=${board_name}, post_no=${post.post_no})}" method="post" onsubmit="return confirmDelete()">
                     <input type="submit" class="btn btn-custom btn-delete" value="삭제">
                 </form>

@@ -164,9 +164,25 @@
 
         }
 
+        .delete-title {
+            position: absolute; /* 절대적 위치 설정 */
+            right: 100px; /* 오른쪽에서 10px 떨어진 위치 */
+            top: 50%; /* 상단에서 50% 떨어진 위치 */
+            transform: translateY(-50%); /* Y축으로 -50% 만큼 이동하여 세로 중앙 정렬 */
+            /* 나머지 스타일 */
+        }
+
+
         .titles {
 
             font-weight: bolder;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: red;
+            border: none;
+            cursor: pointer;
         }
 
     </style>
@@ -176,104 +192,121 @@
 
     <th:block th:fragment="content">
 
-<body>
+        <body>
 
-<div class="faq-container">
-    <h1>공지사항</h1><br>
+        <div class="faq-container" th:with="userTp=${#httpServletRequest.getSession().getAttribute('authInfo')?.user_tp}">
+            <h1>공지사항</h1><br>
 
-    <div th:if="${currentUserId == 3}">
-        <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 공지사항 등록</a>
-    </div>
+            <div th:if="${userTp == 3}">
+                <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 공지사항 등록</a>
+            </div>
 
-    <form class="search-form" id="searchForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" method="get">
+            <form class="search-form" id="searchForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" method="get">
 
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" name="searchTerm" class="search-input" placeholder="검색어를 입력해주세요." th:value="${searchTerm}">
-        </div>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="searchTerm" class="search-input" placeholder="검색어를 입력해주세요." th:value="${searchTerm}">
+                </div>
 
-        <br>
+                <br>
 
-    </form>
-
-
-
-
-    <div th:each="post : ${posts}" class="faq-item">
-        <div class="faq-title">
-            <span class="faq-prefix" >Q</span> <!-- Add 'Q' on the left -->
-            <span class="titles" th:text="${post.title}">공지사항 제목</span> <!-- FAQ Title in the center -->
-            <span class="user-title" th:text="${post.authorName}">사용자</span>
-        </div>
-        <div class="faq-content" th:utext="${post.content}">공지사항 내용</div>
-    </div>
+            </form>
 
 
 
-    <div class="show-all">
-        <button id="toggle-all">전체 보기</button>
-    </div><br>
-<div>
-    <ul class="pagination hidden">
 
-        <li>
-            <a th:href="@{${currentPage > 1} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} - 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
-               th:class="${currentPage == 1} ? 'disabled' : ''">«</a>
-        </li>
+            <div th:each="post : ${posts}" class="faq-item">
+                <div class="faq-title">
+                    <span class="faq-prefix" >Q</span> <!-- Add 'Q' on the left -->
+                    <span class="titles" th:text="${post.title}">공지사항 제목</span> <!-- FAQ Title in the center -->
+                    <span class="user-title" th:text="${post.authorName}">사용자</span>
+                    <span class="delete-title" th:if="${userTp == 3}">
+                <form th:action="@{/boards/{board_name}/posts/{post_no}/delete(board_name=${board_name}, post_no=${post.post_no})}" method="post" onsubmit="return confirmDelete()">
+                    <input type="submit" class="btn btn-custom btn-delete" value="X">
+                </form>
+            </span>
+                </div>
+                <div class="faq-content" th:utext="${post.content}">공지사항 내용
 
 
-        <li th:each="pageNum : ${#numbers.sequence(1, (totalPosts == 0 ? 1 : totalPages))}"
-            th:if="${totalPosts > size or totalPages > 1}">
-            <a th:href="@{/boards/{board_name}/posts(board_name=${board_name}, page=${pageNum}, searchType=${searchType}, searchTerm=${searchTerm})}"
-               th:class="${pageNum == currentPage} ? 'active' : ''"
-               th:text="${pageNum}"></a>
-        </li>
+
+                </div>
+            </div>
 
 
 
 
 
-        <li>
-            <a th:href="@{${currentPage < totalPages} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} + 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
-               th:class="${currentPage == totalPages} ? 'disabled' : ''">»</a>
-        </li>
-    </ul>
+            <div class="show-all">
+                <button id="toggle-all">전체 보기</button>
+            </div><br>
+            <div>
+                <ul class="pagination hidden">
+
+                    <li>
+                        <a th:href="@{${currentPage > 1} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} - 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+                           th:class="${currentPage == 1} ? 'disabled' : ''">«</a>
+                    </li>
+
+
+                    <li th:each="pageNum : ${#numbers.sequence(1, (totalPosts == 0 ? 1 : totalPages))}"
+                        th:if="${totalPosts > size or totalPages > 1}">
+                        <a th:href="@{/boards/{board_name}/posts(board_name=${board_name}, page=${pageNum}, searchType=${searchType}, searchTerm=${searchTerm})}"
+                           th:class="${pageNum == currentPage} ? 'active' : ''"
+                           th:text="${pageNum}"></a>
+                    </li>
+
+
+
+
+
+                    <li>
+                        <a th:href="@{${currentPage < totalPages} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} + 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+                           th:class="${currentPage == totalPages} ? 'disabled' : ''">»</a>
+                    </li>
+                </ul>
+            </div>
+            <script>
+                var showAllClicked = false; // '전체 보기' 버튼 클릭 상태 변수
+                var toggleAllButton = document.getElementById('toggle-all'); // 전체 보기 버튼
+
+                document.querySelectorAll('.faq-title').forEach(function(title) {
+                    title.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        var content = this.nextElementSibling;
+                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    });
+                });
+
+                toggleAllButton.addEventListener('click', function() {
+                    var contents = document.querySelectorAll('.faq-content');
+                    var pagination = document.querySelector('.pagination');
+                    var isAnyVisible = Array.from(contents).some(content => content.style.display === 'block');
+
+                    showAllClicked = !showAllClicked; // 클릭 상태 토글
+
+                    // 버튼 텍스트 업데이트
+                    toggleAllButton.textContent = showAllClicked ? '닫기' : '전체 보기';
+
+                    if (showAllClicked) {
+                        contents.forEach(content => content.style.display = 'block');
+                        pagination.classList.remove('hidden');
+                    } else {
+                        contents.forEach(content => content.style.display = 'none');
+                        pagination.classList.add('hidden');
+                    }
+                });
+
+
+                function confirmDelete() {
+                    return confirm('정말로 삭제하시겠습니까?');
+                }
+
+            </script>
+
+
 </div>
-    <script>
-        var showAllClicked = false; // '전체 보기' 버튼 클릭 상태 변수
-        var toggleAllButton = document.getElementById('toggle-all'); // 전체 보기 버튼
-
-        document.querySelectorAll('.faq-title').forEach(function(title) {
-            title.addEventListener('click', function() {
-                this.classList.toggle('active');
-                var content = this.nextElementSibling;
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
-            });
-        });
-
-        toggleAllButton.addEventListener('click', function() {
-            var contents = document.querySelectorAll('.faq-content');
-            var pagination = document.querySelector('.pagination');
-            var isAnyVisible = Array.from(contents).some(content => content.style.display === 'block');
-
-            showAllClicked = !showAllClicked; // 클릭 상태 토글
-
-            // 버튼 텍스트 업데이트
-            toggleAllButton.textContent = showAllClicked ? '닫기' : '전체 보기';
-
-            if (showAllClicked) {
-                contents.forEach(content => content.style.display = 'block');
-                pagination.classList.remove('hidden');
-            } else {
-                contents.forEach(content => content.style.display = 'none');
-                pagination.classList.add('hidden');
-            }
-        });
-    </script>
-
-
-
-</body>
+        </body>
 
     </th:block>
 </th:block>

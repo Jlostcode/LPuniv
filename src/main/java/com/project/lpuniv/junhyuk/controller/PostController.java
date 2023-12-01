@@ -6,10 +6,7 @@ import com.project.lpuniv.dayoung.user.login.dto.UserDto;
 import com.project.lpuniv.junhyuk.dto.Comments;
 import com.project.lpuniv.junhyuk.dto.FileAttachment;
 import com.project.lpuniv.junhyuk.dto.Post;
-import com.project.lpuniv.junhyuk.service.BoardService;
-import com.project.lpuniv.junhyuk.service.CommentService;
-import com.project.lpuniv.junhyuk.service.FileService;
-import com.project.lpuniv.junhyuk.service.PostService;
+import com.project.lpuniv.junhyuk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -200,6 +197,8 @@ public class PostController {
         String authorName = post.getAuthorName();
         System.out.println("------------------" + authorName);
         model.addAttribute("authorName", authorName);
+        int userTp = post.getUserTp();
+        System.out.println("#################" + userTp);
         List<FileAttachment> attachments = fileService.findAttachmentsByPostNo(post_no);
 
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
@@ -209,7 +208,7 @@ public class PostController {
 
 
 
-
+        model.addAttribute("currentUserTp", authInfo.getUser_tp());
 
 
         model.addAttribute("postId", post_no);
@@ -239,7 +238,8 @@ public class PostController {
     @GetMapping("/{board_name}/posts/{post_no}/edit")
     public String showEditPostForm(@PathVariable String board_name, @PathVariable int post_no, Model model, HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        if (authInfo == null || !postService.isOwner(post_no, authInfo.getUser_no())) {
+        if (authInfo == null ||
+                (!postService.isOwner(post_no, authInfo.getUser_no()) && authInfo.getUser_tp() != 3)) {
             return "redirect:/login";
         }
 
@@ -258,12 +258,13 @@ public class PostController {
                              HttpSession session, RedirectAttributes redirectAttributes) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         if (authInfo == null) {
-            return "redirect:/login";
+            return "redirect:/main";
         }
 
 
         Post existingPost = postService.findByPostNo(post_no);
-        if (existingPost == null || existingPost.getUser_no() != authInfo.getUser_no()) {
+        int currentUserTp = authInfo.getUser_tp();
+        if (!(existingPost.getUser_no() == authInfo.getUser_no() || currentUserTp == 3)) {
             redirectAttributes.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
             return "redirect:/boards/" + board_name + "/posts/" + post_no;
         }
@@ -311,14 +312,23 @@ public class PostController {
     @PostMapping("/{board_name}/posts/{post_no}/delete")
     public String deletePost(@PathVariable String board_name, @PathVariable int post_no, HttpSession session, RedirectAttributes redirectAttributes) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        if (authInfo == null || !postService.isOwner(post_no, authInfo.getUser_no())) {
+        if (authInfo == null) {
             return "redirect:/login";
         }
 
-        postService.deletePost(post_no, authInfo.getUser_no());
-        redirectAttributes.addFlashAttribute("successMessage", "게시글이 성공적으로 삭제되었습니다.");
+        try {
+            if (postService.deletePost(post_no, authInfo.getUser_no(), authInfo.getUser_tp())) {
+                redirectAttributes.addFlashAttribute("successMessage", "게시글이 성공적으로 삭제되었습니다.");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "삭제 권한이 없습니다.");
+            }
+        } catch (UnauthorizedException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+
         return "redirect:/boards/" + board_name + "/posts";
     }
+
 
 
 

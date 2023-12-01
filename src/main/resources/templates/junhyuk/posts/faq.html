@@ -164,9 +164,25 @@
 
         }
 
+        .delete-title {
+            position: absolute; /* 절대적 위치 설정 */
+            right: 100px; /* 오른쪽에서 10px 떨어진 위치 */
+            top: 50%; /* 상단에서 50% 떨어진 위치 */
+            transform: translateY(-50%); /* Y축으로 -50% 만큼 이동하여 세로 중앙 정렬 */
+            /* 나머지 스타일 */
+        }
+
+
         .titles {
 
             font-weight: bolder;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: red;
+            border: none;
+            cursor: pointer;
         }
 
     </style>
@@ -204,9 +220,20 @@
             <span class="faq-prefix" >Q</span> <!-- Add 'Q' on the left -->
             <span class="titles" th:text="${post.title}">FAQ 제목</span> <!-- FAQ Title in the center -->
             <span class="user-title" th:text="${post.authorName}">사용자</span>
+            <span class="delete-title" th:if="${userTp == 3}">
+                <form th:action="@{/boards/{board_name}/posts/{post_no}/delete(board_name=${board_name}, post_no=${post.post_no})}" method="post" onsubmit="return confirmDelete()">
+                    <input type="submit" class="btn btn-custom btn-delete" value="X">
+                </form>
+            </span>
         </div>
-        <div class="faq-content" th:utext="${post.content}">FAQ 내용</div>
+        <div class="faq-content" th:utext="${post.content}">FAQ 내용
+
+
+
+        </div>
     </div>
+
+
 
 
 
@@ -269,10 +296,16 @@
                 pagination.classList.add('hidden');
             }
         });
+
+
+        function confirmDelete() {
+            return confirm('정말로 삭제하시겠습니까?');
+        }
+
     </script>
 
 
-
+</div>
 </body>
 
     </th:block>
