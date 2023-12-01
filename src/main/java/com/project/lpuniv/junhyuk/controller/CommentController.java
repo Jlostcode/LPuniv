@@ -72,8 +72,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
 
-        if (!commentService.isCommentOwner(commentId, authInfo.getUser_no())) {
-
+        if (!commentService.isCommentOwner(commentId, authInfo.getUser_no()) && authInfo.getUser_tp() != 3) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("댓글 수정 권한이 없습니다.");
         }
 
@@ -89,7 +88,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
 
-        if (!commentService.isCommentOwner(commentId, authInfo.getUser_no())) {
+        if (!commentService.isCommentOwner(commentId, authInfo.getUser_no()) && authInfo.getUser_tp() != 3) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("댓글 삭제 권한이 없습니다.");
         }
 
@@ -106,7 +105,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
 
-        if (!commentService.isCommentOwner(replyId, authInfo.getUser_no())) {
+        if (!commentService.isCommentOwner(replyId, authInfo.getUser_no()) && authInfo.getUser_tp() != 3) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("대댓글 수정 권한이 없습니다.");
         }
 
@@ -125,7 +124,7 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
         }
 
-        if (!commentService.isCommentOwner(replyId, authInfo.getUser_no())) {
+        if (!commentService.isCommentOwner(replyId, authInfo.getUser_no()) && authInfo.getUser_tp() != 3) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("대댓글 삭제 권한이 없습니다.");
         }
 

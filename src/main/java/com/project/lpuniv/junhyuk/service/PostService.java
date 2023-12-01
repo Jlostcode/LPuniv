@@ -42,9 +42,9 @@ public class PostService {
     }
 
 
-    public boolean deletePost(int postNo, int userNo) {
-        return postDao.deletePost(postNo, userNo) > 0;
-    }
+//    public boolean deletePost(int postNo, int userNo) {
+//        return postDao.deletePost(postNo, userNo) > 0;
+//    }
 
     public boolean isOwner(int postNo, int userNo) {
         Post post = postDao.findByPostNo(postNo);
@@ -91,6 +91,16 @@ public class PostService {
         int offset = (page - 1) * size;
         return postDao.getAllPostsWithCommentsByBoardWithPaging(board_no, size, offset);
     }
+
+    public boolean deletePost(int postNo, int userNo, int userTp) {
+        int postOwner = postDao.findPostOwnerById(postNo);
+        if (postOwner == userNo || userTp == 3) {
+            return postDao.deletePost(postNo) > 0;
+        } else {
+            throw new UnauthorizedException("삭제 권한이 없습니다.");
+        }
+    }
+
 
 
 }

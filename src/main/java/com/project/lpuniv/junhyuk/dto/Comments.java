@@ -20,5 +20,6 @@ public class Comments {
     private String userName;
     private Integer parentCommentNo;
     private List<Comments> replies;
+    private boolean isOwner;
 
 }

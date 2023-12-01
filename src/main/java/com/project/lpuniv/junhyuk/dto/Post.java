@@ -24,6 +24,7 @@ public class Post {
     private int user_no;
     private String authorName;
     private int commentCount;
+    private Integer userTp;
 
 
 }

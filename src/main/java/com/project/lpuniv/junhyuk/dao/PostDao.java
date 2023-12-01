@@ -24,7 +24,8 @@ public interface PostDao {
     int updatePost(Post post);
 
 
-    int deletePost(@Param("post_no") int post_no, @Param("user_no") int user_no);
+    int deletePost(int post_no);
+
 
 
 
@@ -49,5 +50,8 @@ public interface PostDao {
 
     List<Post> searchPostsWithComments(int board_no, String searchType, String searchTerm, int limit, int offset);
     List<Post> getAllPostsWithCommentsByBoardWithPaging(int board_no, int limit, int offset);
+
+
+    int findPostOwnerById(@Param("post_no") int post_no);
 
 }

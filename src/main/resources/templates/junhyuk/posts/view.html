@@ -374,7 +374,7 @@
             </div>
 
             <!-- 삭제 버튼 -->
-            <div th:if="${isOwner}">
+            <div th:if="${isOwner or currentUserTp == 3}">
                 <form th:action="@{/boards/{board_name}/posts/{post_no}/delete(board_name=${board_name}, post_no=${post.post_no})}" method="post" onsubmit="return confirmDelete()">
                     <input type="submit" class="btn btn-custom btn-delete" value="삭제">
                 </form>
@@ -415,7 +415,7 @@
         <strong th:text="${comment.userName}">사용자 이름</strong>
         <p class="comment-text" th:id="'comment-text-' + ${comment.commentNo}" th:data-comment-id="${comment.commentNo}" th:text="${comment.commentContent}" contenteditable="false">댓글 내용</p>
 
-        <div th:if="${isOwner}">
+        <div th:if="${comment.isOwner or currentUserTp == 3}">
             <button class="edit-comment-btn" th:data-comment-id="${comment.commentNo}" onclick="enableEditing(this)">수정</button>
             <button class="save-comment-btn" th:data-comment-id="${comment.commentNo}" onclick="saveComment(this)" style="display: none;">저장</button>
             <button type="button" th:onclick="'deleteComment(' + ${comment.commentNo} + ')'" style="background-color: #d9534f">삭제</button>
@@ -447,7 +447,7 @@
 
                 </div>
 
-                <div th:if="${isOwner}">
+                <div th:if="${reply.isOwner or currentUserTp == 3}">
                     <button class="edit-reply-btn" th:data-reply-id="${reply.commentNo}" onclick="enableEditingReply(this)">수정</button>
                     <button class="save-reply-btn" th:data-reply-id="${reply.commentNo}" onclick="saveReply(this)" style="display: none;">저장</button>
                     <button type="button" th:onclick="'deleteReply(' + ${reply.commentNo} + ')'"  style="background-color: #d9534f">삭제</button>
