@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+    <style>
+        .btn-outline-primary{
+            --cui-btn-color: #ffffff;
+            --cui-btn-border-color: #ffffff;
+            --cui-btn-hover-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-hover-bg: #989898;
+            --cui-btn-hover-border-color: #ffffff;
+            --cui-btn-focus-shadow-rgb: 50,31,219;
+            --cui-btn-active-color: rgb(0 0 0 / 87%);
+            --cui-btn-active-bg: #ffffff;
+            --cui-btn-active-border-color: #ffffff;
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: #626163;
+            --cui-btn-disabled-bg: transparent;
+            --cui-gradient: none;
+        }
+        .btn-primary {
+            --cui-btn-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-bg: #12192c;
+            --cui-btn-border-color: #12192c;
+            --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-hover-bg: #29334e;
+            --cui-btn-hover-border-color: #29334e;
+            --cui-btn-focus-shadow-rgb: 75, 58, 223;
+            --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-active-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-border-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-disabled-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-disabled-border-color: rgba(44, 56, 74, 0.95);
+        }
+        .page-link {
+            color: #12192c;
+        }
+        .effect-1 {
+            width: 100%;
+            color: #12192c;
+        }
+        .footer:hover{
+            background-color: #d0d1d2;
+
+        }
+        .header {
+            background-color: #12192c;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+<div class="header"><strong style="float: left;">과제 목록</strong>
+    <a th:href="@{'/ccim?occ_NO=' + ${occ_no}}" class="btn btn-primary" style="float: right;">이전 페이지</a></div>
+<div class="cards" style="justify-content: center; align-content: center; display: flex;">
+    <div th:each="card, cardStat : ${listPage.amcDtos}" th:id="'card' + ${cardStat.index}" class="card" style="width: 18rem;">
+        <div class="card-header" style="background-color: #12192c; height: 5rem; display: flex; justify-content: flex-end; align-items: flex-start;">
+
+            <button type="button" class="btn btn-outline-primary delete-btn"
+                    th:data-amc-at="${card.amc_at}" th:data-amc-no="${card.amc_no}"
+                    th:data-occ-no="${occ_no}" th:data-ccim-no="${ccim_no}"
+                    style="height: 2rem; width: 4rem; font-size: 11px">삭제</button>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${card.amc_at}">Card title</h5>
+
+            <a th:href="@{'/amc/amc_modify?amc_no=' + ${card.amc_no}}" class="btn btn-primary">과제 수정</a>
+            <a th:href="@{'/submit/listSubmit?amc_no=' + ${card.amc_no}}" class="btn btn-primary">제출 과제</a>
+            <button class="btn btn-primary toggle-details-btn"
+                    data-coreui-toggle="collapse"
+                    data-coreui-target="#collapseWidthExample"
+                    aria-expanded="false"
+                    aria-controls="collapseWidthExample"
+                    th:data-amc-at="${card.amc_at}"
+                    th:data-amc-ac="${card.amc_ac}"
+                    th:data-amc-no="${card.amc_no}"
+            >&raquo;</button>
+        </div>
+    </div>
+</div>
+<nav aria-label="Page navigation example" >
+    <div class="board-list-page"  th:if="${listPage.hasAmcDtos()}">
+        <ul class="pagination" style="justify-content: center; text-align: center;">
+            <li class="page-item">
+            <li class="page-item" th:if="${listPage.currentPage > 1}">
+                <a class="page-link" aria-label="<<" th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} + '&pageNo=' + ${listPage.currentPage - 1}}">&laquo;</a>
+            </li>
+            <span th:each="pNo : ${#numbers.sequence(listPage.startPage, listPage.endPage)}">
+                <span th:if="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a style="font-weight: bold" class="page-link" aria-current="page" th:text="${pNo}">[[${pNo}]]</a>
+                    </li>
+                </span>
+                <span  th:unless="${pNo == listPage.currentPage}">
+                    <li class="page-item">
+                        <a class="page-link" th:aria-label="${pNo}" th:text="${pNo}"
+                           th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} +  '&pageNo=' + ${pNo}}">[[${pNO}]]</a>
+                    </li>
+                </span>
+            </span>
+            <span th:if="${listPage.currentPage < listPage.totalPages}">
+                <a class="page-link" th:href="@{'/amc?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no} + '&pageNo=' + ${listPage.currentPage + 1}}">&raquo;</a>
+            </span>
+
+        </ul>
+    </div>
+</nav>
+<div class="footer">
+    <a class="effect effect-1" th:href="@{'/amc/amc_insert?occ_no=' + ${occ_no} + '&ccim_no=' + ${ccim_no}}">새로운 과제 등록</a>
+</div>
+
+<div style="min-height: 200px;">
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <strong> 챕터 정보 </strong>
+        <label for="amc_at_info" style="font-weight: bold">과제명 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="amc_at_info"></div>
+        </div>
+        <label for="amc_ac_info" style="font-weight: bold">과제 내용 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="amc_ac_info"></div>
+        </div>
+        <label for="amfi_info" style="font-weight: bold">과제 첨부 파일 (파일 이름 클릭) </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="amfi_info" >
+                <div id="amfi_og_name_info">
+                </div>
+                <div id="amfi_date">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.min.js" integrity="sha384-Ccu4pXX7m9x5nOmnhLGyxq3pqYWoc67qHmnJwC20bxJvdziB6gZtOAb9BLN5bOOb" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/juchan/js/amc_main_infodata.js"></script>
+<script src="/juchan/js/deleteAmc.js"></script>
+    </th:block>
+
+</th:block>
+</body>
+</html>

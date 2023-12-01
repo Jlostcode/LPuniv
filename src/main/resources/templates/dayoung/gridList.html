@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui.grid/latest/tui-grid.css">
+    <link rel="stylesheet" href="/dayoung/css/customBtn.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.grid/latest/tui-grid.js"></script>
+
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+<div id="grid1"></div>
+        <div class="yam">
+            <button type="button" id="btn" class="w-btn">저장</button>
+            <button id="password" class="w-btn">비밀번호 초기화</button>
+            <button id="delete" class="w-btn">회원 삭제</button>
+        </div>
+    </th:block>
+</th:block>
+</body>
+<script src="/dayoung/js/gridList.js"></script>
+</html>

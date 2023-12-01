@@ -24,4 +24,6 @@ public interface CcimDao {
     List<CcimDto> ccimAllSelectDescPage(@Param("occ_NO") int occ_NO, @Param("startRow") int startRow, @Param("size") int size);
 
     void ccimModify(CcimDto ccimDto);   // 하나의 챕터 수정
+
+    Integer ccimDelete(@Param("ccim_no") int ccim_no);
 }

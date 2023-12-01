@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+
+button {
+    margin: 20px;
+}
+
+.w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+
+.w-btn {
+    background-color: #12192c;
+    color: #ffffff;
+}
+
+
+.w-btn:hover {
+    background-color: #12192c8c;
+    color: #f4eaea;
+}
+
+.yam {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+.w-btn-small{
+    background-color: #12192c;
+    color: #ffffff;
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 13px 11px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+
+}

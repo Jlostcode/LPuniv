@@ -4,18 +4,12 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.dayoung.user.login.dao.LoginDao">
-    <insert id="insertUser" parameterType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
 
-        INSERT INTO EMP (user_no, user_passwd, user_nm, user_brdt, user_email, user_tel, user_signdate, user_tp,user_loginId)
-        VALUES (#{user_no}, #{user_passwd}, #{user_nm}, #{user_brdt}, #{user_email}, #{user_tel}, now()
-        ,#{user_tp}, #{user_loginId})
-    </insert>
-    <select id="checkId" resultType="boolean">
-        SELECT COUNT(*) > 0
-        FROM emp
-        WHERE user_loginID = #{user_loginID}
-    </select>
 
+<select id="loginIdnPw" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+    select user_loginId, user_passwd from user where user_loginId = #{user_loginId}
+
+</select>
 
     <select id="selectById" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
         select * from user where user_loginId = #{user_loginId}
@@ -31,6 +25,10 @@
 
     <select id="TypeById" resultType="Integer">
         select user_tp from user where user_loginId = #{user_loginId}
+    </select>
+
+    <select id="selectDeldate" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select user_deletedate from user where user_loginId=#{user_loginId}
     </select>
 
 </mapper>

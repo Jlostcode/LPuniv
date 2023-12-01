@@ -1,39 +1,34 @@
 package com.project.lpuniv.heechan.message.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Message {
-    private int msgId;
-    private int senderId;
-    private int receiverId;
+    private int msgNo;
+    private int senderNo;
+    private int receiverNo;
     private String senderNm;
     private String receiverNm;
     private String title;
     private String content;
-    private Date sentAt;
+    private LocalDateTime sentAt;
     private int senDel;
     private int recDel;
     private int readFlag;
 
-    public void deleteBySender() {
-        this.senDel = 1;
-    }
-
-
-    public void deleteByReceiver() {
-        this.recDel = 1;
-    }
-
-    public boolean isDelete() {
-        return (senDel == 1)&&(recDel==1);
+    public Message(int senderNo, String senderNm, int receiverNo, String receiverNm, String title, String content) {
+        this.senderNo = senderNo;
+        this.receiverNo = receiverNo;
+        this.senderNm = senderNm;
+        this.receiverNm = receiverNm;
+        this.title = title;
+        this.content = content;
     }
 }

@@ -3,15 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>메시지쓰기</title>
+    <link rel="stylesheet" href="/heechan/css/msgWrite.css">
 </head>
 <body>
-<div>
-    발신자 : <span><input type="text" name="senderNm" /></span>
-    수신자 : <span><input type="text" name="receiverNm" /></span><br/>
-    제목 : <span><input type="text" name="title" /></span><br/>
-    내용 : <br/><label><textarea style="resize: none;" name="content"  cols="70" rows="15"></textarea></label>
+<div class="message-form">
+    <div class="form-section" th:if="${userTp == 1}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        <div class="sender-info">
+            발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        </div>
+        <div class="recipient-info">
+            <span class="receiver-text1">수신자 : <input type="text" name="rec-nm-no" oninput="filterRecipients()" readonly/></span>
+        </div>
+        <div class="recipient-section">
+            <div class="receiver-text2">
+                <input type="text" name="rec-search" oninput="filterRecipients()" placeholder="수신자를 검색하세요" />
+                <select name="rec-select" multiple ondblclick="updateInputValue()" size="7">
+                    <option th:value="${admin.user_nm}" th:text="${admin.user_nm+'(관리자)'}" th:attr="data-user-no=${admin.user_no}"></option>
+                    <option th:value="${teacher.user_nm}" th:text="${teacher.user_nm+'(강사)'}" th:attr="data-user-no=${teacher.user_no}"></option>
+                    <option th:each="u : ${users}" th:value="${u.user_nm}" th:text="${u.user_nm+'(수강생)'}" th:attr="data-user-no=${u.user_no}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="message-title">
+            제 목 : <span><input type="text" name="title" /></span>
+        </div>
+        <div class="textarea">
+            <span>내 용 : </span><label><textarea style="resize: none; width: 600px;" name="content"  cols="77" rows="15"></textarea></label>
+        </div>
+    </div>
+
+    <div class="form-section" th:if="${userTp == 2}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        <div class="sender-info">
+            발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        </div>
+        <div class="recipient-info">
+            <span class="receiver-text1">수신자 : <input type="text" name="rec-nm-no" oninput="filterRecipients()" readonly/></span>
+        </div>
+        <div class="recipient-section">
+            <div class="receiver-text2">
+                <input type="text" name="rec-search" oninput="filterRecipients()" placeholder="수신자를 검색하세요" />
+                <select name="rec-select" multiple ondblclick="updateInputValue()" size="7">
+                    <option th:value="${admin.user_nm}" th:text="${admin.user_nm+'(관리자)'}" th:attr="data-user-no=${admin.user_no}"></option>
+                    <option th:each="u : ${users}" th:value="${u.user_nm}" th:text="${u.user_nm+'(수강생)'}" th:attr="data-user-no=${u.user_no}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="message-title">
+            제 목 : <span><input type="text" name="title" /></span>
+        </div>
+        <div class="textarea">
+            <span>내 용 : </span><label><textarea style="resize: none; width: 600px;" name="content"  cols="77" rows="15"></textarea></label>
+        </div>
+    </div>
+
+    <div class="form-section" th:if="${userTp == 3}">
+        <input type="hidden" name="sen-no" th:value="${user.user_no}" />
+        <div class="sender-info">
+            발신자 : <span><input type="text" name="sen-nm" th:value="${user.user_nm}" readonly="readonly"/></span>
+        </div>
+        <div class="recipient-info">
+            <span class="receiver-text1">수신자 : <input type="text" name="rec-nm-no" oninput="filterRecipients()" readonly/></span>
+        </div>
+        <div class="recipient-section">
+            <div class="receiver-text2">
+                <input type="text" name="rec-search" oninput="filterRecipients()" placeholder="수신자를 검색하세요" />
+                <select name="rec-select" multiple ondblclick="updateInputValue()" size="7">
+                    <span th:each="mul : ${msgUsersList}">
+                        <span th:if="${mul.userTp == 2}">
+                            <option th:value="${mul.userNm}" th:text="${mul.userNm+'(강사)' + '(' + mul.occTitle + ')'}" th:attr="data-user-no=${mul.userNo}"></option>
+                        </span>
+                        <span th:if="${mul.userTp == 1}">
+                            <option th:value="${mul.userNm}" th:text="${mul.userNm+'(수강생)' + '(' + mul.occTitle + ')'}" th:attr="data-user-no=${mul.userNo}"></option>
+                        </span>
+                    </span>
+                </select>
+            </div>
+        </div>
+        <div class="message-title">
+            제 목 : <span><input type="text" name="title" /></span>
+        </div>
+        <div class="textarea">
+            <span>내 용 : </span><label><textarea style="resize: none; width: 600px;" name="content"  cols="77" rows="10"></textarea></label>
+        </div>
+    </div>
+    <div class="button-container">
+        <button onclick="changePage('/message/recmsg')">이전으로</button>
+        <button id="submit">메시지보내기</button>
+    </div>
 </div>
-<button onclick="changePage('/message/recmsg')">이전으로</button><br/>
-<button onclick="changePage('/message/write')">메시지보내기</button><br/>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/heechan/js/modal.js"></script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dayoung/css/customBtn.css">
+    <link rel="stylesheet" href="/dayoung/css/modalInfo.css">
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+        <div class="user">
+            <ion-icon name="person-outline"  class="icon"></ion-icon>
+            <h3> 개인 정보</h3>
+            <p class="title">이름</p>
+            <p class="info" th:text="${user.user_nm}"></p>
+            <p class="title">전화번호</p>
+            <p class="info" th:text="${user.user_tel}"></p>
+            <p class="title">이메일주소</p>
+            <p class="info" th:text="${user.user_email}"></p>
+            <p class="title">생년월일</p>
+            <p class="info" th:text="${user.user_brdt}"></p>
+            <p class="title">등록일</p>
+            <p class="info" th:text="${user.user_signdate}"></p>
+            <br>
+            <button id="btn" onclick="openModalhehe()" class="w-btn"> 수정</button>
+
+            <div id="myModal" class="modalling">
+                <div class="modal-content">
+                    <div class="dam">
+                        <button class="w-btn-small" onclick="closeModalhehe()" style="float:right; width: 5px; height: 5px;">
+                            <span class="x"  >x</span></button>
+                    </div>
+                    <label for="current_password">현재 비밀번호</label>
+                    <input type="password" id="current_password" name="current_password"/>
+
+                    <button onclick="checkPassword()" class="w-btn" >확인</button>
+
+                </div>
+            </div>
+            <button id="btn2" class="w-btn"> 탈퇴</button>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/dayoung/js/userInfo.js"></script>
+        <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    </th:block>
+</th:block>
+
+</body>
+</html>

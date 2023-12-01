@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>휴지통</title>
+    <link rel="stylesheet" href="/heechan/css/msgView.css">
 </head>
 <body>
-    <span>
+휴지통 : <span th:text="${msgCount}"></span> 건
+    <span id="search">
         <select id="searchOp">
             <option value="전체">전체</option>
             <option value="발신자">발신자</option>
@@ -14,49 +16,90 @@
         </select>
         <input type="text" id="searchInput" placeholder="검색어 입력">
         <button onclick="searchMsg('recycle')">검색</button>
-    </span><br/>
-    <button onclick="changePage('/message/recmsg')">받은메시지</button>
-    <button onclick="changePage('/message/senmsg')">보낸메시지</button>
-    <button onclick="changePage('/message/recycle')">휴지통</button>
-    <button onclick="changePage('/message/writeform')">메시지보내기</button><br/>
-    휴지통 : <span th:text="${msgCount}"></span> 건 <br/>
+    </span>
+    <br/>
+    <div id="buttonContainer">
+        <button onclick="changePage('/message/recmsg')">받은메시지</button>
+        <button onclick="changePage('/message/senmsg')">보낸메시지</button>
+        <button onclick="changePage('/message/recycle')">휴지통</button>
+        <button onclick="changePage('/message/writeform')">메시지보내기</button>
+    </div>
+    <div class="title-message-container">
+        <span class="title-sen">발신자</span>
+        <span class="title-rec">수신자</span>
+        <span class="title-title">제목</span>
+        <span class="title-date">날짜</span>
+        <span class="title-recycle">삭제</span>
+        <span class="title-recycle">복구</span>
+    </div>
     <th:block th:if="${msgPage == null or msgPage.content.isEmpty()}">
-        메시지가 없습니다.
+        <div class="message-container">
+            메시지가 없습니다.
+        </div>
     </th:block>
     <th:block th:each="message : ${msgPage.content}">
-            <div>
-                <span th:if="${message.senDel == 1}"> <!-- 18번라인, 28번라인 수정 해야 할 부분 : 세션 받으면  message.senderId == (현재 접속한 사용자의 user_no)-->
-                    <span>보냄</span>
-                    발신자 : <span th:text="${message.senderNm}"></span>
-                    수신자 : <span th:text="${message.receiverNm}"></span>
-                    제목 : <span th:attr="onclick='changePage(\'' + @{/message/msgview(msgId=${message.msgId})} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
-                    <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                    <span th:attr="onclick='senDelMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span>
-                    <span th:attr="onclick='recycleSenMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">복구</span><br/>
+        <div class="recycle-message-container">
+            <span th:if="${message.senderNo == userNo && message.senDel == 1}">
+                <span class="recycle-message-status">보냄</span>
+                <span class="recycle-message-sen" th:text="${message.senderNm}"></span>
+                <span class="recycle-message-rec" th:text="${message.receiverNm}"></span>
+                <span class="recycle-message-span" th:if="${searchInput == null && searchOp  == null && div == null}">
+                    <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=sen' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span class="recycle-delete-button1" th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'sen' + '\')'" style="cursor: pointer">삭제</span>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
+                <span class="recycle-message-span" th:if="${searchInput != null && searchOp  != null && div != null}">
+                    <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span class="recycle-delete-button1" th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleSenMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
+                </span>
+            </span>
 
-                <span th:if="${message.recDel == 1}">
-                    <span>받음</span>
-                    발신자 : <span th:text="${message.senderNm}"></span>
-                    수신자 : <span th:text="${message.receiverNm}"></span>
-                    제목 : <span th:attr="onclick='changePage(\'' + @{/message/msgview(msgId=${message.msgId})} + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
-                    <span th:text="${#dates.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
-                    <span th:attr="onclick='recDelMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">삭제</span>
-                    <span th:attr="onclick='recycleRecMsg(\''+ ${message.msgId} + '\')'" style="cursor: pointer">복구</span><br/>
+            <span th:if="${message.receiverNo == userNo && message.recDel == 1}">
+                <span class="recycle-message-status">받음</span>
+                <span class="recycle-message-sen" th:text="${message.senderNm}"></span>
+                <span class="recycle-message-rec" th:text="${message.receiverNm}"></span>
+                <span class="recycle-message-span" th:if="${searchInput == null && searchOp  == null && div == null}">
+                    <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span class="recycle-delete-button1" th:attr="onclick='recycleDelMsg(\'' + ${message.msgNo} + '\', \'' + 'rec' + '\')'" style="cursor: pointer">삭제</span>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
                 </span>
-            </div>
+                <span class="recycle-message-span" th:if="${searchInput != null && searchOp  != null && div != null}">
+                    <span class="recycle-message-title" th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${message.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '&div=rec' + '\')'" style="cursor: pointer" th:text="${message.title}"></span>
+                    <span class="recycle-message-date" th:text="${#temporals.format(message.sentAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <span class="recycle-delete-button1" th:attr="onclick='recycleDelSearchMsg(\''+ ${message.msgNo} + '\', \'' + ${pageNo} + '\', \'' + ${searchInput} + '\', \'' + ${searchOp} + '\', \'' + ${div} + '\')'" style="cursor: pointer">삭제</span>
+                    <span class="recycle-delete-button2" th:attr="onclick='recycleRecMsg(\''+ ${message.msgNo} + '\')'" style="cursor: pointer">복구</span>
+                </span>
+            </span>
+        </div>
     </th:block>
 
-    <span th:if="${msgPage.hasArticles()}">
-        <th:block th:if="${msgPage.currentPage > 1}">
-            <span th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${msgPage.currentPage - 1})} + '\')'" style="cursor: pointer">이전</span>
-        </th:block>
-        <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
-            <span th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${pNo})} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
-        </th:block>
-        <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
-            <span th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${msgPage.currentPage + 1})} + '\')'" style="cursor: pointer">다음</span>
-        </th:block>
+    <span class="pagination-container" th:if="${msgPage.hasArticles()}">
+        <span th:if="${searchInput == null && searchOp  == null && div == null}">
+            <th:block th:if="${msgPage.currentPage > 1}">
+            <span class="pagination-button" th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${msgPage.currentPage - 1})} + '\')'" style="cursor: pointer">이전</span>
+            </th:block>
+            <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
+                <span class="pagination-button" th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${pNo})} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
+            </th:block>
+            <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
+                <span class="pagination-button" th:attr="onclick='changePage(\'' + @{/message/recycle(pageNo=${msgPage.currentPage + 1})} + '\')'" style="cursor: pointer">다음</span>
+            </th:block>
+        </span>
+        <span th:if="${searchInput != null && searchOp  != null && div != null}">
+            <th:block th:if="${msgPage.currentPage > 1}">
+                <span class="pagination-button" th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${msgPage.currentPage - 1} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer">이전</span>
+            </th:block>
+            <th:block th:each="pNo : ${#numbers.sequence(msgPage.startPage, msgPage.endPage)}">
+                <span class="pagination-button" th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${pNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer" th:text="${pNo}"></span>
+            </th:block>
+            <th:block th:if="${msgPage.currentPage < msgPage.totalPages}">
+                <span class="pagination-button" th:attr="onclick='changePage(\'' + @{'/message/recycle?pageNo=' + ${msgPage.currentPage + 1} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'" style="cursor: pointer">다음</span>
+            </th:block>
+        </span>
     </span>
 </body>
 </html>

@@ -1,6 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link href="/juchan/css/bootstrap_3.4.1.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <meta charset="UTF-8">
     <title>게시글 작성</title>
     <style>
@@ -35,93 +43,114 @@
             width: 30%;
             text-align: center;
             margin-bottom: 20px;
+            background-color: #ffffff;
 
         }
         .contents {
             width: 32%;
             height: 300px;
         }
+
+        #input_title {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #ccc; /* 테두리 추가 */
+            border-radius: 5px; /* 테두리 둥글게 만들기 */
+            padding: 5px; /* 내부 여백 추가 */
+            font-size: 16px; /* 글꼴 크기 설정 */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+            outline: none; /* 포커스 시 파란 테두리 제거 */
+        }
+
+        #input_title:hover {
+            border-color: #007bff; /* 호버 상태에서 테두리 색상 변경 */
+        }
+
+        #input_title:focus {
+            border-color: #ff6600; /* 포커스 시 테두리 색상 변경 */
+        }
+
+        .button-container {
+            display: flex; /* 자식 요소들을 가로로 배치 */
+
+            gap: 10px; /* 버튼 사이의 간격 */
+        }
+
+        .button-container button {
+            flex-grow: 1; /* 모든 버튼에 동일한 너비 부여 */
+
+        }
+
+
+        .custom-button {
+
+            font-weight: bold; /* 글씨 두껍게 설정 */
+            text-decoration: none; /* 텍스트 밑줄 제거 */
+            border-radius: 5px; /* 버튼 모서리 둥글게 설정 */
+            background-color: var(--bg-color);
+            color: var(--white-color);
+            width: 200px; /* 버튼 너비 */
+            height: 30px; /* 버튼 높이 */
+            border: none; /* 테두리 없애기 */
+            cursor: pointer; /* 마우스 오버시 커서 변경 */
+        }
+
+        /* 버튼에 마우스를 올렸을 때의 스타일 */
+        .custom-button:hover {
+            cursor: pointer;
+            border-color: #ffffff;
+        }
+
+        /* 사용자의 CSS 변수가 정의되어 있는 경우 해당 값으로 대체 */
+        :root {
+            --bg-color: #ffffff; /* 배경 색상 변수, 실제 사용할 색상 코드로 변경 필요 */
+            --white-color: #000000; /* 텍스트 색상 변수, 실제 사용할 색상 코드로 변경 필요 */
+        }
+
+
+
+
+
     </style>
 </head>
+
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+
 <body>
+<div>
 
-<h1>게시글 작성</h1>
-<form th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" th:object="${post}" method="post" enctype="multipart/form-data">
-    <input type="text" th:field="*{user_no}" placeholder="사용자 번호"><br><br>
-    <input type="text" th:field="*{title}" placeholder="제목"><br><br>
+<h1>게시글 작성</h1><br>
+    <div class="button-container">
+        <form id="createForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" th:object="${post}" method="post" enctype="multipart/form-data">
+            <input id="input_title" name="input_title" type="text" th:field="*{title}" placeholder="제목"><br><br>
+            <div class="occ_content">
+                <label for="edittor"></label><textarea class="contents" th:field="*{content}" placeholder="내용" name="occ_content" id="edittor"></textarea><br>
+            </div>
 
-    <textarea class="contents" th:field="*{content}" placeholder="내용"></textarea><br><br>
+            <div id="dropzone">
+                <input type="file" id="fileInput" name="files" multiple="multiple" style="display: none;">
+                <p id="dropzoneText">파일을 이곳에 드래그 & 드롭하거나 클릭하여 선택해주세요.</p>
+            </div><br>
 
-    <div id="dropzone">
-        <input type="file" id="fileInput" name="files" multiple="multiple" style="display: none;">
-        <p id="dropzoneText">파일을 이곳에 드래그 & 드롭하거나 클릭하여 선택해주세요.</p>
+            <div id="fileList" class="file-list-container"></div><br>
+
+
+            <button class="custom-button" type="submit">등록</button>
+            <button type="button" class="custom-button" onclick="history.back()">취소</button>
+
+        </form>
+
     </div>
 
-    <div id="fileList" class="file-list-container"></div>
 
-    <button type="submit">게시글 등록</button>
-</form>
 
-<script>
-    var dropzone = document.getElementById('dropzone');
-    var fileInput = document.getElementById('fileInput');
-    var fileList = document.getElementById('fileList');
-    var uploadedFiles = [];
-
-    dropzone.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', function(event) {
-        handleFiles(event.target.files);
-    });
-
-    dropzone.addEventListener('dragover', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        dropzone.style.border = "2px solid #000";
-    });
-
-    dropzone.addEventListener('dragleave', function(event) {
-        dropzone.style.border = "2px dashed #ccc";
-    });
-
-    dropzone.addEventListener('drop', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        dropzone.style.border = "2px dashed #ccc";
-        handleFiles(event.dataTransfer.files);
-    });
-
-    function handleFiles(newFiles) {
-        Array.from(newFiles).forEach(function(file) {
-            uploadedFiles.push(file);
-        });
-        updateFileList();
-    }
-
-    function updateFileList() {
-
-        fileList.style.display = uploadedFiles.length > 0 ? 'block' : 'none';
-        fileList.innerHTML = '';
-        uploadedFiles.forEach(function(file, index) {
-            var fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            fileItem.textContent = file.name;
-
-            var deleteBtn = document.createElement('span');
-            deleteBtn.className = 'delete-btn';
-            deleteBtn.textContent = 'X';
-            deleteBtn.onclick = function() {
-                uploadedFiles.splice(index, 1);
-                updateFileList();
-            };
-
-            fileItem.appendChild(deleteBtn);
-            fileList.appendChild(fileItem);
-        });
-    }
-</script>
-
+</div>
+<script src="/junhyuk/summerEditor.js"></script>
 </body>
+
+    </th:block>
+</th:block>
+
 </html>

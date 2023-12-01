@@ -1,40 +1,284 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <title>자유 게시판</title>
+
+
+    <style>
+        .pagination {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            /*justify-content: center;*/
+        }
+
+        .pagination li {
+            display: inline;
+            margin-right: 5px;
+        }
+
+        .pagination li a {
+            text-decoration: none;
+            color: black;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+        }
+
+        .pagination li a.active,
+        .pagination li a:hover {
+            background-color: var(--bg-color);
+            color: white;
+        }
+
+        .pagination li a.disabled {
+            color: grey;
+            cursor: not-allowed;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+
+        }
+        .search-form input[type="text"],
+        .search-form select {
+            padding: 10px;
+            margin-bottom: 10px; /* 입력란과 드롭다운 사이의 간격 */
+            border: 1px solid #ddd;
+            border-radius: 20px; /* 둥근 모서리 스타일 */
+            font-size: 16px; /* 글자 크기 */
+
+        }
+        .search-form input[type="text"] {
+            margin-bottom: 0; /* 검색어 입력란 아래의 마진 제거 */
+            width: 50%;
+            border: 0px;
+
+        }
+        .search-form select {
+
+            width: 20%;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 0px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+            width: 500px; /* 원하는 너비로 조정하세요 */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 음영 효과 설정 */
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            margin-right: 5px; /* 아이콘과 입력란 사이 간격 조정 */
+            color: red;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+        }
+
+        .fas.fa-search {
+            color: red;
+            cursor: pointer;
+        }
+
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 16px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            width: 800px;
+        }
+        .post:last-child {
+            border-bottom: none;
+        }
+        .title a {
+            color: black; /* 링크 색상을 검정색으로 설정 */
+            font-weight: bold; /* 글씨를 두껍게 설정 */
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        /* 마우스 호버 시에도 검정색 유지 */
+        .title a:hover {
+            color: black; /* 호버 시에도 링크 색상을 검정색으로 설정 */
+
+        }
+
+
+
+
+        .content {
+            font-size: 1em;
+            margin-top: 10px;
+            color: #5a6268;
+        }
+        .info {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .info span {
+            margin-right: 20px;
+        }
+
+        .newPost button {
+            color: black; /* 링크 색상을 검정색으로 설정 */
+            font-weight: bold; /* 글씨를 두껍게 설정 */
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 5px;
+            background-color: var(--bg-color);
+            color: var(--white-color);
+            width: 200px;
+            height: 30px;
+        }
+
+
+        .newPost button:hover {
+            cursor: pointer;
+            border-color: #ffffff;
+
+        }
+        li a {
+            background-color: #ffffff;
+        }
+    </style>
+
 </head>
+
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+
+
+
 <body>
 
-<h1>자유 게시판</h1>
+
+
+<h1>자유 게시판</h1><br>
+
+
+<form class="search-form" id="searchForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" method="get">
+
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" name="searchTerm" class="search-input" placeholder="검색어를 입력해주세요." th:value="${searchTerm}">
+    </div>
+
+
+    <br>
+    <select name="searchType">
+        <option value="all">전체 검색</option>
+        <option value="title">제목 검색</option>
+        <option value="content">내용 검색</option>
+        <option value="author">작성자 검색</option>
+    </select>
+</form><br>
+
+<div class="newPost">
+    <button th:onclick="'window.location.href=\'' + @{('/boards/' + ${board_name} + '/posts/create')} + '\''">새 게시글 작성</button>
+</div><br>
+
+
+
+
+
 <div th:if="${posts.empty}">
     <p>게시글이 없습니다.</p>
 </div>
+
 <div th:unless="${posts.empty}">
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>작성일</th>
-            <th>조회수</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${posts}">
-            <td th:text="${post.num}">1</td>
-            <td><a th:href="@{/boards/{board_name}/posts/{post_no}(board_name=${board_name}, post_no=${post.post_no})}" th:text="${post.title}">게시글 제목</a></td>
-            <td th:text="${post.title}"></td>
-            <td th:text="${#temporals.format(post.date_created, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${post.hits}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:each="post : ${posts}" class="post">
+
+
+        <div class="title">
+            <a th:href="@{/boards/{board_name}/posts/{post_no}(board_name=${board_name}, post_no=${post.post_no})}" th:text="${post.title}">게시글 제목</a>
+        </div>
+        <div class="content">
+            <span th:text="${post.content}">내용</span>
+        </div><br>
+        <div class="info">
+
+
+            <span th:text="${post.authorName}">사용자</span>
+            <span th:text="${#temporals.format(post.date_created, 'yyyy-MM-dd HH:mm')}">작성일</span>
+            <span th:text=" ' 댓글 수 ' + ${post.commentCount}">댓글 수 </span>
+            <span th:text=" ' 조회수 ' + ${post.hits}">조회수</span>
+        </div>
+    </div><br>
+
+
+
+<ul class="pagination">
+
+    <li>
+        <a th:href="@{${currentPage > 1} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} - 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+           th:class="${currentPage == 1} ? 'disabled' : ''">«</a>
+    </li>
+
+
+    <li th:each="pageNum : ${#numbers.sequence(1, (totalPosts == 0 ? 1 : totalPages))}"
+        th:if="${totalPosts > size or totalPages > 1}">
+        <a th:href="@{/boards/{board_name}/posts(board_name=${board_name}, page=${pageNum}, searchType=${searchType}, searchTerm=${searchTerm})}"
+           th:class="${pageNum == currentPage} ? 'active' : ''"
+           th:text="${pageNum}"></a>
+    </li>
+
+
+
+
+
+    <li>
+        <a th:href="@{${currentPage < totalPages} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} + 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+           th:class="${currentPage == totalPages} ? 'disabled' : ''">»</a>
+    </li>
+</ul>
+
+
+
+
+
+
 </div>
-
-<a th:href="@{'/boards/' + ${board_name} + '/posts/create'}">새 게시글 작성</a>
-
-
 </body>
+
+
+        <script>
+
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                var searchTerm = this.searchTerm.value.trim();
+
+                if (!searchTerm) {
+                    e.preventDefault(); // 폼 제출을 방지
+                    alert('검색어를 입력해주세요.');
+                }
+            });
+
+            document.querySelectorAll('.content').forEach(function(contentDiv) {
+                // 서버로부터 받은 HTML 내용을 div 요소로 만듭니다.
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = contentDiv.textContent; // 또는 innerHTML 대신 `th:utext`에서 받은 값을 사용
+
+                // 그리고 순수 텍스트만을 추출하여 원래 div에 설정합니다.
+                contentDiv.textContent = tempDiv.textContent;
+            });
+
+
+
+
+
+        </script>
+
+</th:block>
+</th:block>
+
 </html>

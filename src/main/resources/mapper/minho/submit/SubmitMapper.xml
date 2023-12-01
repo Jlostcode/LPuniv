@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.minho.submit.dao.SubmitDao">
+    <insert id="insertSubmit" parameterType="com.project.lpuniv.minho.submit.dto.SubmitDto">
+        insert into submit (stud_no, occ_NO, amc_no, submit_ct, submit_sc)
+               values (#{stud_no}, #{occ_NO}, #{amc_no}, #{submit_ct}, 0.0)
+    </insert>
+    <select id="selecStunm" resultType="com.project.lpuniv.dayoung.user.login.dto.UserDto">
+        select * from user where user_no = #{user_no}
+    </select>
+    <select id="selectOneAmc" resultType="com.project.lpuniv.minho.amc.dto.AmcDtoMH">
+        select * from amc where amc_no = #{amc_no}
+    </select>
+    <select id="selectAllSubmit" resultType="com.project.lpuniv.minho.submit.dto.SubmitDto">
+        select s.submit_no as submit_no, u.user_nm as stud_nm, s.stud_no as stud_no,
+               s.occ_no as occ_no, s.submit_ct as submit_ct, s.amc_no as amc_no,
+               s.submit_sc as submit_sc
+        from submit s, user u
+        where s.stud_no = u.user_no and amc_no = #{amc_no}
+    </select>
+    <select id="selectOneStuSubmit" resultType="com.project.lpuniv.minho.submit.dto.SubmitDto">
+        select s.submit_no as submit_no, u.user_nm as stud_nm, s.stud_no as stud_no,
+               s.occ_no as occ_no, s.submit_ct as submit_ct, s.amc_no as amc_no,
+               s.submit_sc as submit_sc
+        from submit s, user u
+        where s.stud_no = u.user_no and amc_no = #{amc_no} and stud_no = #{stud_no}
+    </select>
+    <select id="selectSubmitAmcno" resultType="com.project.lpuniv.minho.submit.dto.SubmitDto">
+        select * from submit where stud_no = #{stud_no} and amc_no = #{amc_no}
+    </select>
+    <select id="selectSubmit" resultType="Integer">
+        select MAX(submit_no) from submit
+    </select>
+    <update id="updateScore">
+        update submit
+        set submit_sc = #{submit_sc}
+        where submit_no = #{submit_no};
+    </update>
+</mapper>

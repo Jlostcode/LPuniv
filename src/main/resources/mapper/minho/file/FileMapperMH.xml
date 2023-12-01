@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.minho.file.dao.FileDaoMH">
+    <insert id="insertFile" parameterType="com.project.lpuniv.minho.file.dto.FileDtoMH">
+        insert into file (submit_no, file_uuid, file_path, file_nm, file_cp)
+        values (#{submit_no}, #{file_uuid}, #{file_path}, #{file_nm}, #{file_cp})
+    </insert>
+    <select id="selectFile" resultType="com.project.lpuniv.minho.file.dto.FileDtoMH">
+        select * from file where submit_no = #{submit_no}
+    </select>
+    <select id="downloadFile" resultType="com.project.lpuniv.minho.file.dto.FileDtoMH">
+        select * from file where file_no = #{file_no}
+    </select>
+</mapper>

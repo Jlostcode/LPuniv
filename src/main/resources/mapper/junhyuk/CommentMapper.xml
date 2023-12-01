@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.junhyuk.dao.CommentDao">
+
+    <!-- 댓글 추가 -->
+    <insert id="addComment" parameterType="com.project.lpuniv.junhyuk.dto.Comments">
+        INSERT INTO comments (post_no, comment_content, comment_date, user_no, parent_comment_no)
+        VALUES (#{postNo}, #{commentContent}, NOW(), #{userNo}, NULL)
+    </insert>
+
+    <!-- 대댓글 추가 -->
+    <insert id="addReply" parameterType="com.project.lpuniv.junhyuk.dto.Comments">
+        INSERT INTO comments (post_no, comment_content, comment_date, user_no, parent_comment_no)
+        VALUES (#{postNo}, #{commentContent}, NOW(), #{userNo}, #{parentCommentNo})
+    </insert>
+
+    <!-- 특정 게시글의 댓글 및 대댓글 조회 -->
+    <select id="getCommentsByPostId" resultMap="CommentResultMap">
+        SELECT c.*, u.user_nm AS userName
+        FROM comments c
+                 LEFT JOIN user u ON c.user_no = u.user_no
+        WHERE c.post_no = #{postNo}
+        ORDER BY c.parent_comment_no IS NULL DESC, c.comment_date
+    </select>
+
+    <!-- 특정 댓글의 대댓글 조회 -->
+    <select id="getRepliesByCommentId" resultType="com.project.lpuniv.junhyuk.dto.Comments">
+        SELECT c.*, u.user_nm AS userName
+        FROM comments c
+                 LEFT JOIN user u ON c.user_no = u.user_no
+        WHERE c.parent_comment_no = #{commentNo}
+        ORDER BY c.comment_date
+    </select>
+
+    <!-- 댓글 결과 매핑 (대댓글 포함) -->
+    <resultMap id="CommentResultMap" type="com.project.lpuniv.junhyuk.dto.Comments">
+        <id property="commentNo" column="comment_no"/>
+        <result property="postNo" column="post_no"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="commentDate" column="comment_date"/>
+        <result property="userNo" column="user_no"/>
+        <result property="parentCommentNo" column="parent_comment_no"/>
+        <result property="userName" column="userName"/>
+        <collection property="replies" column="comment_no" ofType="com.project.lpuniv.junhyuk.dto.Comments"
+                    select="getRepliesByCommentId"/>
+    </resultMap>
+
+    <!-- CommentDao.xml -->
+
+    <resultMap id="commentMap" type="com.project.lpuniv.junhyuk.dto.Comments">
+        <result property="commentNo" column="comment_no"/>
+        <result property="userNo" column="user_no"/>
+        <result property="postNo" column="post_no"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="commentDate" column="comment_date"/>
+        <result property="userName" column="user_nm"/>
+        <!-- 기타 필드 매핑 -->
+    </resultMap>
+
+    <select id="findByCommentNo" parameterType="int" resultMap="commentMap">
+        SELECT c.*, u.user_nm as userName
+        FROM comments c
+                 JOIN user u ON c.user_no = u.user_no
+        WHERE c.comment_no = #{commentNo}
+    </select>
+
+
+
+    <!-- 댓글 수정 -->
+    <update id="updateComment" parameterType="java.util.Map">
+        UPDATE comments
+        SET comment_content = #{commentContent}
+        WHERE comment_no = #{commentNo}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM comments
+        WHERE comment_no = #{commentNo}
+    </delete>
+
+
+
+
+
+</mapper>

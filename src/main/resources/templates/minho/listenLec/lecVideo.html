@@ -3,15 +3,27 @@
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>강의 영상</title>
+    <link rel="stylesheet" href="/minho/css/lecVideo.css">
 </head>
 <body>
-<div class="modal_wrap" th:each="lecVideo : ${lecVideo}">
+<div id="videoModal" class="modal_wrap" th:each="lecVideo : ${lecVideo}">
     <div class="modal_wrap_content">
         <div id="youtubeVideo"></div>
-        <div id="board_wrap_videoId" th:attr="videoId=${lecVideo.CCIM_videoID}"></div>
+        <div id="board_wrap_videoId" th:attr="videoId=${lecVideo.ccim_videoID}"></div>
+        <div id="board_wrap_ccim_NO" th:attr="ccimNo=${ccim_NO}"></div>
+        <div id="board_wrap_ccim_NO2" th:hidden="${ccim_NO}"></div>
+        <div id="board_wrap_occ_NO" th:attr="occNo=${occ_NO}"></div>
+        <div id="board_wrap_occ_NO2" th:hidden="${occ_NO}"></div>
+        <div id="board_wrap_fnpo" th:attr="schsFnpo=${schsDto.schs_fnpo}"></div>
+        <div id="board_wrap_fnpo2" th:hidden="${schsDto.schs_fnpo}"></div>
+        <div id="board_wrap_endpo" th:attr="schsEnpo=${schsDto.schs_endpo}"></div>
+        <div id="board_wrap_endpo2" th:hidden="${schsDto.schs_endpo}"></div>
+    </div>
+    <div class="modal_wrap_content_closeBtn">
+        <button type="button" id="closeModalButton" onclick="requestPost()">수강 종료(반드시 눌러주세요)</button>
     </div>
 </div>
-<script src="/js/lecVideo.js"></script>
+<script src="/minho/js/lecVideo.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>

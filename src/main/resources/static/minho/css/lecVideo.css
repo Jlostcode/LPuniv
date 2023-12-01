@@ -1,0 +1,30 @@
+/* 모달 레이어 */
+*{
+    background-color: #E2E2E2;
+}
+
+.modal_wrap {
+    position: fixed;
+    top: 40%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    width: 400px; /* 모달 너비 조정 */
+    height: 300px; /* 모달 높이 조정 */
+}
+
+/* 닫기 버튼 스타일 */
+#closeModalButton {
+    background-color: #12192c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 시 스타일 */
+#closeModalButton:hover {
+    background-color: #0a3ecc;
+}

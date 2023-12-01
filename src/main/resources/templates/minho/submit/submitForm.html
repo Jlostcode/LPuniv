@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>과제 제출</title>
+    <!-- include libraries(jQuery, bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/minho/css/submitForm.css">
+    <link rel="stylesheet" href="/minho/css/bootstrap_3.4.1.css">
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+        <section class="board_wrap">
+            <div class="board_wrap_head">
+                <h1 class="board_title">과제 제출</h1>
+            </div>
+            <hr>
+            <div class="board_write_wrap">
+                <form id="insert_form" action="/submit/send" method="post" enctype="multipart/form-data">
+                    <div class="hidden_data">
+                        <input type="hidden" name="stud_no" th:value="${userDto.user_no}" readonly>
+                        <input type="hidden" name="occ_no" th:value="${amcDtoMH.occ_NO}" readonly>
+                        <input type="hidden" name="amc_no" th:value="${amcDtoMH.amc_no}" readonly>
+                    </div>
+                    <div class="submit_stuNm">
+                        <p>학생 이름: </p>
+                        <p class="submit_stuNm_input"><input th:value="${userDto.user_nm}" readonly></p>
+                    </div>
+                    <hr>
+                    <div class="submit_content">
+                        <p>과제 내용</p>
+                        <p><textarea name="submit_ct" id="editor"></textarea></p>
+                    </div>
+                    <div class="submit_amfi">
+                        <div id="dropzoneForm" class="dropzone"></div>
+                    </div>
+                    <div class="submit_submit">
+                        <div class="button-effect">
+                            <button type="button" class="submitBtn" onclick="submitAmfi()">과제 제출</button>
+                            <button type="button" class="goBackBtn"
+                                    onclick="location.href='javascript:history.back();' ">뒤로가기
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script src="/juchan/js/editor.js"></script>
+        <script src="/minho/js/submitAmc.js"></script>
+        <script src="/minho/js/checkNullAmfi.js"></script>
+    </th:block>
+</th:block>
+</body>
+</html>

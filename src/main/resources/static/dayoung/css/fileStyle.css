@@ -1,0 +1,40 @@
+#file-drop-area {
+    width: 1400px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+}
+
+#selected-file-list {
+    list-style: none;
+    padding: 0;
+}
+
+#selected-file-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#selected-file-list button {
+    background-color: #87ceeb;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.file{
+    text-align: center;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+strong{
+    padding-bottom: 30px;
+    font-size: 1.5em;
+}

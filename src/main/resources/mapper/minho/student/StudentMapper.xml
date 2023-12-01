@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.project.lpuniv.minho.student.dao.LecDao">
     <select id="selectAllLec" resultType="com.project.lpuniv.minho.student.dto.LecDto">
         SELECT * FROM class
     </select>
     <select id="selectAllLecPage" resultType="com.project.lpuniv.minho.student.dto.LecDto">
-        SELECT * FROM class where OCC_NO = #{OCC_NO}
-        limit #{startRow}, #{size}
+        select c.stud_no as stud_no, u.user_nm as stud_nm, o.occ_title as occ_title, c.stud_pg as stud_pg, c.stud_st as stud_St, c.occ_NO as occ_NO
+        from class c, occ o, user u where c.stud_no = u.user_no and c.occ_NO = #{occ_NO}
+            limit #{startRow}, #{size}
     </select>
     <select id="countLecPage" resultType="Integer">
-        select count(*) from class where OCC_NO = #{OCC_NO}
+        select count(*) from class where OCC_NO = #{occ_NO}
+    </select>
+    <select id="selectStuNo" resultType="com.project.lpuniv.minho.student.dto.LecDto">
+        SELECT * FROM class where stud_no = #{stud_no}
     </select>
     <update id="modifyStudSt">
         update class

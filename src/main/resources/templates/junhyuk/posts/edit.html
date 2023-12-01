@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <link href="/juchan/css/bootstrap_3.4.1.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+    <style>
+        .file-list-container {
+            display: block;
+            width: 30%;
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+        .file-item {
+            background: #f3f3f3;
+            border: 1px solid #e1e1e1;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #dropzone {
+            border: 2px dashed #ccc;
+            padding: 10px;
+            position: relative;
+            cursor: pointer;
+            width: 30%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .contents {
+            width: 32%;
+            height: 300px;
+        }
+        .existing-file {
+            background: #e1e1e1;
+        }
+
+        .new-file {
+            background: #f9f9f9;
+        }
+
+
+
+        #input_title {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #ccc; /* 테두리 추가 */
+            border-radius: 5px; /* 테두리 둥글게 만들기 */
+            padding: 5px; /* 내부 여백 추가 */
+            font-size: 16px; /* 글꼴 크기 설정 */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+            outline: none; /* 포커스 시 파란 테두리 제거 */
+        }
+
+
+        .file-list-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-list-container h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .file-list-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-list-container .file-item {
+            background-color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-list-container .file-item span {
+            font-size: 16px;
+            color: #555;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-list-container .delete-btn {
+            min-width: 80px; /* 버튼의 최소 너비 설정 */
+            height: 30px; /* 버튼의 높이 설정 */
+            line-height: 30px; /* 버튼의 높이와 같은 값으로 설정하여 텍스트를 중앙에 위치시킴 */
+            padding: 0 10px; /* 양 옆에 여백을 줌 */
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap; /* 버튼 내의 글씨가 줄바뀌지 않도록 설정 */
+            text-overflow: ellipsis; /* 내용이 넘칠 경우 말줄임표로 표시 */
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            margin: 0 5px; /* 필요한 경우 주변 요소와의 간격을 위해 마진 추가 */
+        }
+
+        .file-list-container .delete-btn:hover {
+            background-color: #ff7875;
+        }
+
+
+
+    </style>
+</head>
+
+
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+
+
+<body>
+<h1>게시글 수정</h1><br>
+<form th:action="@{/boards/{board_name}/posts/{post_no}/edit(board_name=${board_name}, post_no=${post.post_no})}" th:object="${post}" method="post" enctype="multipart/form-data">
+    <input id="input_title" type="text" th:field="*{title}" placeholder="제목"><br><br>
+    <div class="occ_content">
+        <textarea class="contents" th:field="*{content}" placeholder="내용" name="occ_content" id="editor"></textarea><br><br>
+    </div>
+
+
+
+    <div id="dropzone">
+        <!-- 파일 추가를 위한 드래그 & 드롭 영역 -->
+        <input type="file" id="fileInput" name="newFiles" multiple style="display: none;">
+        <p>파일을 이곳에 드래그 & 드롭하거나 클릭하여 선택해주세요.</p>
+    </div>
+
+    <div id="fileList" class="file-list-container">
+        <h3>기존 파일</h3><br>
+        <ul id="existingFiles" th:if="${attachments}">
+            <li th:each="file : ${attachments}" class="file-item existing-file">
+                <span th:text="${file.original_file_name}">filename.png</span>
+                <button type="button" th:data-file-name="${file.file_name}" onclick="deleteExistingFile(this.getAttribute('data-file-name'));" class="delete-btn">삭제</button>
+            </li>
+        </ul>
+        <h3>새로 추가된 파일</h3><br>
+        <ul id="newFilesList"></ul>
+    </div><br>
+
+    <button id="editForm" type="submit" onsubmit="return confirmEdit()">수정 완료</button>
+</form>
+</body>
+<script>
+
+    function deleteExistingFile(fileName) {
+        if (confirm('해당 파일을 삭제하시겠습니까?')) {
+            fetch('/files/delete/' + fileName, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+
+                        document.querySelector(`button[data-file-name="${fileName}"]`).parentNode.remove();
+                    } else {
+                        alert('파일을 삭제하는데 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+    var fileListUl = document.getElementById('fileList').getElementsByTagName('ul')[0]; // 파일 목록의 ul 요소를 찾습니다.
+
+    // 새 파일을 처리하고 목록에 추가하는 함수
+    function handleFiles(newFiles) {
+        Array.from(newFiles).forEach(function(file) {
+            uploadedFiles.push(file); // 파일 배열에 추가
+            addFileToList(file, document.getElementById('newFilesList')); // 새 파일 목록에 파일 추가
+        });
+    }
+
+    function addFileToList(file, listElement) {
+        var fileItem = document.createElement('li');
+        fileItem.className = 'file-item new-file';
+        fileItem.textContent = file.name;
+
+        var cancelBtn = document.createElement('span');
+        cancelBtn.className = 'cancel-btn';
+        cancelBtn.textContent = '취소';
+        cancelBtn.onclick = function() {
+            var fileIndex = uploadedFiles.indexOf(file);
+            if (fileIndex > -1) {
+                uploadedFiles.splice(fileIndex, 1); // 파일 배열에서 제거
+            }
+            fileItem.remove(); // 목록에서 파일 아이템 제거
+        };
+
+        fileItem.appendChild(cancelBtn);
+        listElement.appendChild(fileItem); // 새 파일 목록에 아이템 추가
+    }
+
+    var newFilesList = document.getElementById('newFilesList');
+
+
+    var dropzone = document.getElementById('dropzone');
+    var fileInput = document.getElementById('fileInput');
+    var fileList = document.getElementById('fileList');
+    var uploadedFiles = [];
+
+    dropzone.addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function(event) {
+        handleFiles(event.target.files);
+    });
+
+    dropzone.addEventListener('dragover', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.style.border = "2px solid #000";
+    });
+
+    dropzone.addEventListener('dragleave', function(event) {
+        dropzone.style.border = "2px dashed #ccc";
+    });
+
+    dropzone.addEventListener('drop', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.style.border = "2px dashed #ccc";
+        handleFiles(event.dataTransfer.files);
+    });
+
+
+    /*에디터*/
+    $(['#editor','#editor2']).summernote({
+        placeholder: '제목을 입력해주세요',
+        tabsize: 2,
+        height: 450
+
+    }).catch(error => {
+        console.error(error);
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 에디터 초기화
+        $('#editor').summernote({
+            placeholder: '내용을 입력해주세요',
+            tabsize: 2,
+            height: 450
+        });
+
+        // 폼 제출 이벤트 핸들러
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            var input_title = document.getElementById('input_title').value.trim();
+            var occ_content = $('#editor').summernote('code').trim();
+
+            var errorMessages = [];
+            if (!input_title) {
+                errorMessages.push('제목을 입력하세요.');
+            }
+            if (!occ_content || occ_content === '<p><br></p>') {
+                errorMessages.push('내용을 입력하세요.');
+            }
+
+            if (errorMessages.length > 0) {
+                e.preventDefault();
+                alert(errorMessages.join('\n'));
+            }
+        });
+    });
+
+
+    function confirmDelete() {
+
+
+
+
+        return alert('수정이 완료 되었습니다.');
+    }
+
+
+</script>
+
+    </th:block>
+</th:block>
+
+</html>

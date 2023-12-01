@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/dayoung/css/modifyStudent.css">
+    <link rel="stylesheet" href="/dayoung/css/customBtn.css">
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+<div id="mainModal">
+
+    <form th:action="@{/dayoung/modify}" method="post" onsubmit="return validateForm()">
+       <div class="change">
+           <ion-icon name="pencil-outline" class="icon"></ion-icon>
+           <h3> 개인 정보 변경</h3>
+           <p class="title"> 핸드폰 번호 변경           </p>
+<!--         <input type="text" id="user_tel" name="user_tel"/>-->
+               <input type="text" class="input" id="user_tel" name="user_tel" placeholder="휴대폰 번호"/>
+
+
+           <br>
+           <p class="not">기타 변경 사항은 관리자에게 문의 부탁드립니다.</p>
+
+
+<br><br>
+        <button type="button"  class="w-btn" onclick="openModal()">비밀번호 변경</button>
+        <br>
+        <input type="submit" class="w-btn" value="등록" >
+       </div>
+    </form>
+
+<!--    <div id="myModal" class="modal">-->
+<!--        <div class="modal-content">-->
+<!--            <button class="w-btn-small" onclick="closeModal()" style="float:right;" >-->
+<!--                <span class="x"  >x</span></button>-->
+<!--            <div class="moStu">-->
+<!--            <h2>비밀번호 변경</h2>-->
+
+<!--            <label for="new_password">새 비밀번호</label>-->
+<!--            <input type="password" id="new_password" name="new_password"/><br><br>-->
+
+<!--            <label for="confirm_password">비밀번호 재확인</label>-->
+<!--            <input type="password" id="confirm_password" name="confirm_password"/><br><br>-->
+
+<!--            <button class="w-btn" onclick="changePassword()">변경</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="/dayoung/js/modifyStudent.js"></script>
+</div>
+    </th:block>
+</th:block>
+
+</body>
+</html>

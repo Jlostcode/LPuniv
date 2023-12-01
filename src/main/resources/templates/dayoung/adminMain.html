@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>admin Page</title>
+
 </head>
 <body>
-<a href="dayoung/addSt" class ="button">학생 등록 </a>
-<a href="dayoung/modifySt" class ="button">학생 수정</a>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
 
--학생정보수정
--강사 및 학생 메뉴 접속 및 수정
--게시판 연동
+    <th:block th:fragment="content">
+
+    </th:block>
+
+</th:block>
+
 </body>
 </html>

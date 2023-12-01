@@ -6,5 +6,9 @@
 <mapper namespace="com.project.lpuniv.Dao">
     <select id="list" resultType="com.project.lpuniv.Dto">
         select * from user
-    </select> 
+    </select>
+
+
+
+
 </mapper>

@@ -12,7 +12,7 @@ public class LectListService {
     @Autowired
     ListenLecDao listenLecDao;
 
-    public List<LecListDto> selectLecList(int OCC_NO) {
-        return listenLecDao.selectLecList(OCC_NO);
+    public List<LecListDto> selectLecList(int occ_NO) {
+        return listenLecDao.selectLecList(occ_NO);
     }
 }

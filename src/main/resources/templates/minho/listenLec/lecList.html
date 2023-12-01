@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>강의 목록</title>
+    <link rel="stylesheet" href="/minho/css/lecList.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="board_wrap">
-    <h1 class="board_title">강의 목록</h1>
-    <div class="board_list" th:each="lectList: ${lectList}">
-        <div class="board_list_lec">
-            <div class="board_list_lec_CCIM_NO">
-                <h2>[[${lectList.CCIM_NO}]] 차시</h2>
-                <div class="board_list_lec_CCIM_NO_info">
-                    <div class="board_list_lec_CCIM_NO_info_CCIM_title">
-                        <a id="lecVideoModal" th:href="@{'/minho/lecVideo?CCIM_NO=' + ${lectList.CCIM_NO} +'&OCC_NO=' + ${lectList.OCC_NO}}">강의 제목: [[${lectList.CCIM_title}]]</a>
-                    </div>
-                    <div class="board_list_lec_CCIM_NO_info_CCIM_content">
-                        <a id="lecVideoModal2" th:href="@{'/minho/lecVideo?CCIM_NO=' + ${lectList.CCIM_NO} +'&OCC_NO=' + ${lectList.OCC_NO}}">강의 요약: [[${lectList.CCIM_content}]]</a>
-                    </div>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <section class="board_wrap">
+            <div class="board_wrap_head">
+                <button type="button" class="goBackBtn" onclick="location.href='javascript:history.back();' ">뒤로가기
+                </button>
+                <h1 class="board_title">강의 목록</h1>
+            </div>
+            <div class="board_list" th:each="lectList: ${lectList}">
+                <div th:value="${lectList.ccim_NO}">
+                    <button class="board_list_Container_toggleButton">[[${lectList.ccim_NO}]] 차시 강의</button>
+                </div>
+                <div class="board_list_Container" style="display: none">
+                    <ul>
+                        <li><a id="lecVideoModal"
+                               th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}">강의
+                            제목: <br><br>[[${lectList.ccim_title}]]</a></li>
+                        <br>
+                        <li><a id="lecVideoModal2"
+                               th:href="@{'/listenLec/lecVideo?ccim_NO=' + ${lectList.ccim_NO} +'&occ_NO=' + ${lectList.occ_NO}}"
+                               th:utext="'강의 요약:' + ${lectList.ccim_content}"></a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-        <!--<table>
-            <tr>
-                <th>차시 번호</th>
-                <th>차시 제목</th>
-                <th>강의 내용 요약</th>
-                <th>강의 영상</th>
-            </tr>
-            <tr>
-                <td th:text="${lectList.CCIM_NO}"></td>
-                <td th:text="${lectList.CCIM_title}"></td>
-                <td th:text="${lectList.CCIM_content}"></td>
-                <td th:text="${lectList.CCIM_videoID}"></td>
-            </tr>
-        </table>-->
-</div>
-<script src="/js/lecVideoModal.js"></script>
+        </section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="/minho/js/lecVideo.js"></script>
+        <script src="/minho/js/toggleList.js"></script>
+    </th:block>
+</th:block>
 </body>
 </html>

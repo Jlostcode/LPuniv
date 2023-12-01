@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.dayoung.user.signUp.dao.UserDao">
+    <insert id="insertUser" parameterType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
+
+        INSERT INTO user (user_no, user_tp,user_nm, user_tel,user_loginId,user_passwd,user_email, user_brdt, user_gen, user_signdate)
+        VALUES (#{user_no}, #{user_tp},#{user_nm},#{user_tel},#{user_loginId},#{user_passwd},#{user_email}, #{user_brdt}, #{user_gen},  #{user_signdate}
+        )
+    </insert>
+
+    <select id="selectUser" resultType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
+
+        select * from user where user_no = #{user_no}
+
+    </select>
+
+
+    <select id="selectUserByTel" resultType="com.project.lpuniv.dayoung.user.signUp.dto.SignupDto">
+
+        select * from user where user_tel = #{user_tel}
+
+    </select>
+
+
+    <select id="countUser" parameterType="Integer">
+        select count(*) from user
+
+    </select>
+
+<!--    <select id="userList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">-->
+<!--        select * from user-->
+<!--            order by user_tp asc-->
+<!--        LIMIT #{startRow},#{size}-->
+<!--    </select>-->
+
+    <select id="gridList" resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
+        select * from user
+        order by user_tp asc
+
+    </select>
+
+    <update id="updateUser">
+        update  user set user_tp= #{user_tp}, user_nm=#{user_nm},user_tel=#{user_tel},user_email=#{user_email},user_brdt=#{user_brdt},user_gen=#{user_gen},
+                         user_signdate=#{user_signdate},user_deletedate=#{user_deletedate}
+                     where user_no = #{user_no}
+
+    </update>
+
+
+    <update id="modifySelf">
+        update  user set user_tel=#{user_tel}
+        where user_no = #{user_no}
+
+    </update>
+    <update id="resetPw">
+        update user set user_passwd='0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c'
+        where user_no=#{user_no}
+        </update>
+
+
+    <update id="deleteDate">
+    update user set user_deletedate = now() where user_no=#{user_no}
+    </update>
+    <delete id="delUser">
+        delete from user where user_no= #{user_no};
+    </delete>
+
+    <select id="serchList"  resultType="com.project.lpuniv.dayoung.user.signUp.dto.ListDto">
+        select user_no,user_tp,user_nm,user_tel,user_loginId,user_email,user_brdt,user_gen,user_signdate
+        from user
+        <where>
+            <choose>
+                <when test="selectOption == '이름'">
+                    user_nm Like #{searchFind}
+                </when>
+                <when test="selectOption == '강의명'">
+
+                </when>
+                <when test="selectOption == '강사'">
+                    user_nm Like #{searchFind} and user_tp = 2
+                </when>
+                <when test="selectOption == '학생'">
+                    user_nm Like #{searchFind} and user_tp = 1
+                </when>
+            </choose>
+        </where>
+        LIMIT #{startRow},#{size}
+    </select>
+
+    <update id="updateUserPw">
+        update user set user_passwd =#{user_pw} where user_no = #{user_no}
+    </update>
+</mapper>

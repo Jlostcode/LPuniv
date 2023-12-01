@@ -1,0 +1,120 @@
+.message-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 1%;
+    margin-bottom: 20px;
+    margin-left: 1%;
+    width: 1200px;
+}
+
+.form-section input {
+    height: 30px;
+    border-radius: 8px;
+}
+
+.form-section select {
+    border-radius: 3px;
+}
+
+.form-section {
+    margin: 0 15% 0 20%;
+}
+
+.sender-info,
+.recipient-info,
+.recipient-section,
+.button-container {
+    margin-bottom: 5px;
+}
+
+.sender-info input,
+.receiver-text1 input {
+    width: 79%;
+    box-sizing: border-box;
+    margin-bottom: 0.5%;
+}
+
+.receiver-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.receiver-text2 {
+    display: flex;
+    align-items: start;
+    margin-left: 8%;
+}
+
+.receiver-text2 input {
+    width: 55%;
+    box-sizing: border-box;
+}
+
+.receiver-text2 select {
+    width: 200px;
+    box-sizing: border-box;
+    margin-top: -0.5%;
+    margin-left: 1.5%;
+}
+
+.message-title input{
+    width: 80%;
+    box-sizing: border-box;
+    margin-bottom: 0.5%;
+}
+
+.msg-title input {
+    width: 75%;
+    box-sizing: border-box;
+    margin-bottom: 0.5%;
+}
+
+.textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.5%;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1%;
+}
+
+.textarea textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    border-radius: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.button-container button {
+    width: 15%;
+    padding: 8px;
+    font-size: 14px;
+    margin-right: 10px;
+    border-radius: 8px;
+    color: white;
+    background-color: #12192c;
+}
+
+.update-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.update-button-container button{
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 10px;
+    border-radius: 8px;
+    color: white;
+    background-color: #12192c;
+}

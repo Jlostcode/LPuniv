@@ -1,0 +1,276 @@
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#modalContent {
+    position: relative;
+}
+
+#search {
+    position: absolute;
+    right: 1px;
+}
+
+#searchOp {
+    height: 30px;
+    border-radius: 8px;
+}
+
+#search input {
+    height: 30px;
+    border-radius: 8px;
+}
+
+#search button {
+    height: 30px;
+    width: 50px;
+    border-radius: 8px;
+    color: white;
+    background-color: #12192c;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1%;
+}
+
+#buttonContainer button {
+    width: 25%;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #12192c;
+
+}
+/******************************************************************************************/
+.title-message-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+}
+
+.title-message-container .title-sen{
+    flex: 15%;
+    text-align: center;
+    margin-left: 30px;
+}
+
+.title-message-container .title-rec{
+    flex: 15%;
+    text-align: center;
+}
+
+.title-message-container .title-title{
+    flex: 40%;
+    text-align: center;
+}
+
+.title-message-container .title-date{
+    flex: 20%;
+    text-align: center;
+}
+
+.title-message-container .title-del{
+    flex: 10%;
+    text-align: center;
+}
+
+.title-message-container .title-recycle{
+    flex: 5%;
+    text-align: center;
+}
+/****************************************************************************************/
+.message-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+}
+
+.message-status {
+    width: 10%;
+    text-align: left;
+}
+
+.message-sen {
+    width: 15%;
+    text-align: left;
+    margin-left: -2.2%;
+}
+
+.message-rec {
+    width: 15%;
+    text-align: left;
+    margin-left: -0.3%;
+}
+
+.message-span{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.message-title {
+    width: 40%;
+    cursor: pointer;
+    color: #007bff;
+    text-align: center;
+    display: inline-block;
+    margin-left: 2%;
+}
+
+.message-date {
+    width: 20%;
+    text-align: center;
+    margin-left: 12.5%;
+    margin-right: 7.5%;
+}
+
+.delete-button {
+    width: 10%;
+    cursor: pointer;
+    color: #dc3545;
+    text-align: center;
+}
+/*****************************************************************************************/
+.pagination-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.pagination-button {
+    cursor: pointer;
+    margin-right: 5px;
+    color: #007bff;
+}
+/*****************************************************************************************/
+.recycle-message-container {
+    align-items: center;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+}
+
+.recycle-message-status {
+    width: 5%;
+    text-align: left;
+}
+
+.recycle-message-sen {
+    width: 15%;
+    text-align: left;
+    margin-left: 5%;
+    margin-right: 1%;
+}
+
+.recycle-message-rec {
+    width: 15%;
+    text-align: left;
+    margin-left: 9.3%;
+    margin-right: 1.5%;
+}
+
+.recycle-message-title {
+    width: 40%;
+    cursor: pointer;
+    color: #007bff;
+    text-align: center;
+    display: inline-block;
+    margin-left: 3.1%;
+}
+
+.recycle-message-date {
+    width: 15%;
+    text-align: center;
+    margin-left: 2.5%;
+    margin-right: 1%;
+}
+
+.recycle-delete-button1 {
+    width: 5%;
+    cursor: pointer;
+    color: #dc3545;
+    text-align: center;
+    margin-left: 4.5%;
+}
+
+.recycle-delete-button2 {
+    width: 5%;
+    cursor: pointer;
+    color: #007bff;
+    text-align: center;
+    margin-left: 2%;
+}
+/***********************************************************************************/
+.message-body {
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 20px;
+}
+
+.message-details {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 1%;
+    margin-bottom: 20px;
+    margin-left: 1%;
+    width: 1200px;
+}
+
+.message-details span {
+    margin-bottom: 10px;
+}
+
+.message-details .view-sender {
+    margin-right: 1%;
+}
+
+.message-view-title {
+    text-align: center;
+}
+
+.content-label textarea {
+    width: 100%;
+    resize: none;
+    height: 150px;
+    border-radius: 8px;
+}
+
+.button-group button {
+    border: 1px solid;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 5px;
+    color: white;
+    background-color: #12192c;
+    margin-left: 1%;
+}
+
+.button-group button, .content-label textarea {
+    margin-top: 10px;
+}
+
+.button-group button + button {
+    margin-left: 10px;
+}
+/*************************************************************************************/

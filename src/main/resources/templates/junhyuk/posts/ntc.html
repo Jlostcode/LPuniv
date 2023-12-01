@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+    <meta charset="UTF-8">
+    <title>공지사항</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .faq-item {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .faq-title {
+            padding: 10px 15px;
+            margin: 0;
+            background-color: #f7f7f7;
+            cursor: pointer;
+        }
+        .faq-title:hover {
+            background-color: #e7e7e7;
+        }
+        .faq-content {
+            padding: 10px 15px;
+            display: none;
+        }
+        .pagination {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+        .pagination li {
+            display: inline;
+            margin-right: 5px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        .pagination a.active,
+        .pagination a:hover {
+            background-color: var(--bg-color);
+            color: white;
+        }
+        .show-all {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .show-all button {
+            padding: 5px 15px;
+            background-color: var(--bg-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .show-all button:hover {
+            border-color: #5a6268;
+        }
+
+
+
+        .hidden {
+            display: none;
+        }
+
+        .faq-title::after {
+            content: ' \25BC'; /* 아래쪽 화살표 */
+            float: right;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-title.active::after {
+            transform: rotate(180deg); /* 화살표를 위로 */
+        }
+
+        /* 추가된 스타일 */
+        .pagination.hidden {
+            display: none;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+
+        }
+        .search-form input[type="text"],
+        .search-container,
+        .search-form select {
+            padding: 10px;
+            margin-bottom: 10px; /* 입력란과 드롭다운 사이의 간격 */
+            border: 1px solid #ddd;
+            border-radius: 20px; /* 둥근 모서리 스타일 */
+            font-size: 16px; /* 글자 크기 */
+
+        }
+        .search-form input[type="text"] {
+            margin-bottom: 0; /* 검색어 입력란 아래의 마진 제거 */
+            width: 50%;
+            border: 1px;
+
+        }
+
+        .create-post-button {
+            display: block;
+            width: max-content;
+            margin: 10px auto;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .create-post-button:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+
+        .faq-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-prefix {
+            /* Styling for the 'Q' prefix */
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .faq-date {
+            /* Styling for the date */
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .faq-title {
+            position: relative; /* 상대적 위치 설정 */
+            /* 나머지 스타일 */
+        }
+
+        .user-title {
+            position: absolute; /* 절대적 위치 설정 */
+            right: 40px; /* 오른쪽에서 10px 떨어진 위치 */
+            top: 50%; /* 상단에서 50% 떨어진 위치 */
+            transform: translateY(-50%); /* Y축으로 -50% 만큼 이동하여 세로 중앙 정렬 */
+            /* 나머지 스타일 */
+
+        }
+
+        .delete-title {
+            position: absolute; /* 절대적 위치 설정 */
+            right: 100px; /* 오른쪽에서 10px 떨어진 위치 */
+            top: 50%; /* 상단에서 50% 떨어진 위치 */
+            transform: translateY(-50%); /* Y축으로 -50% 만큼 이동하여 세로 중앙 정렬 */
+            /* 나머지 스타일 */
+        }
+
+
+        .titles {
+
+            font-weight: bolder;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: red;
+            border: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+
+        <body>
+
+        <div class="faq-container" th:with="userTp=${#httpServletRequest.getSession().getAttribute('authInfo')?.user_tp}">
+            <h1>공지사항</h1><br>
+
+            <div th:if="${userTp == 3}">
+                <a class="create-post-button" th:href="@{'/boards/' + ${board_name} + '/posts/create'}">신규 공지사항 등록</a>
+            </div>
+
+            <form class="search-form" id="searchForm" th:action="@{/boards/{board_name}/posts(board_name=${board_name})}" method="get">
+
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="searchTerm" class="search-input" placeholder="검색어를 입력해주세요." th:value="${searchTerm}">
+                </div>
+
+                <br>
+
+            </form>
+
+
+
+
+            <div th:each="post : ${posts}" class="faq-item">
+                <div class="faq-title">
+                    <span class="faq-prefix" >Q</span> <!-- Add 'Q' on the left -->
+                    <span class="titles" th:text="${post.title}">공지사항 제목</span> <!-- FAQ Title in the center -->
+                    <span class="user-title" th:text="${post.authorName}">사용자</span>
+                    <span class="delete-title" th:if="${userTp == 3}">
+                <form th:action="@{/boards/{board_name}/posts/{post_no}/delete(board_name=${board_name}, post_no=${post.post_no})}" method="post" onsubmit="return confirmDelete()">
+                    <input type="submit" class="btn btn-custom btn-delete" value="X">
+                </form>
+            </span>
+                </div>
+                <div class="faq-content" th:utext="${post.content}">공지사항 내용
+
+
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="show-all">
+                <button id="toggle-all">전체 보기</button>
+            </div><br>
+            <div>
+                <ul class="pagination hidden">
+
+                    <li>
+                        <a th:href="@{${currentPage > 1} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} - 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+                           th:class="${currentPage == 1} ? 'disabled' : ''">«</a>
+                    </li>
+
+
+                    <li th:each="pageNum : ${#numbers.sequence(1, (totalPosts == 0 ? 1 : totalPages))}"
+                        th:if="${totalPosts > size or totalPages > 1}">
+                        <a th:href="@{/boards/{board_name}/posts(board_name=${board_name}, page=${pageNum}, searchType=${searchType}, searchTerm=${searchTerm})}"
+                           th:class="${pageNum == currentPage} ? 'active' : ''"
+                           th:text="${pageNum}"></a>
+                    </li>
+
+
+
+
+
+                    <li>
+                        <a th:href="@{${currentPage < totalPages} ? '/boards/' + ${board_name} + '/posts?page=' + (${currentPage} + 1) + '&searchType=' + ${searchType} + '&searchTerm=' + ${searchTerm} : '#'}"
+                           th:class="${currentPage == totalPages} ? 'disabled' : ''">»</a>
+                    </li>
+                </ul>
+            </div>
+            <script>
+                var showAllClicked = false; // '전체 보기' 버튼 클릭 상태 변수
+                var toggleAllButton = document.getElementById('toggle-all'); // 전체 보기 버튼
+
+                document.querySelectorAll('.faq-title').forEach(function(title) {
+                    title.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        var content = this.nextElementSibling;
+                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    });
+                });
+
+                toggleAllButton.addEventListener('click', function() {
+                    var contents = document.querySelectorAll('.faq-content');
+                    var pagination = document.querySelector('.pagination');
+                    var isAnyVisible = Array.from(contents).some(content => content.style.display === 'block');
+
+                    showAllClicked = !showAllClicked; // 클릭 상태 토글
+
+                    // 버튼 텍스트 업데이트
+                    toggleAllButton.textContent = showAllClicked ? '닫기' : '전체 보기';
+
+                    if (showAllClicked) {
+                        contents.forEach(content => content.style.display = 'block');
+                        pagination.classList.remove('hidden');
+                    } else {
+                        contents.forEach(content => content.style.display = 'none');
+                        pagination.classList.add('hidden');
+                    }
+                });
+
+
+                function confirmDelete() {
+                    return confirm('정말로 삭제하시겠습니까?');
+                }
+
+            </script>
+
+
+</div>
+        </body>
+
+    </th:block>
+</th:block>
+
+</html>

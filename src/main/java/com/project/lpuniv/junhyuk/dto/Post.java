@@ -22,6 +22,9 @@ public class Post {
     private LocalDateTime date_created;
     private Integer hits = 0;
     private int user_no;
+    private String authorName;
+    private int commentCount;
+    private Integer userTp;
 
 
 }

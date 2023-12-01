@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>학생 과제 리스트</title>
+    <link rel="stylesheet" href="/minho/css/listSubmit.css">
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+        <div class="board_wrap">
+            <div class="board_wrap_head">
+                <h1 class="board_title">학생 과제 리스트</h1>
+            </div>
+            <div class="board_wrap_content">
+                <div>
+                    <label for="board_wrap_search_box"><strong>검색</strong></label>
+                    <input type="search" id="board_wrap_search_box" placeholder="학생 이름으로 검색해 주세요.">
+                </div>
+                <div class="board_list_stu_table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>학생 이름</th>
+                            <th>과제 이름</th>
+                            <th>과제 내용</th>
+                            <th>과제 점수</th>
+                        </tr>
+                        </thead>
+                        <tbody class="board_list_stu_table_tbody">
+                        <tr th:each="submitDtos: ${submitDtos}">
+                            <td th:value="${submitDtos.stud_no}"><a
+                                    th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${submitDtos.stud_nm}]]</a>
+                            </td>
+                            <td th:value="${submitDtos.amc_no}"><a
+                                    th:href="@{'/submit/selStuSub?amc_no='+${submitDtos.amc_no}+'&stud_no='+${submitDtos.stud_no}}">[[${amcDtoMH.amc_at}]]</a></td>
+                            <td th:utext="${amcDtoMH.amc_ac}"></td>
+                            <td th:if="${submitDtos.submit_sc} != 0" th:text="${submitDtos.submit_sc}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="/minho/js/searchSelStu.js"></script>
+    </th:block>
+</th:block>
+</body>
+</html>

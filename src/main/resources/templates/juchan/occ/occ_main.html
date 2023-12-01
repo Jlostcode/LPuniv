@@ -4,18 +4,91 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-2E9/b2fZ+VJoP6eRIpzzMFkuqbh0qDkIFVLzJJwkESsdKPEwzb0n6E55enZ+Ee8V" crossorigin="anonymous">
+    <style>
+        .btn-outline-primary{
+            --cui-btn-color: #ffffff;
+            --cui-btn-border-color: #ffffff;
+            --cui-btn-hover-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-hover-bg: #989898;
+            --cui-btn-hover-border-color: #ffffff;
+            --cui-btn-focus-shadow-rgb: 50,31,219;
+            --cui-btn-active-color: rgb(0 0 0 / 87%);
+            --cui-btn-active-bg: #ffffff;
+            --cui-btn-active-border-color: #ffffff;
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: #626163;
+            --cui-btn-disabled-bg: transparent;
+            --cui-gradient: none;
+        }
+        .btn-primary {
+            --cui-btn-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-bg: #12192c;
+            --cui-btn-border-color: #12192c;
+            --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-hover-bg: #29334e;
+            --cui-btn-hover-border-color: #29334e;
+            --cui-btn-focus-shadow-rgb: 75, 58, 223;
+            --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-active-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-border-color: rgba(44, 56, 74, 0.95);
+            --cui-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 21, 0.125);
+            --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+            --cui-btn-disabled-bg: rgba(44, 56, 74, 0.95);
+            --cui-btn-disabled-border-color: rgba(44, 56, 74, 0.95);
+        }
+        .page-link {
+            color: #12192c;
+        }
+        .effect-1 {
+            width: 100%;
+            color: #12192c;
+        }
+        .footer:hover{
+            background-color: #d0d1d2;
+
+        }
+        .header {
+            background-color: #12192c;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
 <div class="header"><strong>강의 목록</strong> <br></div>
 <div class="cards" style="justify-content: center; align-content: center; display: flex;">
 <div th:each="card : ${listPage.occDtos}" class="card" style="width: 18rem;">
 <!--    <img src="..." class="card-img-top" alt="..." style="color: #4f34c6;">-->
-    <div class="card-header" style="background-color: #4f34c6; height: 5rem;"></div>
+    <div class="card-header" style="background-color: #12192c; height: 5rem; display: flex; justify-content: space-between; align-items: flex-start;">
+        <a th:href="@{'/student/stuList?occ_NO=' + ${card.occ_NO}}" class="btn btn-primary">수강생 정보</a>
+        <button type="button" class="btn btn-outline-primary delete-btn"
+                th:data-occ-no="${card.occ_NO}" th:data-occ-title="${card.occ_title}"
+                style="height: 2rem; width: 4rem; font-size: 11px;">삭제</button>
+    </div>
     <div class="card-body">
-        <h5 class="card-title" th:text="${card.occ_title}">Card title</h5>
-        <p class="card-text" > 해당 강의 "[[${card.occ_title}]]" 관리</p>
+        <div style="display: flex;">
+        <h5 class="card-title" style="margin-right: 10px;" th:text="${card.occ_title}">Card title</h5>
+        </div>
+        <p class="card-text"  > 해당 강의 "[[${card.occ_title}]]" 관리</p>
         <a th:href="@{'/ccim?occ_NO=' + ${card.occ_NO}}" class="btn btn-primary">챕터 관리</a>
         <a th:href="@{'/occ/occ_modify?occ_NO=' + ${card.occ_NO}}" class="btn btn-primary">강의 수정</a>
+
+        <button class="btn btn-primary toggle-details-btn"
+                data-coreui-toggle="collapse"
+                data-coreui-target="#collapseWidthExample"
+                aria-expanded="false"
+                aria-controls="collapseWidthExample"
+                th:data-occ-title="${card.occ_title}"
+                th:data-occ-content="${card.occ_content}"
+                th:data-occ-teachInfo="${card.occ_teachInfo}"
+                th:data-occ-kakao="${card.occ_kakao}"
+                th:data-occ-rot="${card.occ_ROT}"
+                th:data-occ-date="${card.occ_date}"
+                th:data-occ-Mdate="${card.occ_Mdate}"
+        >&raquo;</button>
         <hr>
         <p class="card-text" th:text="'등록 일시: '+ ${#dates.format(card.occ_date, 'yyyy-MM-dd HH:mm:ss')}"> 등록 일시 : </p>
     </div>
@@ -47,12 +120,54 @@
     </ul>
 </div>
 </nav>
+
 <div class="footer">
-    <a class="effect effect-1" th:href="@{'/occ/occ_insert'}">새로운 강의 등록</a>
+    <a class="effect effect-1" th:href="@{'/occ/occ_insert'}"><div style="width: 100%; display: flex; align-items: center;">새로운 강의 등록</div></a>
+</div>
+
+<div style="min-height: 200px;">
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <strong> 강의 정보 </strong>
+        <label for="occ_title_info" style="font-weight: bold">강의명 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_title_info"></div>
+        </div>
+        <label for="occ_content_info" style="font-weight: bold">강의 내용 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_content_info"></div>
+        </div>
+        <label for="occ_teachInfo_info" style="font-weight: bold">강사 소개 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_teachInfo_info"></div>
+        </div>
+        <label for="occ_kakao_info" style="font-weight: bold">강의 오픈카카오 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_kakao_info"></div>
+        </div>
+        <label for="occ_rot_info" style="font-weight: bold">강의 과정 시간 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_rot_info"></div>
+        </div>
+        <label for="occ_date_info" style="font-weight: bold">강의 개설 일시 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_date_info"></div>
+        </div>
+        <label for="occ_Mdate_info" style="font-weight: bold">강의 최종 수정 일시 </label>
+        <div class="card card-body" style="width: 100%;">
+            <div id="occ_Mdate_info"></div>
+        </div>
+    </div>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.min.js" integrity="sha384-Ccu4pXX7m9x5nOmnhLGyxq3pqYWoc67qHmnJwC20bxJvdziB6gZtOAb9BLN5bOOb" crossorigin="anonymous"></script>
+<script src="/juchan/js/occ_main_infodata.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/juchan/js/deleteOcc.js"></script>
+    </th:block>
+
+</th:block>
 </body>
 </html>

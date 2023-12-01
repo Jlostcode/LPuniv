@@ -12,12 +12,12 @@ public class LectureService {
     @Autowired
     LecDao lecDao;
 
-    public List<LecDto> selectAllLecPage(int startRow, int size, int OCC_NO) {
-        return lecDao.selectAllLecPage(startRow, size, OCC_NO);
+    public List<LecDto> selectAllLecPage(int startRow, int size, int occ_NO) {
+        return lecDao.selectAllLecPage(startRow, size, occ_NO);
     }
 
-    public Integer countLecPage (int OCC_NO) {
-        return lecDao.countLecPage(OCC_NO);
+    public Integer countLecPage (int occ_NO) {
+        return lecDao.countLecPage(occ_NO);
     }
 
 }

@@ -2,25 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
+    <link rel="stylesheet" href="/dayoung/css/loginForm.css" type="text/css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
+
 <body>
-<form th:action="@{/}" method="post">
-    <p>
-        <label for="user_loginId">아이디</label>
-        <input type="text" id="user_loginId" name="user_loginId"></p>
+<section class="login">
+    <div class="login_box">
+        <div class="left">
+<!--            <div class="top_link"><a href="#"><img src="https://drive.google.com/u/0/uc?id=16U__U5dJdaTfNGobB_OpwAJ73vM50rPV&export=download" alt="">Return home</a></div>-->
+            <div class="contact">
+            <form th:action="@{/main}" method="post" action="@{/main}" id="loginForm">
+                <h3>Lo-Pie에 오신것을 </br>
+                    환영합니다. </h3>
+                <input type="text" id="user_loginId" name="user_loginId" placeholder="아이디 (휴대폰 번호)"/>
+                <input type="password" id="user_passwd" name="user_passwd" placeholder="비밀번호"/>
+                <button type="submit" value="로그인" id="login" class="submit">로그인</button>
+            </form>
+            </div>
+        </div>
 
-    </p>
-    <p>
-        <label for="user_passwd">비밀번호</label>
-        <input type="user_passwd" id="user_passwd" name="user_passwd"/>
+        <div class="right">
+            <div class="right-text">
 
-    </p>
+            </div>
+            <div class="right-inductor">
 
-    <input type="submit" value="로그인" id="login">
+            </div>
+        </div>
+    </div>
+</section>
 
-</form>
-
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="/dayoung/js/login.js"></script>
 </body>
 </html>

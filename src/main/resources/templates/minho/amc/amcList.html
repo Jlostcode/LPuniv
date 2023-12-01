@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>강의 과제 페이지</title>
+    <link rel="stylesheet" href="/minho/css/amcList.css">
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+        <section class="board_wrap">
+            <div class="board_wrap_head">
+                <button type="button" class="goBackBtn" onclick="location.href='javascript:history.back();' ">뒤로가기
+                </button>
+                <h2 class="board_title">과제 목록</h2>
+            </div>
+            <div class="board_list" th:each="amcList: ${amcList}">
+                <div th:value="${amcList.ccim_NO}">
+                    <button class="board_list_Container_toggleButton">[[${amcList.ccim_NO}]] 차시 과제 ></button>
+                </div>
+                <div class="board_list_Container" style="display: none">
+                    <ul>
+                        <li th:value="${amcList.amc_at}"><a th:href="@{'/amc/amcView?amc_no='+${amcList.amc_no}}"
+                                                            th:text="${amcList.amc_at}"></a></li>
+                        <li th:value="${amcList.amc_ac}"><a th:href="@{'/amc/amcView?amc_no='+${amcList.amc_no}}"
+                                                            th:utext="${amcList.amc_ac}"
+                                                            class="board_list_Container_amc_ac"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </th:block>
+</th:block>
+</body>
+<script src="/minho/js/toggleList.js"></script>
+</html>
+

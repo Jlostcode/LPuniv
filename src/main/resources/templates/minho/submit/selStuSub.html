@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>과제 정보</title>
+    <link rel="stylesheet" href="/minho/css/selStuSub.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+<th:block th:replace="~{/layout/layout :: setContent(~{this::content})}">
+
+    <th:block th:fragment="content">
+        <div class="board_wrap">
+            <div class="board_wrap_head">
+                </button>
+                <h1 class="board_title">학생 [[${submitDto.stud_nm}]]의 과제</h1>
+            </div>
+
+            <hr>
+
+            <div>
+                <p>과제 제목: [[${amcDtoMH.amc_at}]]</p>
+            </div>
+
+            <hr>
+
+            <div>
+                <p>과제 제출 내용:</p>
+                <p th:utext="${submitDto.submit_ct}"></p>
+
+            </div>
+
+            <hr>
+
+            <div class="board_list" th:each="fileDtoMHS: ${fileDtoMHS}">
+                <div>
+                    <button class="board_list_Container_toggleButton">과제 첨부 파일</button>
+                </div>
+                <div class="board_list_Container" style="display: none">
+                    <ul>
+                        <li><a th:if="${fileDtoMHS != null}" th:href="@{'/file/download/' + ${fileDtoMHS.file_no}}"
+                               th:value="fileDtoMHS.file_no">[[${fileDtoMHS.file_uuid}]]</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden_data">
+                <input type="hidden" th:value="${submitDto.submit_no}" name="submit_no">
+                <input type="hidden" th:value="${submitDto.amc_no}" name="amc_no">
+                <input type="hidden" th:value="${submitDto.submit_sc}" name="submit_sc2">
+            </div>
+            <div th:if="${submitDto.submit_sc} == 0">
+                <p>점수 입력</p>
+                <div class="selStuSub_wrap_score"><input type="text" name="submit_sc" id="submit_sc"></div>
+                <button type="button" onclick="uploadScore()">입력</button>
+            </div>
+            <div th:if="${submitDto.submit_sc} != 0">
+                <div class="selStuSub_wrap_score3">
+                    <label>학생 점수 수정 </label>
+                    <input type="text" name="submit_sc3" id="submit_sc3">
+                    <span></span>
+                </div>
+                <button type="button" onclick="modifyScore()">입력</button>
+            </div>
+
+
+            <hr>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/minho/js/uploadScore.js"></script>
+        <script src="/minho/js/modifyScore.js"></script>
+        <script src="/minho/js/toggleList.js"></script>
+    </th:block>
+</th:block>
+</body>
+</html>

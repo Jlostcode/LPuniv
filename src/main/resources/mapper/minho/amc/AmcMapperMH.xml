@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.lpuniv.minho.amc.dao.AmcDaoMH">
+    <select id="selectAmcOccNo" resultType="com.project.lpuniv.minho.amc.dto.AmcDtoMH">
+        select a.amc_no, a.ccim_no, a.OCC_NO, a.amc_at,  a.amc_ac, o.OCC_title
+        from occ o, amc a
+        where a.occ_NO = #{occ_NO} and a.OCC_NO = o.OCC_NO
+    </select>
+    <select id="selectOneAmc" resultType="com.project.lpuniv.minho.amc.dto.AmcDtoMH">
+        select * from amc where amc_no = #{amc_no}
+    </select>
+    <select id="selectOneAmfi" resultType="com.project.lpuniv.juchan.amfi.dto.AmfiDto">
+        select * from amfi where amc_no = #{amc_no}
+    </select>
+</mapper>

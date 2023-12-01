@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메시지</title>
+    <link rel="stylesheet" href="/heechan/css/msgWrite.css">
+</head>
+<body>
+<div class="message-form">
+    <div class="form-section">
+        <input type="hidden" name="msg-recno" th:value="${msg.receiverNo}" />
+        <input type="hidden" name="msg-senno" th:value="${msg.senderNo}" />
+        <div class="sender-info">
+            발신자 : <span id="receiverNm" th:text="${msg.receiverNm}"></span>
+        </div>
+        <div class="recipient-info">
+            <span class="receiver-text1">수신자 : <span id="senderNm" th:text="${msg.senderNm}"></span></span>
+        </div>
+        <div class="msg-title">
+            제 목 : <span><input type="text" name="title" /></span>
+        </div>
+        <div class="textarea">
+            <span>내 용 : </span><label><textarea style="resize: none;" name="content"  cols="77" rows="15"></textarea></label>
+        </div>
+    </div>
+    <div class="update-button-container">
+        <span th:if="${searchInput == null && searchOp  == null && div == null}">
+            <button th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${msg.msgNo} + '&pageNo=' + ${pageNo}} + '\')'">뒤로가기</button><br/>
+        </span>
+        <span th:if="${searchInput != null && searchOp  != null && div != null}">
+            <button th:attr="onclick='changePage(\'' + @{'/message/msgview?msgNo=' + ${msg.msgNo} + '&pageNo=' + ${pageNo} + '&searchInput=' + ${searchInput} + '&searchOp=' + ${searchOp} + '&div=' + ${div}} + '\')'">뒤로가기</button><br/>
+        </span>
+        <button id="submit2">메시지보내기</button>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/heechan/js/modal.js"></script>
+</body>
+</html>
