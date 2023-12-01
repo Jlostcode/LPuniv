@@ -202,20 +202,26 @@ public class PostController {
         List<FileAttachment> attachments = fileService.findAttachmentsByPostNo(post_no);
 
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-
+        System.out.println("authInfo = " +  authInfo);
 
         boolean isOwner = authInfo != null && authInfo.getUser_no() == post.getUser_no();
 
 
 
-        model.addAttribute("currentUserTp", authInfo.getUser_tp());
+        model.addAttribute("currentUserTp", authInfo != null ? authInfo.getUser_tp() : null);
 
 
         model.addAttribute("postId", post_no);
 
 
         List<Comments> commentsWithReplies = commentService.getCommentsByPostId(post_no);
-        System.out.println("commentsWithReplies"+commentsWithReplies);
+        for (Comments comment : commentsWithReplies) {
+            comment.setOwner(authInfo.getUser_no() == comment.getUserNo());
+            for (Comments reply : comment.getReplies()) {
+                reply.setOwner(authInfo.getUser_no() == reply.getUserNo());
+            }
+        }
+
         model.addAttribute("comments", commentsWithReplies);
 
 
