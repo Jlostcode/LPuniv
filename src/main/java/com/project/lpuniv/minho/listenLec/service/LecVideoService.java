@@ -15,7 +15,7 @@ public class LecVideoService {
     public LecVideoDto selectLecVideo(int CCIM_NO, int OCC_NO) {
         return listenLecDao.selectLecVideo(CCIM_NO, OCC_NO);
     }
-    public SchsDto selectSchs(int stud_no, int occ_NO, int ccim_NO) {
+    public SchsDto selectSchs(int stud_no, int ccim_NO, int occ_NO) {
         return listenLecDao.selectSchs(stud_no, occ_NO, ccim_NO);
     }
     public void insertSchs(SchsDto schsDto) {
